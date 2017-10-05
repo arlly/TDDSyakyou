@@ -1,0 +1,46 @@
+<?php
+namespace myapp\Enum;
+
+final class Favorite
+{
+    const ENUM =
+    [
+        'MATATABI' => 'MATATABI',
+        'NIBOSHI' => 'NIBOSHI',
+        'NEKOJARASHI' => 'NEKOJARASHI',
+        'CHOROQ' => 'CHOROQ',
+    ];
+
+    private $scalar;
+
+    public function __construct($key)
+    {
+    //
+        if (! static::isValidValue($key)) {
+            throw new \InvalidArgumentException();
+        }
+
+        $this->scalar = self::ENUM[$key];
+    }
+
+
+    public static function isValidValue($key)
+    {
+        return array_key_exists($key, self::ENUM);
+    }
+
+    public function __toString()
+    {
+        return $this->scalar;
+    }
+
+    public static function __callStatic($method, array $args)
+    {
+        return new self($method);
+    }
+
+    public function __set($key, $value)
+    {
+        throw new \BadMethodCallException('All setter is forbbiden');
+    }
+}
