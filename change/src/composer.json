@@ -1,0 +1,18 @@
+{
+    "autoload": {
+        "psr-4": {
+            "MyApp\\": "src/",
+            "phpunit\\": "vendor/phpunit/phpunit/src/Framework"
+        }
+    },
+    "config": {
+        "secure-http": false
+    },
+    "require": {
+        "phpmentors/domain-kata": "~1.5@dev",
+        "phpunit/phpunit": "5.7.*",
+        "phpunit/phpunit-skeleton-generator": "*",
+        "phake/phake": "2.*",
+        "pimple/pimple":"~3.0"
+    }
+}
