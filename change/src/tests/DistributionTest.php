@@ -4,6 +4,7 @@ use MyApp\Entity\CurrencyCollection;
 use MyApp\Entity\MoneyEntity;
 use MyApp\Distribution\ChangeDistributer;
 use MyApp\Usecase\GetChangeCollection;
+use MyApp\Distribution\ChangeYenDistributer;
 
 class DistributionTest extends PHPUnit_Framework_TestCase
 {
@@ -49,7 +50,7 @@ class DistributionTest extends PHPUnit_Framework_TestCase
             $currency->add($moneyEntity);
         }
 
-        $distributer = new ChangeDistributer();
+        $distributer = new ChangeYenDistributer();
         $changeCollection = $distributer->disribution($change, $currency);
 
         var_dump($changeCollection);
@@ -97,7 +98,7 @@ class DistributionTest extends PHPUnit_Framework_TestCase
             $currency->add($moneyEntity);
         }
 
-        $distributer = new ChangeDistributer();
+        $distributer = new ChangeYenDistributer();
         $changeCollection = $distributer->disribution($change, $currency);
 
         $this->assertEquals($changeCollection["100円"], 6);
@@ -145,7 +146,7 @@ class DistributionTest extends PHPUnit_Framework_TestCase
             $currency->add($moneyEntity);
         }
 
-        $distributer = new ChangeDistributer();
+        $distributer = new ChangeYenDistributer();
 
         $changeCollection = (new GetChangeCollection($distributer))->run($change, $currency);
         $this->assertEquals($changeCollection["100円"], 6);

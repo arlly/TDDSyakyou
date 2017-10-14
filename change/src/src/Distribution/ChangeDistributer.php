@@ -4,7 +4,7 @@ namespace MyApp\Distribution;
 use MyApp\Entity\Change;
 use MyApp\Entity\CurrencyCollection;
 
-class ChangeDistributer
+abstract class ChangeDistributer
 {
 
     public function disribution(Change $change, CurrencyCollection $currencies)
@@ -24,6 +24,8 @@ class ChangeDistributer
              */
             if ($moneyCount > $money->getStock()) {
                 $moneyCount = $money->getStock();
+                $changeCollection['errorMessage'] = $this->setErrorMessage($money->getName());
+
             }
 
             $changeCollection[$money->getName()] = $moneyCount;
@@ -36,4 +38,6 @@ class ChangeDistributer
 
         return $changeCollection;
     }
+
+    abstract protected function setErrorMessage($name);
 }
