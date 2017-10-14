@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Console\Tests\Style;
 
 use PHPUnit\Framework\TestCase;
@@ -20,8 +19,10 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class SymfonyStyleTest extends TestCase
 {
+
     /** @var Command */
     protected $command;
+
     /** @var CommandTester */
     protected $tester;
 
@@ -44,15 +45,18 @@ class SymfonyStyleTest extends TestCase
     {
         $code = require $inputCommandFilepath;
         $this->command->setCode($code);
-        $this->tester->execute(array(), array('interactive' => false, 'decorated' => false));
+        $this->tester->execute(array(), array(
+            'interactive' => false,
+            'decorated' => false
+        ));
         $this->assertStringEqualsFile($outputFilepath, $this->tester->getDisplay(true));
     }
 
     public function inputCommandToOutputFilesProvider()
     {
-        $baseDir = __DIR__.'/../Fixtures/Style/SymfonyStyle';
-
-        return array_map(null, glob($baseDir.'/command/command_*.php'), glob($baseDir.'/output/output_*.txt'));
+        $baseDir = __DIR__ . '/../Fixtures/Style/SymfonyStyle';
+        
+        return array_map(null, glob($baseDir . '/command/command_*.php'), glob($baseDir . '/output/output_*.txt'));
     }
 }
 
@@ -62,10 +66,11 @@ class SymfonyStyleTest extends TestCase
  */
 class SymfonyStyleWithForcedLineLength extends SymfonyStyle
 {
+
     public function __construct(InputInterface $input, OutputInterface $output)
     {
         parent::__construct($input, $output);
-
+        
         $ref = new \ReflectionProperty(get_parent_class($this), 'lineLength');
         $ref->setAccessible(true);
         $ref->setValue($this, 120);

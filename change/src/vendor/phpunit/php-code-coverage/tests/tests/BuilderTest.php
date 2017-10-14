@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace SebastianBergmann\CodeCoverage\Report;
 
 use SebastianBergmann\CodeCoverage\TestCase;
@@ -15,17 +14,18 @@ use SebastianBergmann\CodeCoverage\Node\Builder;
 
 class BuilderTest extends TestCase
 {
+
     protected $factory;
 
     protected function setUp()
     {
-        $this->factory = new Builder;
+        $this->factory = new Builder();
     }
 
     public function testSomething()
     {
         $root = $this->getCoverageForBankAccount()->getReport();
-
+        
         $expectedPath = rtrim(TEST_FILES_PATH, DIRECTORY_SEPARATOR);
         $this->assertEquals($expectedPath, $root->getName());
         $this->assertEquals($expectedPath, $root->getPath());
@@ -131,7 +131,7 @@ class BuilderTest extends TestCase
             Builder::class,
             'buildDirectoryStructure'
         );
-
+        
         $method->setAccessible(true);
 
         $this->assertEquals(
@@ -157,11 +157,11 @@ class BuilderTest extends TestCase
             Builder::class,
             'reducePaths'
         );
-
+        
         $method->setAccessible(true);
 
         $_commonPath = $method->invokeArgs($this->factory, [&$paths]);
-
+        
         $this->assertEquals($reducedPaths, $paths);
         $this->assertEquals($commonPath, $_commonPath);
     }

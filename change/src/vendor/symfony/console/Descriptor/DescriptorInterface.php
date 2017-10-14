@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Console\Descriptor;
 
 use Symfony\Component\Console\Output\OutputInterface;
@@ -20,12 +19,13 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 interface DescriptorInterface
 {
+
     /**
      * Describes an InputArgument instance.
      *
      * @param OutputInterface $output
-     * @param object          $object
-     * @param array           $options
+     * @param object $object
+     * @param array $options
      */
     public function describe(OutputInterface $output, $object, array $options = array());
 }

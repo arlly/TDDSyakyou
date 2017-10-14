@@ -23,7 +23,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace Pimple;
 
 /**
@@ -33,7 +32,9 @@ namespace Pimple;
  */
 final class ServiceIterator implements \Iterator
 {
+
     private $container;
+
     private $ids;
 
     public function __construct(Container $container, array $ids)

@@ -8,27 +8,31 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Console\Formatter;
 
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 
 /**
+ *
  * @author Jean-François Simon <contact@jfsimon.fr>
  */
 class OutputFormatterStyleStack
 {
+
     /**
+     *
      * @var OutputFormatterStyleInterface[]
      */
     private $styles;
 
     /**
+     *
      * @var OutputFormatterStyleInterface
      */
     private $emptyStyle;
 
     /**
+     *
      * @param OutputFormatterStyleInterface|null $emptyStyle
      */
     public function __construct(OutputFormatterStyleInterface $emptyStyle = null)
@@ -38,7 +42,8 @@ class OutputFormatterStyleStack
     }
 
     /**
-     * Resets stack (ie. empty internal arrays).
+     * Resets stack (ie.
+     * empty internal arrays).
      */
     public function reset()
     {
@@ -69,19 +74,19 @@ class OutputFormatterStyleStack
         if (empty($this->styles)) {
             return $this->emptyStyle;
         }
-
+        
         if (null === $style) {
             return array_pop($this->styles);
         }
-
+        
         foreach (array_reverse($this->styles, true) as $index => $stackedStyle) {
             if ($style->apply('') === $stackedStyle->apply('')) {
                 $this->styles = array_slice($this->styles, 0, $index);
-
+                
                 return $stackedStyle;
             }
         }
-
+        
         throw new InvalidArgumentException('Incorrectly nested style tag found.');
     }
 
@@ -95,11 +100,12 @@ class OutputFormatterStyleStack
         if (empty($this->styles)) {
             return $this->emptyStyle;
         }
-
+        
         return $this->styles[count($this->styles) - 1];
     }
 
     /**
+     *
      * @param OutputFormatterStyleInterface $emptyStyle
      *
      * @return $this
@@ -107,11 +113,12 @@ class OutputFormatterStyleStack
     public function setEmptyStyle(OutputFormatterStyleInterface $emptyStyle)
     {
         $this->emptyStyle = $emptyStyle;
-
+        
         return $this;
     }
 
     /**
+     *
      * @return OutputFormatterStyleInterface
      */
     public function getEmptyStyle()

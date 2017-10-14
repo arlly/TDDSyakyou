@@ -16,7 +16,6 @@
  * and is licensed under the MIT license. For more information, see
  * <http://www.doctrine-project.org>.
  */
-
 namespace DoctrineTest\InstantiatorTestAsset;
 
 use ArrayObject;
@@ -30,6 +29,7 @@ use Serializable;
  */
 class SerializableArrayObjectAsset extends ArrayObject implements Serializable
 {
+
     /**
      * Constructor - should not be called
      *
@@ -41,7 +41,8 @@ class SerializableArrayObjectAsset extends ArrayObject implements Serializable
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      */
     public function serialize()
     {
@@ -49,10 +50,9 @@ class SerializableArrayObjectAsset extends ArrayObject implements Serializable
     }
 
     /**
-     * {@inheritDoc}
      *
-     * Should not be called
-     *
+     * {@inheritdoc} Should not be called
+     *              
      * @throws BadMethodCallException
      */
     public function unserialize($serialized)

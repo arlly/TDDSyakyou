@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 use SebastianBergmann\Exporter\Exporter;
 
 /**
@@ -17,6 +16,7 @@ use SebastianBergmann\Exporter\Exporter;
  */
 class PHPUnit_Framework_MockObject_Stub_Return implements PHPUnit_Framework_MockObject_Stub
 {
+
     protected $value;
 
     public function __construct($value)
@@ -31,11 +31,8 @@ class PHPUnit_Framework_MockObject_Stub_Return implements PHPUnit_Framework_Mock
 
     public function toString()
     {
-        $exporter = new Exporter;
-
-        return sprintf(
-            'return user-specified value %s',
-            $exporter->export($this->value)
-        );
+        $exporter = new Exporter();
+        
+        return sprintf('return user-specified value %s', $exporter->export($this->value));
     }
 }

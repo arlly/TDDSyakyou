@@ -2,6 +2,7 @@
 
 class PhakeTest_ReturnByReferenceMethodClass
 {
+
     private $something = array();
 
     /**

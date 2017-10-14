@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Console\Event;
 
 use Symfony\Component\Console\Command\Command;
@@ -23,9 +22,11 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class ConsoleEvent extends Event
 {
+
     protected $command;
 
     private $input;
+
     private $output;
 
     public function __construct(Command $command, InputInterface $input, OutputInterface $output)

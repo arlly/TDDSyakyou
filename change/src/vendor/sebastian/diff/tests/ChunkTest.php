@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace SebastianBergmann\Diff;
 
 use PHPUnit\Framework\TestCase;
@@ -17,14 +16,16 @@ use PHPUnit\Framework\TestCase;
  */
 class ChunkTest extends TestCase
 {
+
     /**
+     *
      * @var Chunk
      */
     private $chunk;
 
     protected function setUp()
     {
-        $this->chunk = new Chunk;
+        $this->chunk = new Chunk();
     }
 
     public function testCanBeCreatedWithoutArguments()
@@ -60,8 +61,11 @@ class ChunkTest extends TestCase
     public function testLinesCanBeSet()
     {
         $this->assertEquals(array(), $this->chunk->getLines());
-
-        $testValue = array('line0', 'line1');
+        
+        $testValue = array(
+            'line0',
+            'line1'
+        );
         $this->chunk->setLines($testValue);
         $this->assertEquals($testValue, $this->chunk->getLines());
     }

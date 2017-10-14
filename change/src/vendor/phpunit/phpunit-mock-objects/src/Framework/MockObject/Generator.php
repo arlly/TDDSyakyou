@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 use Doctrine\Instantiator\Instantiator;
 use Doctrine\Instantiator\Exception\InvalidArgumentException as InstantiatorInvalidArgumentException;
 use Doctrine\Instantiator\Exception\UnexpectedValueException as InstantiatorUnexpectedValueException;
@@ -151,129 +150,74 @@ class PHPUnit_Framework_MockObject_Generator
      */
     public function getMock($type, $methods = [], array $arguments = [], $mockClassName = '', $callOriginalConstructor = true, $callOriginalClone = true, $callAutoload = true, $cloneArguments = true, $callOriginalMethods = false, $proxyTarget = null, $allowMockingUnknownTypes = true)
     {
-        if (!is_array($type) && !is_string($type)) {
-            throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'array or string');
-        }
-
-        if (!is_string($mockClassName)) {
-            throw PHPUnit_Util_InvalidArgumentHelper::factory(4, 'string');
-        }
-
-        if (!is_array($methods) && !is_null($methods)) {
-            throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'array', $methods);
-        }
-
-        if ($type === 'Traversable' || $type === '\\Traversable') {
-            $type = 'Iterator';
-        }
-
-        if (is_array($type)) {
-            $type = array_unique(
-                array_map(
-                    function ($type) {
-                        if ($type === 'Traversable' ||
-                            $type === '\\Traversable' ||
-                            $type === '\\Iterator') {
-                            return 'Iterator';
-                        }
-
-                        return $type;
-                    },
-                    $type
-                )
-            );
-        }
-
-        if (!$allowMockingUnknownTypes) {
-            if (is_array($type)) {
-                foreach ($type as $_type) {
-                    if (!class_exists($_type, $callAutoload) &&
-                        !interface_exists($_type, $callAutoload)) {
-                        throw new PHPUnit_Framework_MockObject_RuntimeException(
-                            sprintf(
-                                'Cannot stub or mock class or interface "%s" which does not exist',
-                                $_type
-                            )
-                        );
-                    }
-                }
-            } else {
-                if (!class_exists($type, $callAutoload) &&
-                    !interface_exists($type, $callAutoload)
-                ) {
-                    throw new PHPUnit_Framework_MockObject_RuntimeException(
-                        sprintf(
-                            'Cannot stub or mock class or interface "%s" which does not exist',
-                            $type
-                        )
-                    );
-                }
-            }
-        }
-
-        if (null !== $methods) {
-            foreach ($methods as $method) {
-                if (!preg_match('~[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*~', $method)) {
-                    throw new PHPUnit_Framework_MockObject_RuntimeException(
-                        sprintf(
-                            'Cannot stub or mock method with invalid name "%s"',
-                            $method
-                        )
-                    );
-                }
-            }
-
-            if ($methods != array_unique($methods)) {
-                throw new PHPUnit_Framework_MockObject_RuntimeException(
-                    sprintf(
-                        'Cannot stub or mock using a method list that contains duplicates: "%s" (duplicate: "%s")',
-                        implode(', ', $methods),
-                        implode(', ', array_unique(array_diff_assoc($methods, array_unique($methods))))
-                    )
-                );
-            }
-        }
-
-        if ($mockClassName != '' && class_exists($mockClassName, false)) {
-            $reflect = new ReflectionClass($mockClassName);
-
-            if (!$reflect->implementsInterface('PHPUnit_Framework_MockObject_MockObject')) {
-                throw new PHPUnit_Framework_MockObject_RuntimeException(
-                    sprintf(
-                        'Class "%s" already exists.',
-                        $mockClassName
-                    )
-                );
-            }
-        }
-
-        if ($callOriginalConstructor === false && $callOriginalMethods === true) {
-            throw new PHPUnit_Framework_MockObject_RuntimeException(
-                'Proxying to original methods requires invoking the original constructor'
-            );
-        }
-
-        $mock = $this->generate(
-            $type,
-            $methods,
-            $mockClassName,
-            $callOriginalClone,
-            $callAutoload,
-            $cloneArguments,
-            $callOriginalMethods
-        );
-
-        return $this->getObject(
-            $mock['code'],
-            $mock['mockClassName'],
-            $type,
-            $callOriginalConstructor,
-            $callAutoload,
-            $arguments,
-            $callOriginalMethods,
-            $proxyTarget
-        );
+    if (! is_array($type) && ! is_string($type)) {
+        throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'array or string');
     }
+    
+    if (! is_string($mockClassName)) {
+        throw PHPUnit_Util_InvalidArgumentHelper::factory(4, 'string');
+    }
+    
+    if (! is_array($methods) && ! is_null($methods)) {
+        throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'array', $methods);
+    }
+    
+    if ($type === 'Traversable' || $type === '\\Traversable') {
+        $type = 'Iterator';
+    }
+    
+    if (is_array($type)) {
+        $type = array_unique(array_map(function ($type) {
+            if ($type === 'Traversable' || $type === '\\Traversable' || $type === '\\Iterator') {
+                return 'Iterator';
+            }
+            
+            return $type;
+        }, $type));
+    }
+    
+    if (! $allowMockingUnknownTypes) {
+        if (is_array($type)) {
+            foreach ($type as $_type) {
+                if (! class_exists($_type, $callAutoload) && ! interface_exists($_type, $callAutoload)) {
+                    throw new PHPUnit_Framework_MockObject_RuntimeException(sprintf('Cannot stub or mock class or interface "%s" which does not exist', $_type));
+                }
+            }
+        } else {
+            if (! class_exists($type, $callAutoload) && ! interface_exists($type, $callAutoload)) {
+                throw new PHPUnit_Framework_MockObject_RuntimeException(sprintf('Cannot stub or mock class or interface "%s" which does not exist', $type));
+            }
+        }
+    }
+    
+    if (null !== $methods) {
+        foreach ($methods as $method) {
+            if (! preg_match('~[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*~', $method)) {
+                throw new PHPUnit_Framework_MockObject_RuntimeException(sprintf('Cannot stub or mock method with invalid name "%s"', $method));
+            }
+        }
+        
+        if ($methods != array_unique($methods)) {
+            throw new PHPUnit_Framework_MockObject_RuntimeException(sprintf('Cannot stub or mock using a method list that contains duplicates: "%s" (duplicate: "%s")', implode(', ', $methods), implode(', ', array_unique(array_diff_assoc($methods, array_unique($methods))))));
+        }
+    }
+    
+    if ($mockClassName != '' && class_exists($mockClassName, false)) {
+        $reflect = new ReflectionClass($mockClassName);
+        
+        if (! $reflect->implementsInterface('PHPUnit_Framework_MockObject_MockObject')) {
+            throw new PHPUnit_Framework_MockObject_RuntimeException(sprintf('Class "%s" already exists.', $mockClassName));
+        }
+    }
+    
+    if ($callOriginalConstructor === false && $callOriginalMethods === true) {
+        throw new PHPUnit_Framework_MockObject_RuntimeException('Proxying to original methods requires invoking the original constructor');
+    }
+    
+    $mock = $this->generate($type, $methods, $mockClassName, $callOriginalClone, $callAutoload, $cloneArguments, $callOriginalMethods);
+    
+    return $this->getObject($mock['code'], $mock['mockClassName'], $type, $callOriginalConstructor, $callAutoload, $arguments, $callOriginalMethods, $proxyTarget);
+}
 
     /**
      * @param string       $code

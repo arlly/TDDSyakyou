@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Console\Command;
 
 use Symfony\Component\Console\Descriptor\TextDescriptor;
@@ -32,37 +31,53 @@ use Symfony\Component\Console\Exception\LogicException;
  */
 class Command
 {
+
     private $application;
+
     private $name;
+
     private $processTitle;
+
     private $aliases = array();
+
     private $definition;
+
     private $help;
+
     private $description;
+
     private $ignoreValidationErrors = false;
+
     private $applicationDefinitionMerged = false;
+
     private $applicationDefinitionMergedWithArgs = false;
+
     private $code;
+
     private $synopsis = array();
+
     private $usages = array();
+
     private $helperSet;
 
     /**
-     * @param string|null $name The name of the command; passing null means it must be set in configure()
      *
+     * @param string|null $name
+     *            The name of the command; passing null means it must be set in configure()
+     *            
      * @throws LogicException When the command name is empty
      */
     public function __construct($name = null)
     {
         $this->definition = new InputDefinition();
-
+        
         if (null !== $name) {
             $this->setName($name);
         }
-
+        
         $this->configure();
-
-        if (!$this->name) {
+        
+        if (! $this->name) {
             throw new LogicException(sprintf('The command defined in "%s" cannot have an empty name.', get_class($this)));
         }
     }
@@ -80,7 +95,8 @@ class Command
     /**
      * Sets the application instance for this command.
      *
-     * @param Application $application An Application instance
+     * @param Application $application
+     *            An Application instance
      */
     public function setApplication(Application $application = null)
     {
@@ -95,7 +111,8 @@ class Command
     /**
      * Sets the helper set.
      *
-     * @param HelperSet $helperSet A HelperSet instance
+     * @param HelperSet $helperSet
+     *            A HelperSet instance
      */
     public function setHelperSet(HelperSet $helperSet)
     {
@@ -139,8 +156,7 @@ class Command
      * Configures the current command.
      */
     protected function configure()
-    {
-    }
+    {}
 
     /**
      * Executes the current command.
@@ -150,13 +166,15 @@ class Command
      * execute() method, you set the code to execute by passing
      * a Closure to the setCode() method.
      *
-     * @param InputInterface  $input  An InputInterface instance
-     * @param OutputInterface $output An OutputInterface instance
-     *
+     * @param InputInterface $input
+     *            An InputInterface instance
+     * @param OutputInterface $output
+     *            An OutputInterface instance
+     *            
      * @return null|int null or 0 if everything went fine, or an error code
-     *
+     *        
      * @throws LogicException When this abstract method is not implemented
-     *
+     *        
      * @see setCode()
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -171,12 +189,13 @@ class Command
      * This means that this is the only place where the command can
      * interactively ask for values of missing required arguments.
      *
-     * @param InputInterface  $input  An InputInterface instance
-     * @param OutputInterface $output An OutputInterface instance
+     * @param InputInterface $input
+     *            An InputInterface instance
+     * @param OutputInterface $output
+     *            An OutputInterface instance
      */
     protected function interact(InputInterface $input, OutputInterface $output)
-    {
-    }
+    {}
 
     /**
      * Initializes the command just after the input has been validated.
@@ -184,12 +203,13 @@ class Command
      * This is mainly useful when a lot of commands extends one main command
      * where some things need to be initialized based on the input arguments and options.
      *
-     * @param InputInterface  $input  An InputInterface instance
-     * @param OutputInterface $output An OutputInterface instance
+     * @param InputInterface $input
+     *            An InputInterface instance
+     * @param OutputInterface $output
+     *            An OutputInterface instance
      */
     protected function initialize(InputInterface $input, OutputInterface $output)
-    {
-    }
+    {}
 
     /**
      * Runs the command.
@@ -198,13 +218,15 @@ class Command
      * setCode() method or by overriding the execute() method
      * in a sub-class.
      *
-     * @param InputInterface  $input  An InputInterface instance
-     * @param OutputInterface $output An OutputInterface instance
-     *
+     * @param InputInterface $input
+     *            An InputInterface instance
+     * @param OutputInterface $output
+     *            An OutputInterface instance
+     *            
      * @return int The command exit code
-     *
+     *        
      * @throws \Exception When binding input fails. Bypass this by calling {@link ignoreValidationErrors()}.
-     *
+     *        
      * @see setCode()
      * @see execute()
      */
@@ -213,21 +235,21 @@ class Command
         // force the creation of the synopsis before the merge with the app definition
         $this->getSynopsis(true);
         $this->getSynopsis(false);
-
+        
         // add the application arguments and options
         $this->mergeApplicationDefinition();
-
+        
         // bind the input against the command specific arguments/options
         try {
             $input->bind($this->definition);
         } catch (ExceptionInterface $e) {
-            if (!$this->ignoreValidationErrors) {
+            if (! $this->ignoreValidationErrors) {
                 throw $e;
             }
         }
-
+        
         $this->initialize($input, $output);
-
+        
         if (null !== $this->processTitle) {
             if (function_exists('cli_set_process_title')) {
                 if (false === @cli_set_process_title($this->processTitle)) {
@@ -244,26 +266,26 @@ class Command
                 $output->writeln('<comment>Install the proctitle PECL to be able to change the process title.</comment>');
             }
         }
-
+        
         if ($input->isInteractive()) {
             $this->interact($input, $output);
         }
-
+        
         // The command name argument is often omitted when a command is executed directly with its run() method.
         // It would fail the validation if we didn't make sure the command argument is present,
         // since it's required by the application.
         if ($input->hasArgument('command') && null === $input->getArgument('command')) {
             $input->setArgument('command', $this->getName());
         }
-
+        
         $input->validate();
-
+        
         if ($this->code) {
             $statusCode = call_user_func($this->code, $input, $output);
         } else {
             $statusCode = $this->execute($input, $output);
         }
-
+        
         return is_numeric($statusCode) ? (int) $statusCode : 0;
     }
 
@@ -273,8 +295,9 @@ class Command
      * If this method is used, it overrides the code defined
      * in the execute() method.
      *
-     * @param callable $code A callable(InputInterface $input, OutputInterface $output)
-     *
+     * @param callable $code
+     *            A callable(InputInterface $input, OutputInterface $output)
+     *            
      * @return $this
      *
      * @throws InvalidArgumentException
@@ -283,17 +306,17 @@ class Command
      */
     public function setCode($code)
     {
-        if (!is_callable($code)) {
+        if (! is_callable($code)) {
             throw new InvalidArgumentException('Invalid callable provided to Command::setCode.');
         }
-
+        
         if (PHP_VERSION_ID >= 50400 && $code instanceof \Closure) {
             $r = new \ReflectionFunction($code);
             if (null === $r->getClosureThis()) {
                 if (PHP_VERSION_ID < 70000) {
                     // Bug in PHP5: https://bugs.php.net/bug.php?id=64761
                     // This means that we cannot bind static closures and therefore we must
-                    // ignore any errors here.  There is no way to test if the closure is
+                    // ignore any errors here. There is no way to test if the closure is
                     // bindable.
                     $code = @\Closure::bind($code, $this);
                 } else {
@@ -301,9 +324,9 @@ class Command
                 }
             }
         }
-
+        
         $this->code = $code;
-
+        
         return $this;
     }
 
@@ -312,22 +335,25 @@ class Command
      *
      * This method is not part of public API and should not be used directly.
      *
-     * @param bool $mergeArgs Whether to merge or not the Application definition arguments to Command definition arguments
+     * @param bool $mergeArgs
+     *            Whether to merge or not the Application definition arguments to Command definition arguments
      */
     public function mergeApplicationDefinition($mergeArgs = true)
     {
-        if (null === $this->application || (true === $this->applicationDefinitionMerged && ($this->applicationDefinitionMergedWithArgs || !$mergeArgs))) {
+        if (null === $this->application || (true === $this->applicationDefinitionMerged && ($this->applicationDefinitionMergedWithArgs || ! $mergeArgs))) {
             return;
         }
-
-        $this->definition->addOptions($this->application->getDefinition()->getOptions());
-
+        
+        $this->definition->addOptions($this->application->getDefinition()
+            ->getOptions());
+        
         if ($mergeArgs) {
             $currentArguments = $this->definition->getArguments();
-            $this->definition->setArguments($this->application->getDefinition()->getArguments());
+            $this->definition->setArguments($this->application->getDefinition()
+                ->getArguments());
             $this->definition->addArguments($currentArguments);
         }
-
+        
         $this->applicationDefinitionMerged = true;
         if ($mergeArgs) {
             $this->applicationDefinitionMergedWithArgs = true;
@@ -337,8 +363,9 @@ class Command
     /**
      * Sets an array of argument and option instances.
      *
-     * @param array|InputDefinition $definition An array of argument and option instances or a definition instance
-     *
+     * @param array|InputDefinition $definition
+     *            An array of argument and option instances or a definition instance
+     *            
      * @return $this
      */
     public function setDefinition($definition)
@@ -348,9 +375,9 @@ class Command
         } else {
             $this->definition->setDefinition($definition);
         }
-
+        
         $this->applicationDefinitionMerged = false;
-
+        
         return $this;
     }
 
@@ -382,35 +409,44 @@ class Command
     /**
      * Adds an argument.
      *
-     * @param string $name        The argument name
-     * @param int    $mode        The argument mode: InputArgument::REQUIRED or InputArgument::OPTIONAL
-     * @param string $description A description text
-     * @param mixed  $default     The default value (for InputArgument::OPTIONAL mode only)
-     *
+     * @param string $name
+     *            The argument name
+     * @param int $mode
+     *            The argument mode: InputArgument::REQUIRED or InputArgument::OPTIONAL
+     * @param string $description
+     *            A description text
+     * @param mixed $default
+     *            The default value (for InputArgument::OPTIONAL mode only)
+     *            
      * @return $this
      */
     public function addArgument($name, $mode = null, $description = '', $default = null)
     {
         $this->definition->addArgument(new InputArgument($name, $mode, $description, $default));
-
+        
         return $this;
     }
 
     /**
      * Adds an option.
      *
-     * @param string $name        The option name
-     * @param string $shortcut    The shortcut (can be null)
-     * @param int    $mode        The option mode: One of the InputOption::VALUE_* constants
-     * @param string $description A description text
-     * @param mixed  $default     The default value (must be null for InputOption::VALUE_NONE)
-     *
+     * @param string $name
+     *            The option name
+     * @param string $shortcut
+     *            The shortcut (can be null)
+     * @param int $mode
+     *            The option mode: One of the InputOption::VALUE_* constants
+     * @param string $description
+     *            A description text
+     * @param mixed $default
+     *            The default value (must be null for InputOption::VALUE_NONE)
+     *            
      * @return $this
      */
     public function addOption($name, $shortcut = null, $mode = null, $description = '', $default = null)
     {
         $this->definition->addOption(new InputOption($name, $shortcut, $mode, $description, $default));
-
+        
         return $this;
     }
 
@@ -420,10 +456,11 @@ class Command
      * This method can set both the namespace and the name if
      * you separate them by a colon (:)
      *
-     *     $command->setName('foo:bar');
+     * $command->setName('foo:bar');
      *
-     * @param string $name The command name
-     *
+     * @param string $name
+     *            The command name
+     *            
      * @return $this
      *
      * @throws InvalidArgumentException When the name is invalid
@@ -431,9 +468,9 @@ class Command
     public function setName($name)
     {
         $this->validateName($name);
-
+        
         $this->name = $name;
-
+        
         return $this;
     }
 
@@ -445,14 +482,15 @@ class Command
      *
      * PHP 5.5+ or the proctitle PECL library is required
      *
-     * @param string $title The process title
-     *
+     * @param string $title
+     *            The process title
+     *            
      * @return $this
      */
     public function setProcessTitle($title)
     {
         $this->processTitle = $title;
-
+        
         return $this;
     }
 
@@ -469,14 +507,15 @@ class Command
     /**
      * Sets the description for the command.
      *
-     * @param string $description The description for the command
-     *
+     * @param string $description
+     *            The description for the command
+     *            
      * @return $this
      */
     public function setDescription($description)
     {
         $this->description = $description;
-
+        
         return $this;
     }
 
@@ -493,14 +532,15 @@ class Command
     /**
      * Sets the help for the command.
      *
-     * @param string $help The help for the command
-     *
+     * @param string $help
+     *            The help for the command
+     *            
      * @return $this
      */
     public function setHelp($help)
     {
         $this->help = $help;
-
+        
         return $this;
     }
 
@@ -523,40 +563,41 @@ class Command
     public function getProcessedHelp()
     {
         $name = $this->name;
-
+        
         $placeholders = array(
             '%command.name%',
-            '%command.full_name%',
+            '%command.full_name%'
         );
         $replacements = array(
             $name,
-            $_SERVER['PHP_SELF'].' '.$name,
+            $_SERVER['PHP_SELF'] . ' ' . $name
         );
-
+        
         return str_replace($placeholders, $replacements, $this->getHelp() ?: $this->getDescription());
     }
 
     /**
      * Sets the aliases for the command.
      *
-     * @param string[] $aliases An array of aliases for the command
-     *
+     * @param string[] $aliases
+     *            An array of aliases for the command
+     *            
      * @return $this
      *
      * @throws InvalidArgumentException When an alias is invalid
      */
     public function setAliases($aliases)
     {
-        if (!is_array($aliases) && !$aliases instanceof \Traversable) {
+        if (! is_array($aliases) && ! $aliases instanceof \Traversable) {
             throw new InvalidArgumentException('$aliases must be an array or an instance of \Traversable');
         }
-
+        
         foreach ($aliases as $alias) {
             $this->validateName($alias);
         }
-
+        
         $this->aliases = $aliases;
-
+        
         return $this;
     }
 
@@ -573,26 +614,28 @@ class Command
     /**
      * Returns the synopsis for the command.
      *
-     * @param bool $short Whether to show the short version of the synopsis (with options folded) or not
-     *
+     * @param bool $short
+     *            Whether to show the short version of the synopsis (with options folded) or not
+     *            
      * @return string The synopsis
      */
     public function getSynopsis($short = false)
     {
         $key = $short ? 'short' : 'long';
-
-        if (!isset($this->synopsis[$key])) {
+        
+        if (! isset($this->synopsis[$key])) {
             $this->synopsis[$key] = trim(sprintf('%s %s', $this->name, $this->definition->getSynopsis($short)));
         }
-
+        
         return $this->synopsis[$key];
     }
 
     /**
      * Add a command usage example.
      *
-     * @param string $usage The usage, it'll be prefixed with the command name
-     *
+     * @param string $usage
+     *            The usage, it'll be prefixed with the command name
+     *            
      * @return $this
      */
     public function addUsage($usage)
@@ -600,9 +643,9 @@ class Command
         if (0 !== strpos($usage, $this->name)) {
             $usage = sprintf('%s %s', $this->name, $usage);
         }
-
+        
         $this->usages[] = $usage;
-
+        
         return $this;
     }
 
@@ -619,11 +662,12 @@ class Command
     /**
      * Gets a helper instance by name.
      *
-     * @param string $name The helper name
-     *
+     * @param string $name
+     *            The helper name
+     *            
      * @return mixed The helper value
-     *
-     * @throws LogicException           if no HelperSet is defined
+     *        
+     * @throws LogicException if no HelperSet is defined
      * @throws InvalidArgumentException if the helper is not defined
      */
     public function getHelper($name)
@@ -631,7 +675,7 @@ class Command
         if (null === $this->helperSet) {
             throw new LogicException(sprintf('Cannot retrieve helper "%s" because there is no HelperSet defined. Did you forget to add your command to the application or to set the application on the command using the setApplication() method? You can also set the HelperSet directly using the setHelperSet() method.', $name));
         }
-
+        
         return $this->helperSet->get($name);
     }
 
@@ -639,42 +683,45 @@ class Command
      * Returns a text representation of the command.
      *
      * @return string A string representing the command
-     *
+     *        
      * @deprecated since version 2.3, to be removed in 3.0.
      */
     public function asText()
     {
-        @trigger_error('The '.__METHOD__.' method is deprecated since version 2.3 and will be removed in 3.0.', E_USER_DEPRECATED);
-
+        @trigger_error('The ' . __METHOD__ . ' method is deprecated since version 2.3 and will be removed in 3.0.', E_USER_DEPRECATED);
+        
         $descriptor = new TextDescriptor();
         $output = new BufferedOutput(BufferedOutput::VERBOSITY_NORMAL, true);
-        $descriptor->describe($output, $this, array('raw_output' => true));
-
+        $descriptor->describe($output, $this, array(
+            'raw_output' => true
+        ));
+        
         return $output->fetch();
     }
 
     /**
      * Returns an XML representation of the command.
      *
-     * @param bool $asDom Whether to return a DOM or an XML string
-     *
+     * @param bool $asDom
+     *            Whether to return a DOM or an XML string
+     *            
      * @return string|\DOMDocument An XML string representing the command
-     *
+     *        
      * @deprecated since version 2.3, to be removed in 3.0.
      */
     public function asXml($asDom = false)
     {
-        @trigger_error('The '.__METHOD__.' method is deprecated since version 2.3 and will be removed in 3.0.', E_USER_DEPRECATED);
-
+        @trigger_error('The ' . __METHOD__ . ' method is deprecated since version 2.3 and will be removed in 3.0.', E_USER_DEPRECATED);
+        
         $descriptor = new XmlDescriptor();
-
+        
         if ($asDom) {
             return $descriptor->getCommandDocument($this);
         }
-
+        
         $output = new BufferedOutput();
         $descriptor->describe($output, $this);
-
+        
         return $output->fetch();
     }
 
@@ -689,7 +736,7 @@ class Command
      */
     private function validateName($name)
     {
-        if (!preg_match('/^[^\:]++(\:[^\:]++)*$/', $name)) {
+        if (! preg_match('/^[^\:]++(\:[^\:]++)*$/', $name)) {
             throw new InvalidArgumentException(sprintf('Command name "%s" is invalid.', $name));
         }
     }

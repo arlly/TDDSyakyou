@@ -9,7 +9,6 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-
 namespace phpDocumentor\Reflection\Types;
 
 use ArrayIterator;
@@ -25,11 +24,13 @@ use phpDocumentor\Reflection\Type;
  */
 final class Compound implements Type, IteratorAggregate
 {
+
     /** @var Type[] */
     private $types;
 
     /**
-     * Initializes a compound type (i.e. `string|int`) and tests if the provided types all implement the Type interface.
+     * Initializes a compound type (i.e.
+     * `string|int`) and tests if the provided types all implement the Type interface.
      *
      * @param Type[] $types
      * @throws \InvalidArgumentException when types are not all instance of Type
@@ -37,11 +38,11 @@ final class Compound implements Type, IteratorAggregate
     public function __construct(array $types)
     {
         foreach ($types as $type) {
-            if (!$type instanceof Type) {
+            if (! $type instanceof Type) {
                 throw new \InvalidArgumentException('A compound type can only have other types as elements');
             }
         }
-
+        
         $this->types = $types;
     }
 
@@ -54,10 +55,10 @@ final class Compound implements Type, IteratorAggregate
      */
     public function get($index)
     {
-        if (!$this->has($index)) {
+        if (! $this->has($index)) {
             return null;
         }
-
+        
         return $this->types[$index];
     }
 
@@ -84,6 +85,7 @@ final class Compound implements Type, IteratorAggregate
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function getIterator()

@@ -7,12 +7,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 use PHPUnit\Framework\TestCase;
 
 class PHP_Token_FunctionTest extends TestCase
 {
+
     /**
+     *
      * @var PHP_Token_FUNCTION[]
      */
     private $functions;
@@ -20,7 +21,7 @@ class PHP_Token_FunctionTest extends TestCase
     protected function setUp()
     {
         $ts = new PHP_Token_Stream(TEST_FILES_PATH . 'source.php');
-
+        
         foreach ($ts as $token) {
             if ($token instanceof PHP_Token_FUNCTION) {
                 $this->functions[] = $token;
@@ -94,17 +95,11 @@ class PHP_Token_FunctionTest extends TestCase
     public function testGetDocblock()
     {
         $this->assertNull($this->functions[0]->getDocblock());
-
-        $this->assertEquals(
-          "/**\n     * @param Baz \$baz\n     */",
-          $this->functions[1]->getDocblock()
-        );
-
-        $this->assertEquals(
-          "/**\n     * @param Foobar \$foobar\n     */",
-          $this->functions[2]->getDocblock()
-        );
-
+        
+        $this->assertEquals("/**\n     * @param Baz \$baz\n     */", $this->functions[1]->getDocblock());
+        
+        $this->assertEquals("/**\n     * @param Foobar \$foobar\n     */", $this->functions[2]->getDocblock());
+        
         $this->assertNull($this->functions[3]->getDocblock());
         $this->assertNull($this->functions[4]->getDocblock());
     }
@@ -112,28 +107,16 @@ class PHP_Token_FunctionTest extends TestCase
     public function testSignature()
     {
         $ts = new PHP_Token_Stream(TEST_FILES_PATH . 'source5.php');
-        $f  = $ts->getFunctions();
-        $c  = $ts->getClasses();
-        $i  = $ts->getInterfaces();
-
-        $this->assertEquals(
-          'foo($a, array $b, array $c = array())',
-          $f['foo']['signature']
-        );
-
-        $this->assertEquals(
-          'm($a, array $b, array $c = array())',
-          $c['c']['methods']['m']['signature']
-        );
-
-        $this->assertEquals(
-          'm($a, array $b, array $c = array())',
-          $c['a']['methods']['m']['signature']
-        );
-
-        $this->assertEquals(
-          'm($a, array $b, array $c = array())',
-          $i['i']['methods']['m']['signature']
-        );
+        $f = $ts->getFunctions();
+        $c = $ts->getClasses();
+        $i = $ts->getInterfaces();
+        
+        $this->assertEquals('foo($a, array $b, array $c = array())', $f['foo']['signature']);
+        
+        $this->assertEquals('m($a, array $b, array $c = array())', $c['c']['methods']['m']['signature']);
+        
+        $this->assertEquals('m($a, array $b, array $c = array())', $c['a']['methods']['m']['signature']);
+        
+        $this->assertEquals('m($a, array $b, array $c = array())', $i['i']['methods']['m']['signature']);
     }
 }

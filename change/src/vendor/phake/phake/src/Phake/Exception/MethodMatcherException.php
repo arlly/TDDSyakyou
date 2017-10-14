@@ -5,9 +5,11 @@
  */
 class Phake_Exception_MethodMatcherException extends Exception
 {
+
     private $argument;
 
     /**
+     *
      * @param string $message
      * @param Exception $previous
      */
@@ -22,11 +24,12 @@ class Phake_Exception_MethodMatcherException extends Exception
      */
     public function incrementArgumentPosition()
     {
-        $this->argument++;
+        $this->argument ++;
     }
 
     /**
      * Returns the argument's position (0 indexed)
+     * 
      * @return int
      */
     public function getArgumentPosition()

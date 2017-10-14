@@ -23,7 +23,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace Pimple\Tests\Fixtures;
 
 use Pimple\Container;
@@ -31,22 +30,24 @@ use Pimple\ServiceProviderInterface;
 
 class PimpleServiceProvider implements ServiceProviderInterface
 {
+
     /**
      * Registers services on the given container.
      *
      * This method should only be used to configure services and parameters.
      * It should not get services.
      *
-     * @param Container $pimple An Container instance
+     * @param Container $pimple
+     *            An Container instance
      */
     public function register(Container $pimple)
     {
         $pimple['param'] = 'value';
-
+        
         $pimple['service'] = function () {
             return new Service();
         };
-
+        
         $pimple['factory'] = $pimple->factory(function () {
             return new Service();
         });

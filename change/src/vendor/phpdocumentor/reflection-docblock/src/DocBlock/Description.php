@@ -9,7 +9,6 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-
 namespace phpDocumentor\Reflection\DocBlock;
 
 use phpDocumentor\Reflection\DocBlock\Tags\Formatter;
@@ -64,11 +63,11 @@ class Description
      */
     public function __construct($bodyTemplate, array $tags = [])
     {
-        Assert::string($bodyTemplate);
-
-        $this->bodyTemplate = $bodyTemplate;
-        $this->tags = $tags;
-    }
+    Assert::string($bodyTemplate);
+    
+    $this->bodyTemplate = $bodyTemplate;
+    $this->tags = $tags;
+}
 
     /**
      * Renders this description as a string where the provided formatter will format the tags in the expected string

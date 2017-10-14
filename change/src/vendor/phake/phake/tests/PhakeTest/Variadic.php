@@ -47,6 +47,9 @@ class PhakeTest_Variadic
 {
     public function variadicMethod($a, $b, ...$c)
     {
-        return array_merge(array($a, $b), $c);
-    }
+    return array_merge(array(
+        $a,
+        $b
+    ), $c);
+}
 }

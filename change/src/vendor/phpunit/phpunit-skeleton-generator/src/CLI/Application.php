@@ -39,7 +39,6 @@
  * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @since     File available since Release 2.0.0
  */
-
 namespace SebastianBergmann\PHPUnit\SkeletonGenerator\CLI;
 
 use SebastianBergmann\Version;
@@ -52,47 +51,44 @@ use Symfony\Component\Console\Input\ArrayInput;
 /**
  * TextUI frontend for PHPUnit Skeleton Generator.
  *
- * @author    Sebastian Bergmann <sebastian@phpunit.de>
+ * @author Sebastian Bergmann <sebastian@phpunit.de>
  * @copyright 2009-2014 Sebastian Bergmann <sebastian@phpunit.de>
- * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link      http://github.com/sebastianbergmann/phpunit-skeleton-generator/tree
- * @since     Class available since Release 2.0.0
+ * @license http://www.opensource.org/licenses/BSD-3-Clause The BSD 3-Clause License
+ * @link http://github.com/sebastianbergmann/phpunit-skeleton-generator/tree
+ * @since Class available since Release 2.0.0
  */
 class Application extends AbstractApplication
 {
+
     public function __construct()
     {
         $version = new Version('2.0.1', dirname(dirname(__DIR__)));
         parent::__construct('phpunit-skelgen', $version->getVersion());
-
-        $this->add(new GenerateClassCommand);
-        $this->add(new GenerateTestCommand);
+        
+        $this->add(new GenerateClassCommand());
+        $this->add(new GenerateTestCommand());
     }
 
     /**
      * Runs the current application.
      *
-     * @param InputInterface  $input  An Input instance
-     * @param OutputInterface $output An Output instance
-     *
+     * @param InputInterface $input
+     *            An Input instance
+     * @param OutputInterface $output
+     *            An Output instance
+     *            
      * @return integer 0 if everything went fine, or an error code
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
-        if (!$input->hasParameterOption('--quiet')) {
-            $output->write(
-                sprintf(
-                    "phpunit-skelgen %s by Sebastian Bergmann.\n\n",
-                    $this->getVersion()
-                )
-            );
+        if (! $input->hasParameterOption('--quiet')) {
+            $output->write(sprintf("phpunit-skelgen %s by Sebastian Bergmann.\n\n", $this->getVersion()));
         }
-
-        if ($input->hasParameterOption('--version') ||
-            $input->hasParameterOption('-V')) {
-            exit;
+        
+        if ($input->hasParameterOption('--version') || $input->hasParameterOption('-V')) {
+            exit();
         }
-
+        
         parent::doRun($input, $output);
     }
 }

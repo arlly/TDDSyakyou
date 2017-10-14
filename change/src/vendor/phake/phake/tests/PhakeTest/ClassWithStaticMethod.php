@@ -1,8 +1,10 @@
 <?php
 
-class PhakeTest_ClassWithStaticMethod 
+class PhakeTest_ClassWithStaticMethod
 {
-    public static function ask() {
+
+    public static function ask()
+    {
         return 'Asked';
     }
 }

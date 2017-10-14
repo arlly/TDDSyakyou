@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Console\Style;
 
 /**
@@ -18,6 +17,7 @@ namespace Symfony\Component\Console\Style;
  */
 interface StyleInterface
 {
+
     /**
      * Formats a command title.
      *
@@ -92,8 +92,8 @@ interface StyleInterface
     /**
      * Asks a question.
      *
-     * @param string        $question
-     * @param string|null   $default
+     * @param string $question
+     * @param string|null $default
      * @param callable|null $validator
      *
      * @return string
@@ -103,7 +103,7 @@ interface StyleInterface
     /**
      * Asks a question with the user input hidden.
      *
-     * @param string        $question
+     * @param string $question
      * @param callable|null $validator
      *
      * @return string
@@ -114,7 +114,7 @@ interface StyleInterface
      * Asks for confirmation.
      *
      * @param string $question
-     * @param bool   $default
+     * @param bool $default
      *
      * @return bool
      */
@@ -123,8 +123,8 @@ interface StyleInterface
     /**
      * Asks a choice question.
      *
-     * @param string          $question
-     * @param array           $choices
+     * @param string $question
+     * @param array $choices
      * @param string|int|null $default
      *
      * @return string
@@ -134,21 +134,24 @@ interface StyleInterface
     /**
      * Add newline(s).
      *
-     * @param int $count The number of newlines
+     * @param int $count
+     *            The number of newlines
      */
     public function newLine($count = 1);
 
     /**
      * Starts the progress output.
      *
-     * @param int $max Maximum steps (0 if unknown)
+     * @param int $max
+     *            Maximum steps (0 if unknown)
      */
     public function progressStart($max = 0);
 
     /**
      * Advances the progress output X steps.
      *
-     * @param int $step Number of steps to advance
+     * @param int $step
+     *            Number of steps to advance
      */
     public function progressAdvance($step = 1);
 

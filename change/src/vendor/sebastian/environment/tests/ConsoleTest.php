@@ -7,21 +7,22 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace SebastianBergmann\Environment;
 
 use PHPUnit_Framework_TestCase;
 
 class ConsoleTest extends PHPUnit_Framework_TestCase
 {
+
     /**
+     *
      * @var \SebastianBergmann\Environment\Console
      */
     private $console;
 
     protected function setUp()
     {
-        $this->console = new Console;
+        $this->console = new Console();
     }
 
     /**
@@ -43,7 +44,7 @@ class ConsoleTest extends PHPUnit_Framework_TestCase
     /**
      * @covers \SebastianBergmann\Environment\Console::hasColorSupport
      *
-     * @uses   \SebastianBergmann\Environment\Console::isInteractive
+     * @uses \SebastianBergmann\Environment\Console::isInteractive
      */
     public function testCanDetectColorSupport()
     {
@@ -53,7 +54,7 @@ class ConsoleTest extends PHPUnit_Framework_TestCase
     /**
      * @covers \SebastianBergmann\Environment\Console::getNumberOfColumns
      *
-     * @uses   \SebastianBergmann\Environment\Console::isInteractive
+     * @uses \SebastianBergmann\Environment\Console::isInteractive
      */
     public function testCanDetectNumberOfColumns()
     {

@@ -1,6 +1,8 @@
 <?php
+
 class Framework_MockObject_Matcher_ConsecutiveParametersTest extends PHPUnit_Framework_TestCase
 {
+
     public function testIntegration()
     {
         $mock = $this->getMockBuilder(stdClass::class)
@@ -13,7 +15,7 @@ class Framework_MockObject_Matcher_ConsecutiveParametersTest extends PHPUnit_Fra
                  ['bar'],
                  [21, 42]
              );
-
+        
         $this->assertNull($mock->foo('bar'));
         $this->assertNull($mock->foo(21, 42));
     }
@@ -29,7 +31,7 @@ class Framework_MockObject_Matcher_ConsecutiveParametersTest extends PHPUnit_Fra
              ->withConsecutive(
                  ['bar']
              );
-
+        
         $this->assertNull($mock->foo('bar'));
         $this->assertNull($mock->foo(21, 42));
     }
@@ -46,11 +48,11 @@ class Framework_MockObject_Matcher_ConsecutiveParametersTest extends PHPUnit_Fra
                  ['bar'],
                  [21, 42]
              );
-
+        
         $mock->foo('bar');
 
         $this->expectException(PHPUnit_Framework_ExpectationFailedException::class);
-
+        
         $mock->foo('invalid');
     }
 }

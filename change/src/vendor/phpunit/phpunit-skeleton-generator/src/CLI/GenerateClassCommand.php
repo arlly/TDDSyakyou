@@ -39,7 +39,6 @@
  * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @since     File available since Release 2.0.0
  */
-
 namespace SebastianBergmann\PHPUnit\SkeletonGenerator\CLI;
 
 use SebastianBergmann\PHPUnit\SkeletonGenerator\AbstractGenerator;
@@ -51,56 +50,39 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * @author    Sebastian Bergmann <sebastian@phpunit.de>
+ *
+ * @author Sebastian Bergmann <sebastian@phpunit.de>
  * @copyright 2012-2014 Sebastian Bergmann <sebastian@phpunit.de>
- * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link      http://github.com/sebastianbergmann/phpunit-skeleton-generator/tree
- * @since     Class available since Release 2.0.0
+ * @license http://www.opensource.org/licenses/BSD-3-Clause The BSD 3-Clause License
+ * @link http://github.com/sebastianbergmann/phpunit-skeleton-generator/tree
+ * @since Class available since Release 2.0.0
  */
 class GenerateClassCommand extends BaseCommand
 {
+
     /**
      * Configures the current command.
      */
     protected function configure()
     {
         $this->setName('generate-class')
-             ->setDescription('Generate a class based on a test class')
-             ->addArgument(
-                 'test-class',
-                 InputArgument::REQUIRED,
-                 'The name of the test class that is to be used as a template'
-             )
-             ->addArgument(
-                 'test-source',
-                 InputArgument::OPTIONAL,
-                 'The source file that contains the test class'
-             )
-             ->addArgument(
-                 'class',
-                 InputArgument::OPTIONAL,
-                 'The name of the class to be generated'
-             )
-             ->addArgument(
-                 'class-source',
-                 InputArgument::OPTIONAL,
-                 'The file to which the generated code is to be written'
-             );
-
+            ->setDescription('Generate a class based on a test class')
+            ->addArgument('test-class', InputArgument::REQUIRED, 'The name of the test class that is to be used as a template')
+            ->addArgument('test-source', InputArgument::OPTIONAL, 'The source file that contains the test class')
+            ->addArgument('class', InputArgument::OPTIONAL, 'The name of the class to be generated')
+            ->addArgument('class-source', InputArgument::OPTIONAL, 'The file to which the generated code is to be written');
+        
         parent::configure();
     }
 
     /**
-     * @param InputInterface  $input  An InputInterface instance
+     *
+     * @param InputInterface $input
+     *            An InputInterface instance
      * @return AbstractGenerator
      */
     protected function getGenerator(InputInterface $input)
     {
-        return new ClassGenerator(
-            (string)$input->getArgument('test-class'),
-            (string)$input->getArgument('test-source'),
-            (string)$input->getArgument('class'),
-            (string)$input->getArgument('class-source')
-        );
+        return new ClassGenerator((string) $input->getArgument('test-class'), (string) $input->getArgument('test-source'), (string) $input->getArgument('class'), (string) $input->getArgument('class-source'));
     }
 }

@@ -9,7 +9,6 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-
 namespace phpDocumentor\Reflection;
 
 use phpDocumentor\Reflection\DocBlock\Tag;
@@ -57,23 +56,23 @@ final class DocBlock
         $isTemplateEnd = false
     )
     {
-        Assert::string($summary);
-        Assert::boolean($isTemplateStart);
-        Assert::boolean($isTemplateEnd);
+    Assert::string($summary);
+    Assert::boolean($isTemplateStart);
+    Assert::boolean($isTemplateEnd);
         Assert::allIsInstanceOf($tags, Tag::class);
-
-        $this->summary = $summary;
-        $this->description = $description ?: new DocBlock\Description('');
-        foreach ($tags as $tag) {
-            $this->addTag($tag);
-        }
-
-        $this->context = $context;
-        $this->location = $location;
-
-        $this->isTemplateEnd = $isTemplateEnd;
-        $this->isTemplateStart = $isTemplateStart;
+    
+    $this->summary = $summary;
+    $this->description = $description ?: new DocBlock\Description('');
+    foreach ($tags as $tag) {
+        $this->addTag($tag);
     }
+    
+    $this->context = $context;
+    $this->location = $location;
+    
+    $this->isTemplateEnd = $isTemplateEnd;
+    $this->isTemplateStart = $isTemplateStart;
+}
 
     /**
      * @return string

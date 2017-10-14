@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Console\Tests\Output;
 
 use PHPUnit\Framework\TestCase;
@@ -17,6 +16,7 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
 class OutputTest extends TestCase
 {
+
     public function testConstructor()
     {
         $output = new TestOutput(Output::VERBOSITY_QUIET, true);
@@ -36,30 +36,30 @@ class OutputTest extends TestCase
         $output = new TestOutput();
         $output->setVerbosity(Output::VERBOSITY_QUIET);
         $this->assertEquals(Output::VERBOSITY_QUIET, $output->getVerbosity(), '->setVerbosity() sets the verbosity');
-
+        
         $this->assertTrue($output->isQuiet());
         $this->assertFalse($output->isVerbose());
         $this->assertFalse($output->isVeryVerbose());
         $this->assertFalse($output->isDebug());
-
+        
         $output->setVerbosity(Output::VERBOSITY_NORMAL);
         $this->assertFalse($output->isQuiet());
         $this->assertFalse($output->isVerbose());
         $this->assertFalse($output->isVeryVerbose());
         $this->assertFalse($output->isDebug());
-
+        
         $output->setVerbosity(Output::VERBOSITY_VERBOSE);
         $this->assertFalse($output->isQuiet());
         $this->assertTrue($output->isVerbose());
         $this->assertFalse($output->isVeryVerbose());
         $this->assertFalse($output->isDebug());
-
+        
         $output->setVerbosity(Output::VERBOSITY_VERY_VERBOSE);
         $this->assertFalse($output->isQuiet());
         $this->assertTrue($output->isVerbose());
         $this->assertTrue($output->isVeryVerbose());
         $this->assertFalse($output->isDebug());
-
+        
         $output->setVerbosity(Output::VERBOSITY_DEBUG);
         $this->assertFalse($output->isQuiet());
         $this->assertTrue($output->isVerbose());
@@ -77,7 +77,10 @@ class OutputTest extends TestCase
     public function testWriteAnArrayOfMessages()
     {
         $output = new TestOutput();
-        $output->writeln(array('foo', 'bar'));
+        $output->writeln(array(
+            'foo',
+            'bar'
+        ));
         $this->assertEquals("foo\nbar\n", $output->output, '->writeln() can take an array of messages to output');
     }
 
@@ -94,8 +97,16 @@ class OutputTest extends TestCase
     public function provideWriteArguments()
     {
         return array(
-            array('<info>foo</info>', Output::OUTPUT_RAW, "<info>foo</info>\n"),
-            array('<info>foo</info>', Output::OUTPUT_PLAIN, "foo\n"),
+            array(
+                '<info>foo</info>',
+                Output::OUTPUT_RAW,
+                "<info>foo</info>\n"
+            ),
+            array(
+                '<info>foo</info>',
+                Output::OUTPUT_PLAIN,
+                "foo\n"
+            )
         );
     }
 
@@ -109,7 +120,9 @@ class OutputTest extends TestCase
 
     public function testWriteDecoratedMessage()
     {
-        $fooStyle = new OutputFormatterStyle('yellow', 'red', array('blink'));
+        $fooStyle = new OutputFormatterStyle('yellow', 'red', array(
+            'blink'
+        ));
         $output = new TestOutput();
         $output->getFormatter()->setStyle('FOO', $fooStyle);
         $output->setDecorated(true);
@@ -120,11 +133,11 @@ class OutputTest extends TestCase
     public function testWriteWithInvalidStyle()
     {
         $output = new TestOutput();
-
+        
         $output->clear();
         $output->write('<bar>foo</bar>');
         $this->assertEquals('<bar>foo</bar>', $output->output, '->write() do nothing when a style does not exist');
-
+        
         $output->clear();
         $output->writeln('<bar>foo</bar>');
         $this->assertEquals("<bar>foo</bar>\n", $output->output, '->writeln() do nothing when a style does not exist');
@@ -136,7 +149,7 @@ class OutputTest extends TestCase
     public function testWriteWithVerbosityOption($verbosity, $expected, $msg)
     {
         $output = new TestOutput();
-
+        
         $output->setVerbosity($verbosity);
         $output->clear();
         $output->write('1', false);
@@ -151,17 +164,38 @@ class OutputTest extends TestCase
     public function verbosityProvider()
     {
         return array(
-            array(Output::VERBOSITY_QUIET, '2', '->write() in QUIET mode only outputs when an explicit QUIET verbosity is passed'),
-            array(Output::VERBOSITY_NORMAL, '123', '->write() in NORMAL mode outputs anything below an explicit VERBOSE verbosity'),
-            array(Output::VERBOSITY_VERBOSE, '1234', '->write() in VERBOSE mode outputs anything below an explicit VERY_VERBOSE verbosity'),
-            array(Output::VERBOSITY_VERY_VERBOSE, '12345', '->write() in VERY_VERBOSE mode outputs anything below an explicit DEBUG verbosity'),
-            array(Output::VERBOSITY_DEBUG, '123456', '->write() in DEBUG mode outputs everything'),
+            array(
+                Output::VERBOSITY_QUIET,
+                '2',
+                '->write() in QUIET mode only outputs when an explicit QUIET verbosity is passed'
+            ),
+            array(
+                Output::VERBOSITY_NORMAL,
+                '123',
+                '->write() in NORMAL mode outputs anything below an explicit VERBOSE verbosity'
+            ),
+            array(
+                Output::VERBOSITY_VERBOSE,
+                '1234',
+                '->write() in VERBOSE mode outputs anything below an explicit VERY_VERBOSE verbosity'
+            ),
+            array(
+                Output::VERBOSITY_VERY_VERBOSE,
+                '12345',
+                '->write() in VERY_VERBOSE mode outputs anything below an explicit DEBUG verbosity'
+            ),
+            array(
+                Output::VERBOSITY_DEBUG,
+                '123456',
+                '->write() in DEBUG mode outputs everything'
+            )
         );
     }
 }
 
 class TestOutput extends Output
 {
+
     public $output = '';
 
     public function clear()
@@ -171,6 +205,6 @@ class TestOutput extends Output
 
     protected function doWrite($message, $newline)
     {
-        $this->output .= $message.($newline ? "\n" : '');
+        $this->output .= $message . ($newline ? "\n" : '');
     }
 }

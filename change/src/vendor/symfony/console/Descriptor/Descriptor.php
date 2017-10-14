@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Console\Descriptor;
 
 use Symfony\Component\Console\Application;
@@ -20,24 +19,28 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 
 /**
- * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
  *
+ * @author Jean-François Simon <jeanfrancois.simon@sensiolabs.com>
+ *        
  * @internal
  */
 abstract class Descriptor implements DescriptorInterface
 {
+
     /**
+     *
      * @var OutputInterface
      */
     private $output;
 
     /**
+     *
      * {@inheritdoc}
      */
     public function describe(OutputInterface $output, $object, array $options = array())
     {
         $this->output = $output;
-
+        
         switch (true) {
             case $object instanceof InputArgument:
                 $this->describeInputArgument($object, $options);
@@ -63,7 +66,7 @@ abstract class Descriptor implements DescriptorInterface
      * Writes content to output.
      *
      * @param string $content
-     * @param bool   $decorated
+     * @param bool $decorated
      */
     protected function write($content, $decorated = false)
     {
@@ -74,7 +77,7 @@ abstract class Descriptor implements DescriptorInterface
      * Describes an InputArgument instance.
      *
      * @param InputArgument $argument
-     * @param array         $options
+     * @param array $options
      *
      * @return string|mixed
      */
@@ -84,7 +87,7 @@ abstract class Descriptor implements DescriptorInterface
      * Describes an InputOption instance.
      *
      * @param InputOption $option
-     * @param array       $options
+     * @param array $options
      *
      * @return string|mixed
      */
@@ -94,7 +97,7 @@ abstract class Descriptor implements DescriptorInterface
      * Describes an InputDefinition instance.
      *
      * @param InputDefinition $definition
-     * @param array           $options
+     * @param array $options
      *
      * @return string|mixed
      */
@@ -104,7 +107,7 @@ abstract class Descriptor implements DescriptorInterface
      * Describes a Command instance.
      *
      * @param Command $command
-     * @param array   $options
+     * @param array $options
      *
      * @return string|mixed
      */
@@ -114,7 +117,7 @@ abstract class Descriptor implements DescriptorInterface
      * Describes an Application instance.
      *
      * @param Application $application
-     * @param array       $options
+     * @param array $options
      *
      * @return string|mixed
      */

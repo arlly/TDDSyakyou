@@ -1,6 +1,8 @@
 <?php
+
 class ExceptionStackTest extends PHPUnit_Framework_TestCase
 {
+
     public function testPrintingChildException()
     {
         try {
@@ -14,8 +16,8 @@ class ExceptionStackTest extends PHPUnit_Framework_TestCase
     public function testNestedExceptions()
     {
         $exceptionThree = new Exception('Three');
-        $exceptionTwo   = new InvalidArgumentException('Two', 0, $exceptionThree);
-        $exceptionOne   = new Exception('One', 0, $exceptionTwo);
+        $exceptionTwo = new InvalidArgumentException('Two', 0, $exceptionThree);
+        $exceptionOne = new Exception('One', 0, $exceptionTwo);
         throw $exceptionOne;
     }
 }

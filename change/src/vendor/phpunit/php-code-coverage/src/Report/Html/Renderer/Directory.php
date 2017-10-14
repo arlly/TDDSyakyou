@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace SebastianBergmann\CodeCoverage\Report\Html;
 
 use SebastianBergmann\CodeCoverage\Node\AbstractNode as Node;
@@ -18,22 +17,24 @@ use SebastianBergmann\CodeCoverage\Node\Directory as DirectoryNode;
  */
 class Directory extends Renderer
 {
+
     /**
+     *
      * @param DirectoryNode $node
-     * @param string        $file
+     * @param string $file
      */
     public function render(DirectoryNode $node, $file)
     {
         $template = new \Text_Template($this->templatePath . 'directory.html', '{{', '}}');
-
+        
         $this->setCommonTemplateVariables($template, $node);
-
+        
         $items = $this->renderItem($node, true);
-
+        
         foreach ($node->getDirectories() as $item) {
             $items .= $this->renderItem($item);
         }
-
+        
         foreach ($node->getFiles() as $item) {
             $items .= $this->renderItem($item);
         }
@@ -44,11 +45,12 @@ class Directory extends Renderer
                 'items' => $items
             ]
         );
-
+        
         $template->renderTo($file);
     }
 
     /**
+     *
      * @param Node $node
      * @param bool $total
      *
@@ -70,32 +72,21 @@ class Directory extends Renderer
             'testedClassesPercent'         => $node->getTestedClassesAndTraitsPercent(false),
             'testedClassesPercentAsString' => $node->getTestedClassesAndTraitsPercent()
         ];
-
+        
         if ($total) {
             $data['name'] = 'Total';
         } else {
             if ($node instanceof DirectoryNode) {
-                $data['name'] = sprintf(
-                    '<a href="%s/index.html">%s</a>',
-                    $node->getName(),
-                    $node->getName()
-                );
-
+                $data['name'] = sprintf('<a href="%s/index.html">%s</a>', $node->getName(), $node->getName());
+                
                 $data['icon'] = '<span class="glyphicon glyphicon-folder-open"></span> ';
             } else {
-                $data['name'] = sprintf(
-                    '<a href="%s.html">%s</a>',
-                    $node->getName(),
-                    $node->getName()
-                );
-
+                $data['name'] = sprintf('<a href="%s.html">%s</a>', $node->getName(), $node->getName());
+                
                 $data['icon'] = '<span class="glyphicon glyphicon-file"></span> ';
             }
         }
-
-        return $this->renderItemTemplate(
-            new \Text_Template($this->templatePath . 'directory_item.html', '{{', '}}'),
-            $data
-        );
+        
+        return $this->renderItemTemplate(new \Text_Template($this->templatePath . 'directory_item.html', '{{', '}}'), $data);
     }
 }

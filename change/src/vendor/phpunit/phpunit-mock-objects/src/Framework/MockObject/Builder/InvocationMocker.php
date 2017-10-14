@@ -41,16 +41,14 @@ class PHPUnit_Framework_MockObject_Builder_InvocationMocker implements PHPUnit_F
      * @param array                                               $configurableMethods
      */
     public function __construct(PHPUnit_Framework_MockObject_Stub_MatcherCollection $collection, PHPUnit_Framework_MockObject_Matcher_Invocation $invocationMatcher, array $configurableMethods)
-    {
-        $this->collection = $collection;
-        $this->matcher    = new PHPUnit_Framework_MockObject_Matcher(
-            $invocationMatcher
-        );
-
-        $this->collection->addMatcher($this->matcher);
-
-        $this->configurableMethods = $configurableMethods;
-    }
+{
+    $this->collection = $collection;
+    $this->matcher = new PHPUnit_Framework_MockObject_Matcher($invocationMatcher);
+    
+    $this->collection->addMatcher($this->matcher);
+    
+    $this->configurableMethods = $configurableMethods;
+}
 
     /**
      * @return PHPUnit_Framework_MockObject_Matcher

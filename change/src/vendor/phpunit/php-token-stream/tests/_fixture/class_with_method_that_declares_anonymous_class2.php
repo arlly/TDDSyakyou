@@ -7,7 +7,7 @@ class Test {
 			}
 		};
 
-		return $foo->method_in_anonymous_class();
+return $foo->method_in_anonymous_class();
 	}
 
 	public function methodTwo() {

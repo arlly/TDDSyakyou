@@ -23,7 +23,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace Pimple\Psr11;
 
 use Pimple\Container as PimpleContainer;
@@ -36,6 +35,7 @@ use Psr\Container\ContainerInterface;
  */
 final class Container implements ContainerInterface
 {
+
     private $pimple;
 
     public function __construct(PimpleContainer $pimple)

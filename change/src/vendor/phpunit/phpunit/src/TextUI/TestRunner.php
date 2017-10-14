@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\Exception as CodeCoverageException;
 use SebastianBergmann\CodeCoverage\Filter as CodeCoverageFilter;
@@ -84,23 +83,18 @@ class PHPUnit_TextUI_TestRunner extends PHPUnit_Runner_BaseTestRunner
      */
     public static function run($test, array $arguments = [])
     {
-        if ($test instanceof ReflectionClass) {
-            $test = new PHPUnit_Framework_TestSuite($test);
-        }
-
-        if ($test instanceof PHPUnit_Framework_Test) {
-            $aTestRunner = new self;
-
-            return $aTestRunner->doRun(
-                $test,
-                $arguments
-            );
-        } else {
-            throw new PHPUnit_Framework_Exception(
-                'No test case or test suite found.'
-            );
-        }
+    if ($test instanceof ReflectionClass) {
+        $test = new PHPUnit_Framework_TestSuite($test);
     }
+    
+    if ($test instanceof PHPUnit_Framework_Test) {
+        $aTestRunner = new self();
+        
+        return $aTestRunner->doRun($test, $arguments);
+    } else {
+        throw new PHPUnit_Framework_Exception('No test case or test suite found.');
+    }
+}
 
     /**
      * @return PHPUnit_Framework_TestResult

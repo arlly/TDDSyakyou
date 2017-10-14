@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Yaml\Command;
 
 use Symfony\Component\Console\Command\Command;
@@ -28,27 +27,32 @@ use Symfony\Component\Yaml\Yaml;
  */
 class LintCommand extends Command
 {
+
     private $parser;
+
     private $format;
+
     private $displayCorrectFiles;
+
     private $directoryIteratorProvider;
+
     private $isReadableProvider;
 
     public function __construct($name = null, $directoryIteratorProvider = null, $isReadableProvider = null)
     {
         parent::__construct($name);
-
+        
         $this->directoryIteratorProvider = $directoryIteratorProvider;
         $this->isReadableProvider = $isReadableProvider;
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     protected function configure()
     {
-        $this
-            ->setName('lint:yaml')
+        $this->setName('lint:yaml')
             ->setDescription('Lints a file and outputs encountered errors')
             ->addArgument('filename', null, 'A file or a directory or STDIN')
             ->addOption('format', null, InputOption::VALUE_REQUIRED, 'The output format', 'txt')
@@ -70,8 +74,7 @@ Or of a whole directory:
   <info>php %command.full_name% dirname --format=json</info>
 
 EOF
-            )
-        ;
+);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -80,24 +83,26 @@ EOF
         $filename = $input->getArgument('filename');
         $this->format = $input->getOption('format');
         $this->displayCorrectFiles = $output->isVerbose();
-
-        if (!$filename) {
-            if (!$stdin = $this->getStdin()) {
+        
+        if (! $filename) {
+            if (! $stdin = $this->getStdin()) {
                 throw new \RuntimeException('Please provide a filename or pipe file content to STDIN.');
             }
-
-            return $this->display($io, array($this->validate($stdin)));
+            
+            return $this->display($io, array(
+                $this->validate($stdin)
+            ));
         }
-
-        if (!$this->isReadable($filename)) {
+        
+        if (! $this->isReadable($filename)) {
             throw new \RuntimeException(sprintf('File or directory "%s" is not readable.', $filename));
         }
-
+        
         $filesInfo = array();
         foreach ($this->getFiles($filename) as $file) {
             $filesInfo[] = $this->validate(file_get_contents($file), $file);
         }
-
+        
         return $this->display($io, $filesInfo);
     }
 
@@ -107,19 +112,26 @@ EOF
             if (E_USER_DEPRECATED === $level) {
                 throw new ParseException($message);
             }
-
+            
             return $prevErrorHandler ? $prevErrorHandler($level, $message, $file, $line) : false;
         });
-
+        
         try {
             $this->getParser()->parse($content, Yaml::PARSE_CONSTANT);
         } catch (ParseException $e) {
-            return array('file' => $file, 'valid' => false, 'message' => $e->getMessage());
+            return array(
+                'file' => $file,
+                'valid' => false,
+                'message' => $e->getMessage()
+            );
         } finally {
             restore_error_handler();
         }
-
-        return array('file' => $file, 'valid' => true);
+        
+        return array(
+            'file' => $file,
+            'valid' => true
+        );
     }
 
     private function display(SymfonyStyle $io, array $files)
@@ -138,39 +150,39 @@ EOF
     {
         $countFiles = count($filesInfo);
         $erroredFiles = 0;
-
+        
         foreach ($filesInfo as $info) {
             if ($info['valid'] && $this->displayCorrectFiles) {
-                $io->comment('<info>OK</info>'.($info['file'] ? sprintf(' in %s', $info['file']) : ''));
-            } elseif (!$info['valid']) {
-                ++$erroredFiles;
-                $io->text('<error> ERROR </error>'.($info['file'] ? sprintf(' in %s', $info['file']) : ''));
+                $io->comment('<info>OK</info>' . ($info['file'] ? sprintf(' in %s', $info['file']) : ''));
+            } elseif (! $info['valid']) {
+                ++ $erroredFiles;
+                $io->text('<error> ERROR </error>' . ($info['file'] ? sprintf(' in %s', $info['file']) : ''));
                 $io->text(sprintf('<error> >> %s</error>', $info['message']));
             }
         }
-
+        
         if (0 === $erroredFiles) {
             $io->success(sprintf('All %d YAML files contain valid syntax.', $countFiles));
         } else {
             $io->warning(sprintf('%d YAML files have valid syntax and %d contain errors.', $countFiles - $erroredFiles, $erroredFiles));
         }
-
+        
         return min($erroredFiles, 1);
     }
 
     private function displayJson(SymfonyStyle $io, array $filesInfo)
     {
         $errors = 0;
-
+        
         array_walk($filesInfo, function (&$v) use (&$errors) {
             $v['file'] = (string) $v['file'];
-            if (!$v['valid']) {
-                ++$errors;
+            if (! $v['valid']) {
+                ++ $errors;
             }
         });
-
+        
         $io->writeln(json_encode($filesInfo, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-
+        
         return min($errors, 1);
     }
 
@@ -178,12 +190,15 @@ EOF
     {
         if (is_file($fileOrDirectory)) {
             yield new \SplFileInfo($fileOrDirectory);
-
+            
             return;
         }
-
+        
         foreach ($this->getDirectoryIterator($fileOrDirectory) as $file) {
-            if (!in_array($file->getExtension(), array('yml', 'yaml'))) {
+            if (! in_array($file->getExtension(), array(
+                'yml',
+                'yaml'
+            ))) {
                 continue;
             }
 
@@ -196,37 +211,34 @@ EOF
         if (0 !== ftell(STDIN)) {
             return;
         }
-
+        
         $inputs = '';
-        while (!feof(STDIN)) {
+        while (! feof(STDIN)) {
             $inputs .= fread(STDIN, 1024);
         }
-
+        
         return $inputs;
     }
 
     private function getParser()
     {
-        if (!$this->parser) {
+        if (! $this->parser) {
             $this->parser = new Parser();
         }
-
+        
         return $this->parser;
     }
 
     private function getDirectoryIterator($directory)
     {
         $default = function ($directory) {
-            return new \RecursiveIteratorIterator(
-                new \RecursiveDirectoryIterator($directory, \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::FOLLOW_SYMLINKS),
-                \RecursiveIteratorIterator::LEAVES_ONLY
-            );
+            return new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($directory, \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::FOLLOW_SYMLINKS), \RecursiveIteratorIterator::LEAVES_ONLY);
         };
-
+        
         if (null !== $this->directoryIteratorProvider) {
             return call_user_func($this->directoryIteratorProvider, $directory, $default);
         }
-
+        
         return $default($directory);
     }
 
@@ -235,11 +247,11 @@ EOF
         $default = function ($fileOrDirectory) {
             return is_readable($fileOrDirectory);
         };
-
+        
         if (null !== $this->isReadableProvider) {
             return call_user_func($this->isReadableProvider, $fileOrDirectory, $default);
         }
-
+        
         return $default($fileOrDirectory);
     }
 }

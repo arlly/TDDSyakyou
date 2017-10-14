@@ -8,5 +8,4 @@ namespace PhakeTest;
  */
 class AnotherNamespacedClass
 {
-
 }

@@ -7,12 +7,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 use PHPUnit\Framework\TestCase;
 
 class PHP_Token_ClosureTest extends TestCase
 {
+
     /**
+     *
      * @var PHP_Token_FUNCTION[]
      */
     private $functions;
@@ -20,7 +21,7 @@ class PHP_Token_ClosureTest extends TestCase
     protected function setUp()
     {
         $ts = new PHP_Token_Stream(TEST_FILES_PATH . 'closure.php');
-
+        
         foreach ($ts as $token) {
             if ($token instanceof PHP_Token_FUNCTION) {
                 $this->functions[] = $token;

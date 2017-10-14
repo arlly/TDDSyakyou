@@ -4,7 +4,7 @@ use MyApp\Entity\TotalPrice;
 use MyApp\Entity\Change;
 use MyApp\Usecase\CulcChange;
 
-require_once "vendor/autoload.php";
+
 
 class ChangeTest extends PHPUnit_Framework_TestCase
 {
@@ -38,5 +38,4 @@ class ChangeTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(200, $change->getChange());
     }
-
 }

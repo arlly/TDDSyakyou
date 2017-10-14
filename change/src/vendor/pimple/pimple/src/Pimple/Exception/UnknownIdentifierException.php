@@ -23,7 +23,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace Pimple\Exception;
 
 use Psr\Container\NotFoundExceptionInterface;
@@ -35,8 +34,11 @@ use Psr\Container\NotFoundExceptionInterface;
  */
 class UnknownIdentifierException extends \InvalidArgumentException implements NotFoundExceptionInterface
 {
+
     /**
-     * @param string $id The unknown identifier
+     *
+     * @param string $id
+     *            The unknown identifier
      */
     public function __construct($id)
     {

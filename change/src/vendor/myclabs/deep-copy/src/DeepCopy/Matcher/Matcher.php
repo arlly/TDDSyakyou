@@ -1,5 +1,4 @@
 <?php
-
 namespace DeepCopy\Matcher;
 
 /**
@@ -7,7 +6,9 @@ namespace DeepCopy\Matcher;
  */
 interface Matcher
 {
+
     /**
+     *
      * @param object $object
      * @param string $property
      * @return boolean

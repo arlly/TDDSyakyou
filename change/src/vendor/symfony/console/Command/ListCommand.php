@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Console\Command;
 
 use Symfony\Component\Console\Helper\DescriptorHelper;
@@ -25,13 +24,14 @@ use Symfony\Component\Console\Input\InputDefinition;
  */
 class ListCommand extends Command
 {
+
     /**
+     *
      * {@inheritdoc}
      */
     protected function configure()
     {
-        $this
-            ->setName('list')
+        $this->setName('list')
             ->setDefinition($this->createDefinition())
             ->setDescription('Lists commands')
             ->setHelp(<<<'EOF'
@@ -51,11 +51,11 @@ It's also possible to get raw list of commands (useful for embedding command run
 
   <info>php %command.full_name% --raw</info>
 EOF
-            )
-        ;
+);
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function getNativeDefinition()
@@ -64,25 +64,27 @@ EOF
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if ($input->getOption('xml')) {
             @trigger_error('The --xml option was deprecated in version 2.7 and will be removed in version 3.0. Use the --format option instead.', E_USER_DEPRECATED);
-
+            
             $input->setOption('format', 'xml');
         }
-
+        
         $helper = new DescriptorHelper();
         $helper->describe($output, $this->getApplication(), array(
             'format' => $input->getOption('format'),
             'raw_text' => $input->getOption('raw'),
-            'namespace' => $input->getArgument('namespace'),
+            'namespace' => $input->getArgument('namespace')
         ));
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     private function createDefinition()
@@ -91,7 +93,7 @@ EOF
             new InputArgument('namespace', InputArgument::OPTIONAL, 'The namespace name'),
             new InputOption('xml', null, InputOption::VALUE_NONE, 'To output list as XML'),
             new InputOption('raw', null, InputOption::VALUE_NONE, 'To output raw command list'),
-            new InputOption('format', null, InputOption::VALUE_REQUIRED, 'The output format (txt, xml, json, or md)', 'txt'),
+            new InputOption('format', null, InputOption::VALUE_REQUIRED, 'The output format (txt, xml, json, or md)', 'txt')
         ));
     }
 }

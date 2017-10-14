@@ -9,7 +9,6 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-
 namespace phpDocumentor\Reflection\Types;
 
 /**
@@ -107,7 +106,8 @@ final class ContextFactory
             $tokens->next();
         }
 
-        return new Context($namespace, $useStatements);
+        
+return new Context($namespace, $useStatements);
     }
 
     /**

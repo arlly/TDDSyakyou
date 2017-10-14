@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Console\Style;
 
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
@@ -22,9 +21,11 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 abstract class OutputStyle implements OutputInterface, StyleInterface
 {
+
     private $output;
 
     /**
+     *
      * @param OutputInterface $output
      */
     public function __construct(OutputInterface $output)
@@ -33,6 +34,7 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function newLine($count = 1)
@@ -41,6 +43,7 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
     }
 
     /**
+     *
      * @param int $max
      *
      * @return ProgressBar
@@ -51,6 +54,7 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function write($messages, $newline = false, $type = self::OUTPUT_NORMAL)
@@ -59,6 +63,7 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function writeln($messages, $type = self::OUTPUT_NORMAL)
@@ -67,6 +72,7 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function setVerbosity($level)
@@ -75,6 +81,7 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function getVerbosity()
@@ -83,6 +90,7 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function setDecorated($decorated)
@@ -91,6 +99,7 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function isDecorated()
@@ -99,6 +108,7 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function setFormatter(OutputFormatterInterface $formatter)
@@ -107,6 +117,7 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function getFormatter()

@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Console\Output;
 
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
@@ -19,23 +18,29 @@ use Symfony\Component\Console\Formatter\OutputFormatter;
  *
  * There are five levels of verbosity:
  *
- *  * normal: no option passed (normal output)
- *  * verbose: -v (more output)
- *  * very verbose: -vv (highly extended output)
- *  * debug: -vvv (all debug output)
- *  * quiet: -q (no output)
+ * * normal: no option passed (normal output)
+ * * verbose: -v (more output)
+ * * very verbose: -vv (highly extended output)
+ * * debug: -vvv (all debug output)
+ * * quiet: -q (no output)
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
 abstract class Output implements OutputInterface
 {
+
     private $verbosity;
+
     private $formatter;
 
     /**
-     * @param int                           $verbosity The verbosity level (one of the VERBOSITY constants in OutputInterface)
-     * @param bool                          $decorated Whether to decorate messages
-     * @param OutputFormatterInterface|null $formatter Output formatter instance (null to use default OutputFormatter)
+     *
+     * @param int $verbosity
+     *            The verbosity level (one of the VERBOSITY constants in OutputInterface)
+     * @param bool $decorated
+     *            Whether to decorate messages
+     * @param OutputFormatterInterface|null $formatter
+     *            Output formatter instance (null to use default OutputFormatter)
      */
     public function __construct($verbosity = self::VERBOSITY_NORMAL, $decorated = false, OutputFormatterInterface $formatter = null)
     {
@@ -45,6 +50,7 @@ abstract class Output implements OutputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function setFormatter(OutputFormatterInterface $formatter)
@@ -53,6 +59,7 @@ abstract class Output implements OutputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function getFormatter()
@@ -61,6 +68,7 @@ abstract class Output implements OutputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function setDecorated($decorated)
@@ -69,6 +77,7 @@ abstract class Output implements OutputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function isDecorated()
@@ -77,6 +86,7 @@ abstract class Output implements OutputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function setVerbosity($level)
@@ -85,6 +95,7 @@ abstract class Output implements OutputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function getVerbosity()
@@ -93,6 +104,7 @@ abstract class Output implements OutputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function isQuiet()
@@ -101,6 +113,7 @@ abstract class Output implements OutputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function isVerbose()
@@ -109,6 +122,7 @@ abstract class Output implements OutputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function isVeryVerbose()
@@ -117,6 +131,7 @@ abstract class Output implements OutputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function isDebug()
@@ -125,6 +140,7 @@ abstract class Output implements OutputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function writeln($messages, $options = self::OUTPUT_NORMAL)
@@ -133,22 +149,23 @@ abstract class Output implements OutputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function write($messages, $newline = false, $options = self::OUTPUT_NORMAL)
     {
         $messages = (array) $messages;
-
+        
         $types = self::OUTPUT_NORMAL | self::OUTPUT_RAW | self::OUTPUT_PLAIN;
         $type = $types & $options ?: self::OUTPUT_NORMAL;
-
+        
         $verbosities = self::VERBOSITY_QUIET | self::VERBOSITY_NORMAL | self::VERBOSITY_VERBOSE | self::VERBOSITY_VERY_VERBOSE | self::VERBOSITY_DEBUG;
         $verbosity = $verbosities & $options ?: self::VERBOSITY_NORMAL;
-
+        
         if ($verbosity > $this->getVerbosity()) {
             return;
         }
-
+        
         foreach ($messages as $message) {
             switch ($type) {
                 case OutputInterface::OUTPUT_NORMAL:
@@ -160,7 +177,7 @@ abstract class Output implements OutputInterface
                     $message = strip_tags($this->formatter->format($message));
                     break;
             }
-
+            
             $this->doWrite($message, $newline);
         }
     }
@@ -168,8 +185,10 @@ abstract class Output implements OutputInterface
     /**
      * Writes a message to the output.
      *
-     * @param string $message A message to write to the output
-     * @param bool   $newline Whether to add a newline or not
+     * @param string $message
+     *            A message to write to the output
+     * @param bool $newline
+     *            Whether to add a newline or not
      */
     abstract protected function doWrite($message, $newline);
 }

@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Console\Input;
 
 use Symfony\Component\Console\Exception\InvalidArgumentException;
@@ -19,24 +18,31 @@ use Symfony\Component\Console\Exception\RuntimeException;
  *
  * Three concrete classes are provided by default:
  *
- *  * `ArgvInput`: The input comes from the CLI arguments (argv)
- *  * `StringInput`: The input is provided as a string
- *  * `ArrayInput`: The input is provided as an array
+ * * `ArgvInput`: The input comes from the CLI arguments (argv)
+ * * `StringInput`: The input is provided as a string
+ * * `ArrayInput`: The input is provided as an array
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
 abstract class Input implements InputInterface
 {
+
     /**
+     *
      * @var InputDefinition
      */
     protected $definition;
+
     protected $options = array();
+
     protected $arguments = array();
+
     protected $interactive = true;
 
     /**
-     * @param InputDefinition|null $definition A InputDefinition instance
+     *
+     * @param InputDefinition|null $definition
+     *            A InputDefinition instance
      */
     public function __construct(InputDefinition $definition = null)
     {
@@ -49,6 +55,7 @@ abstract class Input implements InputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function bind(InputDefinition $definition)
@@ -56,7 +63,7 @@ abstract class Input implements InputInterface
         $this->arguments = array();
         $this->options = array();
         $this->definition = $definition;
-
+        
         $this->parse();
     }
 
@@ -66,23 +73,25 @@ abstract class Input implements InputInterface
     abstract protected function parse();
 
     /**
+     *
      * {@inheritdoc}
      */
     public function validate()
     {
         $definition = $this->definition;
         $givenArguments = $this->arguments;
-
+        
         $missingArguments = array_filter(array_keys($definition->getArguments()), function ($argument) use ($definition, $givenArguments) {
-            return !array_key_exists($argument, $givenArguments) && $definition->getArgument($argument)->isRequired();
+            return ! array_key_exists($argument, $givenArguments) && $definition->getArgument($argument)->isRequired();
         });
-
+        
         if (count($missingArguments) > 0) {
             throw new RuntimeException(sprintf('Not enough arguments (missing: "%s").', implode(', ', $missingArguments)));
         }
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function isInteractive()
@@ -91,6 +100,7 @@ abstract class Input implements InputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function setInteractive($interactive)
@@ -99,6 +109,7 @@ abstract class Input implements InputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function getArguments()
@@ -107,30 +118,33 @@ abstract class Input implements InputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function getArgument($name)
     {
-        if (!$this->definition->hasArgument($name)) {
+        if (! $this->definition->hasArgument($name)) {
             throw new InvalidArgumentException(sprintf('The "%s" argument does not exist.', $name));
         }
-
+        
         return isset($this->arguments[$name]) ? $this->arguments[$name] : $this->definition->getArgument($name)->getDefault();
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function setArgument($name, $value)
     {
-        if (!$this->definition->hasArgument($name)) {
+        if (! $this->definition->hasArgument($name)) {
             throw new InvalidArgumentException(sprintf('The "%s" argument does not exist.', $name));
         }
-
+        
         $this->arguments[$name] = $value;
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function hasArgument($name)
@@ -139,6 +153,7 @@ abstract class Input implements InputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function getOptions()
@@ -147,30 +162,33 @@ abstract class Input implements InputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function getOption($name)
     {
-        if (!$this->definition->hasOption($name)) {
+        if (! $this->definition->hasOption($name)) {
             throw new InvalidArgumentException(sprintf('The "%s" option does not exist.', $name));
         }
-
+        
         return isset($this->options[$name]) ? $this->options[$name] : $this->definition->getOption($name)->getDefault();
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function setOption($name, $value)
     {
-        if (!$this->definition->hasOption($name)) {
+        if (! $this->definition->hasOption($name)) {
             throw new InvalidArgumentException(sprintf('The "%s" option does not exist.', $name));
         }
-
+        
         $this->options[$name] = $value;
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function hasOption($name)

@@ -29,9 +29,9 @@ class PHPUnit_Util_ErrorHandler
      * @return array
      */
     public static function getErrorStack()
-    {
-        return self::$errorStack;
-    }
+{
+    return self::$errorStack;
+}
 
     /**
      * @param int    $errno

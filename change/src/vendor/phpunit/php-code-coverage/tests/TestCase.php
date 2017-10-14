@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace SebastianBergmann\CodeCoverage;
 
 use SebastianBergmann\CodeCoverage\Driver\Xdebug;
@@ -19,6 +18,7 @@ use SebastianBergmann\CodeCoverage\Driver\Xdebug;
  */
 abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
+
     protected static $TEST_TMP_PATH;
 
     public static function setUpBeforeClass()
@@ -84,52 +84,38 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         require_once TEST_FILES_PATH . '/BankAccountTest.php';
 
         $stub = $this->createMock(Xdebug::class);
-
+        
         $stub->expects($this->any())
             ->method('stop')
-            ->will($this->onConsecutiveCalls(
-                $data[0],
-                $data[1],
-                $data[2],
-                $data[3]
-            ));
-
-        $filter = new Filter;
+            ->will($this->onConsecutiveCalls($data[0], $data[1], $data[2], $data[3]));
+        
+        $filter = new Filter();
         $filter->addFileToWhitelist(TEST_FILES_PATH . 'BankAccount.php');
-
+        
         $coverage = new CodeCoverage($stub, $filter);
-
-        $coverage->start(
-            new \BankAccountTest('testBalanceIsInitiallyZero'),
-            true
-        );
+        
+        $coverage->start(new \BankAccountTest('testBalanceIsInitiallyZero'), true);
 
         $coverage->stop(
             true,
             [TEST_FILES_PATH . 'BankAccount.php' => range(6, 9)]
         );
-
-        $coverage->start(
-            new \BankAccountTest('testBalanceCannotBecomeNegative')
-        );
+        
+        $coverage->start(new \BankAccountTest('testBalanceCannotBecomeNegative'));
 
         $coverage->stop(
             true,
             [TEST_FILES_PATH . 'BankAccount.php' => range(27, 32)]
         );
-
-        $coverage->start(
-            new \BankAccountTest('testBalanceCannotBecomeNegative2')
-        );
+        
+        $coverage->start(new \BankAccountTest('testBalanceCannotBecomeNegative2'));
 
         $coverage->stop(
             true,
             [TEST_FILES_PATH . 'BankAccount.php' => range(20, 25)]
         );
-
-        $coverage->start(
-            new \BankAccountTest('testDepositWithdrawMoney')
-        );
+        
+        $coverage->start(new \BankAccountTest('testDepositWithdrawMoney'));
 
         $coverage->stop(
             true,
@@ -141,7 +127,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
                 )
             ]
         );
-
+        
         return $coverage;
     }
 
@@ -150,38 +136,30 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $data = $this->getXdebugDataForBankAccount();
 
         $stub = $this->createMock(Xdebug::class);
-
+        
         $stub->expects($this->any())
             ->method('stop')
-            ->will($this->onConsecutiveCalls(
-                $data[0],
-                $data[1]
-            ));
-
-        $filter = new Filter;
+            ->will($this->onConsecutiveCalls($data[0], $data[1]));
+        
+        $filter = new Filter();
         $filter->addFileToWhitelist(TEST_FILES_PATH . 'BankAccount.php');
-
+        
         $coverage = new CodeCoverage($stub, $filter);
-
-        $coverage->start(
-            new \BankAccountTest('testBalanceIsInitiallyZero'),
-            true
-        );
+        
+        $coverage->start(new \BankAccountTest('testBalanceIsInitiallyZero'), true);
 
         $coverage->stop(
             true,
             [TEST_FILES_PATH . 'BankAccount.php' => range(6, 9)]
         );
-
-        $coverage->start(
-            new \BankAccountTest('testBalanceCannotBecomeNegative')
-        );
+        
+        $coverage->start(new \BankAccountTest('testBalanceCannotBecomeNegative'));
 
         $coverage->stop(
             true,
             [TEST_FILES_PATH . 'BankAccount.php' => range(27, 32)]
         );
-
+        
         return $coverage;
     }
 
@@ -190,31 +168,24 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $data = $this->getXdebugDataForBankAccount();
 
         $stub = $this->createMock(Xdebug::class);
-
+        
         $stub->expects($this->any())
             ->method('stop')
-            ->will($this->onConsecutiveCalls(
-                $data[2],
-                $data[3]
-            ));
-
-        $filter = new Filter;
+            ->will($this->onConsecutiveCalls($data[2], $data[3]));
+        
+        $filter = new Filter();
         $filter->addFileToWhitelist(TEST_FILES_PATH . 'BankAccount.php');
-
+        
         $coverage = new CodeCoverage($stub, $filter);
-
-        $coverage->start(
-            new \BankAccountTest('testBalanceCannotBecomeNegative2')
-        );
+        
+        $coverage->start(new \BankAccountTest('testBalanceCannotBecomeNegative2'));
 
         $coverage->stop(
             true,
             [TEST_FILES_PATH . 'BankAccount.php' => range(20, 25)]
         );
-
-        $coverage->start(
-            new \BankAccountTest('testDepositWithdrawMoney')
-        );
+        
+        $coverage->start(new \BankAccountTest('testDepositWithdrawMoney'));
 
         $coverage->stop(
             true,
@@ -226,7 +197,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
                 )
             ]
         );
-
+        
         return $coverage;
     }
 
@@ -266,17 +237,14 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
 
     protected function getCoverageForFileWithIgnoredLines()
     {
-        $filter = new Filter;
+        $filter = new Filter();
         $filter->addFileToWhitelist(TEST_FILES_PATH . 'source_with_ignore.php');
-
-        $coverage = new CodeCoverage(
-            $this->setUpXdebugStubForFileWithIgnoredLines(),
-            $filter
-        );
-
+        
+        $coverage = new CodeCoverage($this->setUpXdebugStubForFileWithIgnoredLines(), $filter);
+        
         $coverage->start('FileWithIgnoredLines', true);
         $coverage->stop();
-
+        
         return $coverage;
     }
 
@@ -296,23 +264,20 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
                     ]
                 ]
             ));
-
+        
         return $stub;
     }
 
     protected function getCoverageForClassWithAnonymousFunction()
     {
-        $filter = new Filter;
+        $filter = new Filter();
         $filter->addFileToWhitelist(TEST_FILES_PATH . 'source_with_class_and_anonymous_function.php');
-
-        $coverage = new CodeCoverage(
-            $this->setUpXdebugStubForClassWithAnonymousFunction(),
-            $filter
-        );
-
+        
+        $coverage = new CodeCoverage($this->setUpXdebugStubForClassWithAnonymousFunction(), $filter);
+        
         $coverage->start('ClassWithAnonymousFunction', true);
         $coverage->stop();
-
+        
         return $coverage;
     }
 
@@ -337,7 +302,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
                     ]
                 ]
             ));
-
+        
         return $stub;
     }
 }

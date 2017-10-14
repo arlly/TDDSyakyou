@@ -38,17 +38,15 @@ class PHPUnit_Framework_MockObject_Matcher_Parameters extends PHPUnit_Framework_
      * @param array $parameters
      */
     public function __construct(array $parameters)
-    {
-        foreach ($parameters as $parameter) {
-            if (!($parameter instanceof PHPUnit_Framework_Constraint)) {
-                $parameter = new PHPUnit_Framework_Constraint_IsEqual(
-                    $parameter
-                );
-            }
-
-            $this->parameters[] = $parameter;
+{
+    foreach ($parameters as $parameter) {
+        if (! ($parameter instanceof PHPUnit_Framework_Constraint)) {
+            $parameter = new PHPUnit_Framework_Constraint_IsEqual($parameter);
         }
+        
+        $this->parameters[] = $parameter;
     }
+}
 
     /**
      * @return string

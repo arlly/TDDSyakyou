@@ -34,17 +34,17 @@ class PHPUnit_Framework_MockObject_Matcher_ConsecutiveParameters extends PHPUnit
      * @param array $parameterGroups
      */
     public function __construct(array $parameterGroups)
-    {
-        foreach ($parameterGroups as $index => $parameters) {
-            foreach ($parameters as $parameter) {
-                if (!$parameter instanceof PHPUnit_Framework_Constraint) {
-                    $parameter = new PHPUnit_Framework_Constraint_IsEqual($parameter);
-                }
-
-                $this->parameterGroups[$index][] = $parameter;
+{
+    foreach ($parameterGroups as $index => $parameters) {
+        foreach ($parameters as $parameter) {
+            if (! $parameter instanceof PHPUnit_Framework_Constraint) {
+                $parameter = new PHPUnit_Framework_Constraint_IsEqual($parameter);
             }
+            
+            $this->parameterGroups[$index][] = $parameter;
         }
     }
+}
 
     /**
      * @return string

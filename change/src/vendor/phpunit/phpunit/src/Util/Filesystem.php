@@ -28,11 +28,11 @@ class PHPUnit_Util_Filesystem
      * @return string
      */
     public static function classNameToFilename($className)
-    {
+{
         return str_replace(
             ['_', '\\'],
             DIRECTORY_SEPARATOR,
             $className
         ) . '.php';
-    }
+}
 }

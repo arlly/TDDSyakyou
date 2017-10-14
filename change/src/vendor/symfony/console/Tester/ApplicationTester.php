@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Console\Tester;
 
 use Symfony\Component\Console\Application;
@@ -22,20 +21,26 @@ use Symfony\Component\Console\Output\StreamOutput;
  *
  * When testing an application, don't forget to disable the auto exit flag:
  *
- *     $application = new Application();
- *     $application->setAutoExit(false);
+ * $application = new Application();
+ * $application->setAutoExit(false);
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
 class ApplicationTester
 {
+
     private $application;
+
     private $input;
+
     private $output;
+
     private $statusCode;
 
     /**
-     * @param Application $application An Application instance to test
+     *
+     * @param Application $application
+     *            An Application instance to test
      */
     public function __construct(Application $application)
     {
@@ -47,13 +52,15 @@ class ApplicationTester
      *
      * Available options:
      *
-     *  * interactive: Sets the input interactive flag
-     *  * decorated:   Sets the output decorated flag
-     *  * verbosity:   Sets the output verbosity flag
+     * * interactive: Sets the input interactive flag
+     * * decorated: Sets the output decorated flag
+     * * verbosity: Sets the output verbosity flag
      *
-     * @param array $input   An array of arguments and options
-     * @param array $options An array of options
-     *
+     * @param array $input
+     *            An array of arguments and options
+     * @param array $options
+     *            An array of options
+     *            
      * @return int The command exit code
      */
     public function run(array $input, $options = array())
@@ -62,7 +69,7 @@ class ApplicationTester
         if (isset($options['interactive'])) {
             $this->input->setInteractive($options['interactive']);
         }
-
+        
         $this->output = new StreamOutput(fopen('php://memory', 'w', false));
         if (isset($options['decorated'])) {
             $this->output->setDecorated($options['decorated']);
@@ -70,27 +77,28 @@ class ApplicationTester
         if (isset($options['verbosity'])) {
             $this->output->setVerbosity($options['verbosity']);
         }
-
+        
         return $this->statusCode = $this->application->run($this->input, $this->output);
     }
 
     /**
      * Gets the display returned by the last execution of the application.
      *
-     * @param bool $normalize Whether to normalize end of lines to \n or not
-     *
+     * @param bool $normalize
+     *            Whether to normalize end of lines to \n or not
+     *            
      * @return string The display
      */
     public function getDisplay($normalize = false)
     {
         rewind($this->output->getStream());
-
+        
         $display = stream_get_contents($this->output->getStream());
-
+        
         if ($normalize) {
             $display = str_replace(PHP_EOL, "\n", $display);
         }
-
+        
         return $display;
     }
 

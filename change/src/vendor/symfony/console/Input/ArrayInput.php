@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Console\Input;
 
 use Symfony\Component\Console\Exception\InvalidArgumentException;
@@ -19,26 +18,31 @@ use Symfony\Component\Console\Exception\InvalidOptionException;
  *
  * Usage:
  *
- *     $input = new ArrayInput(array('name' => 'foo', '--bar' => 'foobar'));
+ * $input = new ArrayInput(array('name' => 'foo', '--bar' => 'foobar'));
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
 class ArrayInput extends Input
 {
+
     private $parameters;
 
     /**
-     * @param array                $parameters An array of parameters
-     * @param InputDefinition|null $definition A InputDefinition instance
+     *
+     * @param array $parameters
+     *            An array of parameters
+     * @param InputDefinition|null $definition
+     *            A InputDefinition instance
      */
     public function __construct(array $parameters, InputDefinition $definition = null)
     {
         $this->parameters = $parameters;
-
+        
         parent::__construct($definition);
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function getFirstArgument()
@@ -47,38 +51,40 @@ class ArrayInput extends Input
             if ($key && '-' === $key[0]) {
                 continue;
             }
-
+            
             return $value;
         }
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function hasParameterOption($values)
     {
         $values = (array) $values;
-
+        
         foreach ($this->parameters as $k => $v) {
-            if (!is_int($k)) {
+            if (! is_int($k)) {
                 $v = $k;
             }
-
+            
             if (in_array($v, $values)) {
                 return true;
             }
         }
-
+        
         return false;
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function getParameterOption($values, $default = false)
     {
         $values = (array) $values;
-
+        
         foreach ($this->parameters as $k => $v) {
             if (is_int($k)) {
                 if (in_array($v, $values)) {
@@ -88,7 +94,7 @@ class ArrayInput extends Input
                 return $v;
             }
         }
-
+        
         return $default;
     }
 
@@ -104,20 +110,24 @@ class ArrayInput extends Input
             if ($param && '-' === $param[0]) {
                 if (is_array($val)) {
                     foreach ($val as $v) {
-                        $params[] = $param.('' != $v ? '='.$this->escapeToken($v) : '');
+                        $params[] = $param . ('' != $v ? '=' . $this->escapeToken($v) : '');
                     }
                 } else {
-                    $params[] = $param.('' != $val ? '='.$this->escapeToken($val) : '');
+                    $params[] = $param . ('' != $val ? '=' . $this->escapeToken($val) : '');
                 }
             } else {
-                $params[] = is_array($val) ? array_map(array($this, 'escapeToken'), $val) : $this->escapeToken($val);
+                $params[] = is_array($val) ? array_map(array(
+                    $this,
+                    'escapeToken'
+                ), $val) : $this->escapeToken($val);
             }
         }
-
+        
         return implode(' ', $params);
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     protected function parse()
@@ -136,62 +146,69 @@ class ArrayInput extends Input
     /**
      * Adds a short option value.
      *
-     * @param string $shortcut The short option key
-     * @param mixed  $value    The value for the option
-     *
+     * @param string $shortcut
+     *            The short option key
+     * @param mixed $value
+     *            The value for the option
+     *            
      * @throws InvalidOptionException When option given doesn't exist
      */
     private function addShortOption($shortcut, $value)
     {
-        if (!$this->definition->hasShortcut($shortcut)) {
+        if (! $this->definition->hasShortcut($shortcut)) {
             throw new InvalidOptionException(sprintf('The "-%s" option does not exist.', $shortcut));
         }
-
-        $this->addLongOption($this->definition->getOptionForShortcut($shortcut)->getName(), $value);
+        
+        $this->addLongOption($this->definition->getOptionForShortcut($shortcut)
+            ->getName(), $value);
     }
 
     /**
      * Adds a long option value.
      *
-     * @param string $name  The long option key
-     * @param mixed  $value The value for the option
-     *
+     * @param string $name
+     *            The long option key
+     * @param mixed $value
+     *            The value for the option
+     *            
      * @throws InvalidOptionException When option given doesn't exist
      * @throws InvalidOptionException When a required value is missing
      */
     private function addLongOption($name, $value)
     {
-        if (!$this->definition->hasOption($name)) {
+        if (! $this->definition->hasOption($name)) {
             throw new InvalidOptionException(sprintf('The "--%s" option does not exist.', $name));
         }
-
+        
         $option = $this->definition->getOption($name);
-
+        
         if (null === $value) {
             if ($option->isValueRequired()) {
                 throw new InvalidOptionException(sprintf('The "--%s" option requires a value.', $name));
             }
-
+            
             $value = $option->isValueOptional() ? $option->getDefault() : true;
         }
-
+        
         $this->options[$name] = $value;
     }
 
     /**
      * Adds an argument value.
      *
-     * @param string $name  The argument name
-     * @param mixed  $value The value for the argument
-     *
+     * @param string $name
+     *            The argument name
+     * @param mixed $value
+     *            The value for the argument
+     *            
      * @throws InvalidArgumentException When argument given doesn't exist
      */
     private function addArgument($name, $value)
     {
-        if (!$this->definition->hasArgument($name)) {
+        if (! $this->definition->hasArgument($name)) {
             throw new InvalidArgumentException(sprintf('The "%s" argument does not exist.', $name));
         }
-
+        
         $this->arguments[$name] = $value;
     }
 }

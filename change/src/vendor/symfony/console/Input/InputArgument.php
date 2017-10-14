@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Console\Input;
 
 use Symfony\Component\Console\Exception\InvalidArgumentException;
@@ -21,35 +20,46 @@ use Symfony\Component\Console\Exception\LogicException;
  */
 class InputArgument
 {
+
     const REQUIRED = 1;
+
     const OPTIONAL = 2;
+
     const IS_ARRAY = 4;
 
     private $name;
+
     private $mode;
+
     private $default;
+
     private $description;
 
     /**
-     * @param string $name        The argument name
-     * @param int    $mode        The argument mode: self::REQUIRED or self::OPTIONAL
-     * @param string $description A description text
-     * @param mixed  $default     The default value (for self::OPTIONAL mode only)
      *
+     * @param string $name
+     *            The argument name
+     * @param int $mode
+     *            The argument mode: self::REQUIRED or self::OPTIONAL
+     * @param string $description
+     *            A description text
+     * @param mixed $default
+     *            The default value (for self::OPTIONAL mode only)
+     *            
      * @throws InvalidArgumentException When argument mode is not valid
      */
     public function __construct($name, $mode = null, $description = '', $default = null)
     {
         if (null === $mode) {
             $mode = self::OPTIONAL;
-        } elseif (!is_int($mode) || $mode > 7 || $mode < 1) {
+        } elseif (! is_int($mode) || $mode > 7 || $mode < 1) {
             throw new InvalidArgumentException(sprintf('Argument mode "%s" is not valid.', $mode));
         }
-
+        
         $this->name = $name;
         $this->mode = $mode;
         $this->description = $description;
-
+        
         $this->setDefault($default);
     }
 
@@ -86,8 +96,9 @@ class InputArgument
     /**
      * Sets the default value.
      *
-     * @param mixed $default The default value
-     *
+     * @param mixed $default
+     *            The default value
+     *            
      * @throws LogicException When incorrect default value is given
      */
     public function setDefault($default = null)
@@ -95,15 +106,15 @@ class InputArgument
         if (self::REQUIRED === $this->mode && null !== $default) {
             throw new LogicException('Cannot set a default value except for InputArgument::OPTIONAL mode.');
         }
-
+        
         if ($this->isArray()) {
             if (null === $default) {
                 $default = array();
-            } elseif (!is_array($default)) {
+            } elseif (! is_array($default)) {
                 throw new LogicException('A default value for an array argument must be an array.');
             }
         }
-
+        
         $this->default = $default;
     }
 

@@ -23,13 +23,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace Pimple\Tests\Fixtures;
 
 /**
- * @author  Igor Wiedler <igor@wiedler.ch>
+ *
+ * @author Igor Wiedler <igor@wiedler.ch>
  */
 class Service
 {
+
     public $value;
 }

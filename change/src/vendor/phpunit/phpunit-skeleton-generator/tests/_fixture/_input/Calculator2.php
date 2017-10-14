@@ -1,6 +1,8 @@
 <?php
+
 class Calculator2
 {
+
     /**
      * @assert (0, 0) == 0
      * @assert (0, 1) == 1

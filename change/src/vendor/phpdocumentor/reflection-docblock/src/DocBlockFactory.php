@@ -9,7 +9,6 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-
 namespace phpDocumentor\Reflection;
 
 use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
@@ -47,20 +46,20 @@ final class DocBlockFactory implements DocBlockFactoryInterface
      */
     public static function createInstance(array $additionalTags = [])
     {
-        $fqsenResolver = new FqsenResolver();
-        $tagFactory = new StandardTagFactory($fqsenResolver);
-        $descriptionFactory = new DescriptionFactory($tagFactory);
-
-        $tagFactory->addService($descriptionFactory);
-        $tagFactory->addService(new TypeResolver($fqsenResolver));
-
-        $docBlockFactory = new self($descriptionFactory, $tagFactory);
-        foreach ($additionalTags as $tagName => $tagHandler) {
-            $docBlockFactory->registerTagHandler($tagName, $tagHandler);
-        }
-
-        return $docBlockFactory;
+    $fqsenResolver = new FqsenResolver();
+    $tagFactory = new StandardTagFactory($fqsenResolver);
+    $descriptionFactory = new DescriptionFactory($tagFactory);
+    
+    $tagFactory->addService($descriptionFactory);
+    $tagFactory->addService(new TypeResolver($fqsenResolver));
+    
+    $docBlockFactory = new self($descriptionFactory, $tagFactory);
+    foreach ($additionalTags as $tagName => $tagHandler) {
+        $docBlockFactory->registerTagHandler($tagName, $tagHandler);
     }
+    
+    return $docBlockFactory;
+}
 
     /**
      * @param object|string $docblock A string containing the DocBlock to parse or an object supporting the

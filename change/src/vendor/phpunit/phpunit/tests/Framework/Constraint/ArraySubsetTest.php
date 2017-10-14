@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -7,20 +8,21 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 class PHPUnit_Framework_Constraint_ArraySubsetTest extends PHPUnit_Framework_TestCase
 {
+
     /**
-     * @param bool              $expected
+     *
+     * @param bool $expected
      * @param array|Traversable $subset
      * @param array|Traversable $other
-     * @param bool              $strict
-     * @dataProvider evaluateDataProvider
+     * @param bool $strict
+     *            @dataProvider evaluateDataProvider
      */
     public function testEvaluate($expected, $subset, $other, $strict)
     {
         $constraint = new PHPUnit_Framework_Constraint_ArraySubset($subset, $strict);
-
+        
         $this->assertSame($expected, $constraint->evaluate($other, '', true));
     }
 
@@ -59,7 +61,7 @@ class PHPUnit_Framework_Constraint_ArraySubsetTest extends PHPUnit_Framework_Tes
         $arrayAccess = new ArrayAccessible(['foo' => 'bar']);
 
         $constraint = new PHPUnit_Framework_Constraint_ArraySubset(['foo' => 'bar']);
-
+        
         $this->assertTrue($constraint->evaluate($arrayAccess, '', true));
     }
 }

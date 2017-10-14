@@ -1,60 +1,5 @@
 [
     {
-        "name": "phpmentors/domain-kata",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/phpmentors-jp/domain-kata.git",
-            "reference": "c2c1c4ec8f895d3f26e0755860f6b98bbd4db4d4"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/phpmentors-jp/domain-kata/zipball/c2c1c4ec8f895d3f26e0755860f6b98bbd4db4d4",
-            "reference": "c2c1c4ec8f895d3f26e0755860f6b98bbd4db4d4",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.3"
-        },
-        "time": "2015-06-13T03:10:25+00:00",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.5.x-dev"
-            }
-        },
-        "installation-source": "source",
-        "autoload": {
-            "psr-4": {
-                "PHPMentors\\DomainKata\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "BSD-2-Clause"
-        ],
-        "authors": [
-            {
-                "name": "KUBO Atsuhiro",
-                "email": "kubo@iteman.jp"
-            },
-            {
-                "name": "GOTO Hidenori",
-                "email": "hidenorigoto@gmail.com"
-            }
-        ],
-        "description": "Kata for domain models",
-        "keywords": [
-            "Domain Driven Design",
-            "architecture",
-            "ddd",
-            "design",
-            "generative programming",
-            "modeling"
-        ]
-    },
-    {
         "name": "symfony/yaml",
         "version": "v3.3.10",
         "version_normalized": "3.3.10.0",
@@ -1864,6 +1809,61 @@
         "keywords": [
             "container",
             "dependency injection"
+        ]
+    },
+    {
+        "name": "phpmentors/domain-kata",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/phpmentors-jp/domain-kata.git",
+            "reference": "c2c1c4ec8f895d3f26e0755860f6b98bbd4db4d4"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/phpmentors-jp/domain-kata/zipball/c2c1c4ec8f895d3f26e0755860f6b98bbd4db4d4",
+            "reference": "c2c1c4ec8f895d3f26e0755860f6b98bbd4db4d4",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "time": "2015-06-13T03:10:25+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.5.x-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "PHPMentors\\DomainKata\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-2-Clause"
+        ],
+        "authors": [
+            {
+                "name": "KUBO Atsuhiro",
+                "email": "kubo@iteman.jp"
+            },
+            {
+                "name": "GOTO Hidenori",
+                "email": "hidenorigoto@gmail.com"
+            }
+        ],
+        "description": "Kata for domain models",
+        "keywords": [
+            "Domain Driven Design",
+            "architecture",
+            "ddd",
+            "design",
+            "generative programming",
+            "modeling"
         ]
     }
 ]

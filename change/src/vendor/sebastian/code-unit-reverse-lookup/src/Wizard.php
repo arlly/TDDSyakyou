@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace SebastianBergmann\CodeUnitReverseLookup;
 
 /**
@@ -36,18 +35,19 @@ class Wizard
      *
      * @return string
      */
-    public function lookup($filename, $lineNumber)
-    {
-        if (!isset($this->lookupTable[$filename][$lineNumber])) {
-            $this->updateLookupTable();
-        }
-
-        if (isset($this->lookupTable[$filename][$lineNumber])) {
-            return $this->lookupTable[$filename][$lineNumber];
-        } else {
-            return $filename . ':' . $lineNumber;
-        }
+    public 
+function lookup($filename, $lineNumber)
+{
+    if (! isset($this->lookupTable[$filename][$lineNumber])) {
+        $this->updateLookupTable();
     }
+    
+    if (isset($this->lookupTable[$filename][$lineNumber])) {
+        return $this->lookupTable[$filename][$lineNumber];
+    } else {
+        return $filename . ':' . $lineNumber;
+    }
+}
 
     private function updateLookupTable()
     {

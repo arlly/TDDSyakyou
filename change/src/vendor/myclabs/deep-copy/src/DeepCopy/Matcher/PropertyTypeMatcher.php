@@ -1,5 +1,4 @@
 <?php
-
 namespace DeepCopy\Matcher;
 
 use ReflectionProperty;
@@ -12,13 +11,17 @@ use ReflectionProperty;
  */
 class PropertyTypeMatcher implements Matcher
 {
+
     /**
+     *
      * @var string
      */
     private $propertyType;
 
     /**
-     * @param string $propertyType Property type
+     *
+     * @param string $propertyType
+     *            Property type
      */
     public function __construct($propertyType)
     {
@@ -26,13 +29,14 @@ class PropertyTypeMatcher implements Matcher
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function matches($object, $property)
     {
         $reflectionProperty = new ReflectionProperty($object, $property);
         $reflectionProperty->setAccessible(true);
-
+        
         return $reflectionProperty->getValue($object) instanceof $this->propertyType;
     }
 }

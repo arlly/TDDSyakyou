@@ -153,15 +153,14 @@ class PHPUnit_Util_Configuration
      * @param string $filename
      */
     protected function __construct($filename)
-    {
-        $this->filename = $filename;
-        $this->document = PHPUnit_Util_XML::loadFile($filename, false, true, true);
-        $this->xpath    = new DOMXPath($this->document);
-    }
+{
+    $this->filename = $filename;
+    $this->document = PHPUnit_Util_XML::loadFile($filename, false, true, true);
+    $this->xpath = new DOMXPath($this->document);
+}
 
     final private function __clone()
-    {
-    }
+{}
 
     /**
      * Returns a PHPUnit configuration object.

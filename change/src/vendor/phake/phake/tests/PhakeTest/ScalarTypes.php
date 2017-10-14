@@ -46,8 +46,8 @@
 class PhakeTest_ScalarTypes
 {
     public function scalarHints(int $a, int $b) : int {
-        return $a + $b;
-    }
+    return $a + $b;
+}
 
     public function objectReturn() : PhakeTest_A {
 

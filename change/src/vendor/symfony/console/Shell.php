@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Console;
 
 use Symfony\Component\Console\Exception\RuntimeException;
@@ -24,31 +23,37 @@ use Symfony\Component\Process\PhpExecutableFinder;
  * with readline support (either --with-readline or --with-libedit)
  *
  * @deprecated since version 2.8, to be removed in 3.0.
- *
+ *            
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Martin Hasoň <martin.hason@gmail.com>
  */
 class Shell
 {
+
     private $application;
+
     private $history;
+
     private $output;
+
     private $hasReadline;
+
     private $processIsolation = false;
 
     /**
      * If there is no readline support for the current PHP executable
      * a \RuntimeException exception is thrown.
      *
-     * @param Application $application An application instance
+     * @param Application $application
+     *            An application instance
      */
     public function __construct(Application $application)
     {
-        @trigger_error('The '.__CLASS__.' class is deprecated since Symfony 2.8 and will be removed in 3.0.', E_USER_DEPRECATED);
-
+        @trigger_error('The ' . __CLASS__ . ' class is deprecated since Symfony 2.8 and will be removed in 3.0.', E_USER_DEPRECATED);
+        
         $this->hasReadline = function_exists('readline');
         $this->application = $application;
-        $this->history = getenv('HOME').'/.history_'.$application->getName();
+        $this->history = getenv('HOME') . '/.history_' . $application->getName();
         $this->output = new ConsoleOutput();
     }
 
@@ -59,12 +64,15 @@ class Shell
     {
         $this->application->setAutoExit(false);
         $this->application->setCatchExceptions(true);
-
+        
         if ($this->hasReadline) {
             readline_read_history($this->history);
-            readline_completion_function(array($this, 'autocompleter'));
+            readline_completion_function(array(
+                $this,
+                'autocompleter'
+            ));
         }
-
+        
         $this->output->writeln($this->getHeader());
         $php = null;
         if ($this->processIsolation) {
@@ -77,44 +85,42 @@ class Shell
   * commands output is not colorized.
 
 EOF
-            );
+);
         }
-
+        
         while (true) {
             $command = $this->readline();
-
+            
             if (false === $command) {
                 $this->output->writeln("\n");
-
+                
                 break;
             }
-
+            
             if ($this->hasReadline) {
                 readline_add_history($command);
                 readline_write_history($this->history);
             }
-
+            
             if ($this->processIsolation) {
                 $pb = new ProcessBuilder();
-
-                $process = $pb
-                    ->add($php)
+                
+                $process = $pb->add($php)
                     ->add($_SERVER['argv'][0])
                     ->add($command)
                     ->inheritEnvironmentVariables(true)
-                    ->getProcess()
-                ;
-
+                    ->getProcess();
+                
                 $output = $this->output;
                 $process->run(function ($type, $data) use ($output) {
                     $output->writeln($data);
                 });
-
+                
                 $ret = $process->getExitCode();
             } else {
                 $ret = $this->application->run(new StringInput($command), $this->output);
             }
-
+            
             if (0 !== $ret) {
                 $this->output->writeln(sprintf('<error>The command terminated with an error status (%s)</error>', $ret));
             }
@@ -148,7 +154,7 @@ EOF;
     protected function getPrompt()
     {
         // using the formatter here is required when using readline
-        return $this->output->getFormatter()->format($this->application->getName().' > ');
+        return $this->output->getFormatter()->format($this->application->getName() . ' > ');
     }
 
     protected function getOutput()
@@ -164,36 +170,39 @@ EOF;
     /**
      * Tries to return autocompletion for the current entered text.
      *
-     * @param string $text The last segment of the entered text
-     *
+     * @param string $text
+     *            The last segment of the entered text
+     *            
      * @return bool|array A list of guessed strings or true
      */
     private function autocompleter($text)
     {
         $info = readline_info();
         $text = substr($info['line_buffer'], 0, $info['end']);
-
+        
         if ($info['point'] !== $info['end']) {
             return true;
         }
-
+        
         // task name?
-        if (false === strpos($text, ' ') || !$text) {
+        if (false === strpos($text, ' ') || ! $text) {
             return array_keys($this->application->all());
         }
-
+        
         // options and arguments?
         try {
             $command = $this->application->find(substr($text, 0, strpos($text, ' ')));
         } catch (\Exception $e) {
             return true;
         }
-
-        $list = array('--help');
+        
+        $list = array(
+            '--help'
+        );
         foreach ($command->getDefinition()->getOptions() as $option) {
-            $list[] = '--'.$option->getName();
+            $list[] = '--' . $option->getName();
         }
-
+        
         return $list;
     }
 
@@ -211,7 +220,7 @@ EOF;
             $line = fgets(STDIN, 1024);
             $line = (false === $line || '' === $line) ? false : rtrim($line);
         }
-
+        
         return $line;
     }
 
@@ -223,8 +232,8 @@ EOF;
     public function setProcessIsolation($processIsolation)
     {
         $this->processIsolation = (bool) $processIsolation;
-
-        if ($this->processIsolation && !class_exists('Symfony\\Component\\Process\\Process')) {
+        
+        if ($this->processIsolation && ! class_exists('Symfony\\Component\\Process\\Process')) {
             throw new RuntimeException('Unable to isolate processes as the Symfony Process Component is not installed.');
         }
     }

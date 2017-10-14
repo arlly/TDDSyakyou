@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -13,7 +14,9 @@
  */
 class PHPUnit_Util_Type
 {
+
     /**
+     *
      * @param string $type
      *
      * @return bool

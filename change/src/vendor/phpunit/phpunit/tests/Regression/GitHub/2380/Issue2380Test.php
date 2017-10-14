@@ -3,6 +3,7 @@ use PHPUnit\Framework\TestCase;
 
 class Issue2380Test extends TestCase
 {
+
     /**
      * @dataProvider generatorData
      */
@@ -12,6 +13,7 @@ class Issue2380Test extends TestCase
     }
 
     /**
+     *
      * @return Generator
      */
     public function generatorData()

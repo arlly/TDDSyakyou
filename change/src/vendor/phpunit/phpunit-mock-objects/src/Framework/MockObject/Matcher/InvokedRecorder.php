@@ -28,9 +28,9 @@ abstract class PHPUnit_Framework_MockObject_Matcher_InvokedRecorder implements P
      * @return int
      */
     public function getInvocationCount()
-    {
-        return count($this->invocations);
-    }
+{
+    return count($this->invocations);
+}
 
     /**
      * @return PHPUnit_Framework_MockObject_Invocation[]

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Phake - Mocking Framework
  *
@@ -9,17 +10,17 @@
  * modification, are permitted provided that the following conditions
  * are met:
  *
- *  *  Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ * * Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
  *
- *  *  Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in
- *     the documentation and/or other materials provided with the
- *     distribution.
+ * * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in
+ * the documentation and/or other materials provided with the
+ * distribution.
  *
- *  *  Neither the name of Mike Lively nor the names of his
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ * * Neither the name of Mike Lively nor the names of his
+ * contributors may be used to endorse or promote products derived
+ * from this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -34,12 +35,12 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @category   Testing
- * @package    Phake
- * @author     Mike Lively <m@digitalsandwich.com>
- * @copyright  2010 Mike Lively <m@digitalsandwich.com>
- * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @link       http://www.digitalsandwich.com/
+ * @category Testing
+ * @package Phake
+ * @author Mike Lively <m@digitalsandwich.com>
+ * @copyright 2010 Mike Lively <m@digitalsandwich.com>
+ * @license http://www.opensource.org/licenses/bsd-license.php BSD License
+ * @link http://www.digitalsandwich.com/
  */
 
 /**
@@ -53,36 +54,42 @@
  */
 class Phake
 {
+
     /**
+     *
      * @var Phake_Facade
      */
     private static $phake;
 
     /**
+     *
      * @var Phake_Client_IClient
      */
     private static $client;
 
     /**
+     *
      * @var Phake_ClassGenerator_ILoader
      */
     private static $loader;
 
-	/**
-	 * @var Phake_Matchers_Factory
-	 */
-	private static $matchersFactory;
+    /**
+     *
+     * @var Phake_Matchers_Factory
+     */
+    private static $matchersFactory;
 
     /**
      * Constants identifying supported clients
      */
     const CLIENT_DEFAULT = 'DEFAULT';
+
     const CLIENT_PHPUNIT = 'PHPUNIT';
 
     /**
      * Returns a new mock object based on the given class name.
      *
-     * @param string                         $className
+     * @param string $className
      * @param Phake_Stubber_IAnswerContainer $defaultAnswer
      *
      * @return mixed
@@ -94,13 +101,8 @@ class Phake
         } else {
             $answer = $defaultAnswer->getAnswer();
         }
-
-        return self::getPhake()->mock(
-            $className,
-            new Phake_ClassGenerator_MockClass(self::getMockLoader()),
-            new Phake_CallRecorder_Recorder(),
-            $answer
-        );
+        
+        return self::getPhake()->mock($className, new Phake_ClassGenerator_MockClass(self::getMockLoader()), new Phake_CallRecorder_Recorder(), $answer);
     }
 
     /**
@@ -108,30 +110,28 @@ class Phake
      *
      * Calls to this class will be recorded however they will still call the original functionality by default.
      *
-     * @param string $className class name
-     * @param mixed $args,... the remaining arguments will be passed as constructor arguments
+     * @param string $className
+     *            class name
+     * @param mixed $args,...
+     *            the remaining arguments will be passed as constructor arguments
      * @return Phake_IMock
      */
     public static function partialMock($className, $args = null)
     {
         $args = array_slice(func_get_args(), 1);
         $answer = new Phake_Stubber_Answers_ParentDelegate();
-
-        return self::getPhake()->mock(
-            $className,
-            new Phake_ClassGenerator_MockClass(self::getMockLoader()),
-            new Phake_CallRecorder_Recorder(),
-            $answer,
-            $args
-        );
+        
+        return self::getPhake()->mock($className, new Phake_ClassGenerator_MockClass(self::getMockLoader()), new Phake_CallRecorder_Recorder(), $answer, $args);
     }
 
     /**
      * For backwards compatibility
      *
      * @see Phake::partialMock()
-     * @param string $className class name
-     * @param mixed $args,... the remaining arguments will be passed as constructor arguments
+     * @param string $className
+     *            class name
+     * @param mixed $args,...
+     *            the remaining arguments will be passed as constructor arguments
      * @return Phake_IMock
      * @deprecated Please use Phake::partialMock() instead
      */
@@ -141,26 +141,26 @@ class Phake
         return call_user_func_array('Phake::partialMock', $args);
     }
 
-	/**
-	 * Create a Phake_Matchers_Factory that we can re-use multiple times. Creating too many
-	 * instances of this object is expensive.
-	 *
-	 * @return Phake_Matchers_Factory
-	 */
-	private static function getMatchersFactory ()
-	{
-		if (!self::$matchersFactory)
-		{
-			self::$matchersFactory = new Phake_Matchers_Factory();
-		}
-
-		return self::$matchersFactory;
-	}
+    /**
+     * Create a Phake_Matchers_Factory that we can re-use multiple times.
+     * Creating too many
+     * instances of this object is expensive.
+     *
+     * @return Phake_Matchers_Factory
+     */
+    private static function getMatchersFactory()
+    {
+        if (! self::$matchersFactory) {
+            self::$matchersFactory = new Phake_Matchers_Factory();
+        }
+        
+        return self::$matchersFactory;
+    }
 
     /**
      * Creates a new verifier for the given mock object.
      *
-     * @param Phake_IMock                      $mock
+     * @param Phake_IMock $mock
      * @param Phake_CallRecorder_IVerifierMode $mode
      *
      * @return Phake_Proxies_VerifierProxy
@@ -170,18 +170,18 @@ class Phake
         if (is_null($mode)) {
             $mode = self::times(1);
         }
-
+        
         /* @var $info Phake_Mock_Info */
         $info = Phake::getInfo($mock);
         $verifier = new Phake_CallRecorder_Verifier($info->getCallRecorder(), $mock);
-
+        
         return new Phake_Proxies_VerifierProxy($verifier, self::getMatchersFactory(), $mode, self::getClient());
     }
 
     /**
      * Creates a new verifier for the given mock object.
      *
-     * @param Phake_IMock                      $mock
+     * @param Phake_IMock $mock
      * @param Phake_CallRecorder_IVerifierMode $mode
      *
      * @return Phake_Proxies_VerifierProxy
@@ -191,45 +191,42 @@ class Phake
         if (is_null($mode)) {
             $mode = self::times(1);
         }
-
+        
         /* @var $info Phake_Mock_Info */
         $info = Phake::getInfo(get_class($mock));
         $verifier = new Phake_CallRecorder_Verifier($info->getCallRecorder(), get_class($mock));
-
+        
         return new Phake_Proxies_VerifierProxy($verifier, self::getMatchersFactory(), $mode, self::getClient());
     }
-
 
     /**
      * Creates a new verifier for verifying the magic __call method
      *
-     * @param mixed ... A vararg containing the expected arguments for this call
-     *
+     * @param
+     *            mixed ... A vararg containing the expected arguments for this call
+     *            
      * @return Phake_Proxies_CallVerifierProxy
      */
     public static function verifyCallMethodWith()
     {
         $arguments = func_get_args();
-        $factory   = self::getMatchersFactory();
-        return new Phake_Proxies_CallVerifierProxy($factory->createMatcherChain(
-            $arguments
-        ), self::getClient(), false);
+        $factory = self::getMatchersFactory();
+        return new Phake_Proxies_CallVerifierProxy($factory->createMatcherChain($arguments), self::getClient(), false);
     }
 
     /**
      * Creates a new verifier for verifying the magic __call method
      *
-     * @param mixed ... A vararg containing the expected arguments for this call
-     *
+     * @param
+     *            mixed ... A vararg containing the expected arguments for this call
+     *            
      * @return Phake_Proxies_CallVerifierProxy
      */
     public static function verifyStaticCallMethodWith()
     {
         $arguments = func_get_args();
-        $factory   = self::getMatchersFactory();
-        return new Phake_Proxies_CallVerifierProxy($factory->createMatcherChain(
-            $arguments
-        ), self::getClient(), true);
+        $factory = self::getMatchersFactory();
+        return new Phake_Proxies_CallVerifierProxy($factory->createMatcherChain($arguments), self::getClient(), true);
     }
 
     /**
@@ -237,10 +234,10 @@ class Phake
      */
     public static function inOrder()
     {
-        $calls         = func_get_args();
+        $calls = func_get_args();
         $orderVerifier = new Phake_CallRecorder_OrderVerifier();
-
-        if (!$orderVerifier->verifyCallsInOrder(self::pullPositionsFromCallInfos($calls))) {
+        
+        if (! $orderVerifier->verifyCallsInOrder(self::pullPositionsFromCallInfos($calls))) {
             $result = new Phake_CallRecorder_VerifierResult(false, array(), "Calls not made in order");
             self::getClient()->processVerifierResult($result);
         }
@@ -254,7 +251,7 @@ class Phake
     public static function verifyNoFurtherInteraction(Phake_IMock $mock)
     {
         $mockFreezer = new Phake_Mock_Freezer();
-
+        
         foreach (func_get_args() as $mock) {
             $mockFreezer->freeze(Phake::getInfo($mock), self::getClient());
             $mockFreezer->freeze(Phake::getInfo(get_class($mock)), self::getClient());
@@ -272,7 +269,7 @@ class Phake
             $callRecorder = Phake::getInfo($mock)->getCallRecorder();
             $verifier = new Phake_CallRecorder_Verifier($callRecorder, $mock);
             self::getClient()->processVerifierResult($verifier->verifyNoCalls());
-
+            
             $sCallRecorder = Phake::getInfo(get_class($mock))->getCallRecorder();
             $sVerifier = new Phake_CallRecorder_Verifier($sCallRecorder, get_class($mock));
             self::getClient()->processVerifierResult($sVerifier->verifyNoCalls());
@@ -290,7 +287,7 @@ class Phake
         $callRecorder = Phake::getInfo($mock)->getCallRecorder();
         $verifier = new Phake_CallRecorder_Verifier($callRecorder, $mock);
         self::getClient()->processVerifierResult($verifier->verifyNoOtherCalls());
-
+        
         $sCallRecorder = Phake::getInfo(get_class($mock))->getCallRecorder();
         $sVerifier = new Phake_CallRecorder_Verifier($sCallRecorder, get_class($mock));
         self::getClient()->processVerifierResult($sVerifier->verifyNoOtherCalls());
@@ -343,28 +340,30 @@ class Phake
     /**
      * Returns a new stubber specifically for the __call() method
      *
-     * @param mixed ... A vararg containing the expected arguments for this call
-     *
+     * @param
+     *            mixed ... A vararg containing the expected arguments for this call
+     *            
      * @return \Phake_Proxies_CallStubberProxy
      */
     public static function whenCallMethodWith()
     {
         $arguments = func_get_args();
-        $factory   = self::getMatchersFactory();
+        $factory = self::getMatchersFactory();
         return new Phake_Proxies_CallStubberProxy($factory->createMatcherChain($arguments), false);
     }
 
     /**
      * Returns a new stubber specifically for the __call() method
      *
-     * @param mixed ... A vararg containing the expected arguments for this call
-     *
+     * @param
+     *            mixed ... A vararg containing the expected arguments for this call
+     *            
      * @return \Phake_Proxies_CallStubberProxy
      */
     public static function whenStaticCallMethodWith()
     {
         $arguments = func_get_args();
-        $factory   = self::getMatchersFactory();
+        $factory = self::getMatchersFactory();
         return new Phake_Proxies_CallStubberProxy($factory->createMatcherChain($arguments), true);
     }
 
@@ -400,7 +399,9 @@ class Phake
     }
 
     /**
-     * Provides methods for creating answers. Used in the api as a fluent way to set default stubs.
+     * Provides methods for creating answers.
+     * Used in the api as a fluent way to set default stubs.
+     * 
      * @return Phake_Proxies_AnswerBinderProxy
      */
     public static function ifUnstubbed()
@@ -410,6 +411,7 @@ class Phake
     }
 
     /**
+     *
      * @param Phake_Facade $phake
      */
     public static function setPhake(Phake_Facade $phake)
@@ -426,11 +428,12 @@ class Phake
         if (empty(self::$phake)) {
             self::setPhake(self::createPhake());
         }
-
+        
         return self::$phake;
     }
 
     /**
+     *
      * @return Phake_Facade
      */
     public static function createPhake()
@@ -453,8 +456,9 @@ class Phake
     /**
      * Returns a capturing matcher that will set the value of a given argument to given variable.
      *
-     * @param mixed $value - Will be set to the value of the called argument.
-     *
+     * @param mixed $value
+     *            - Will be set to the value of the called argument.
+     *            
      * @return Phake_Matchers_ArgumentCaptor
      */
     public static function capture(&$value)
@@ -462,14 +466,14 @@ class Phake
         return new Phake_Matchers_ArgumentCaptor($value);
     }
 
-
     /**
      * Returns a capturing matcher that is bound to store ALL of its calls in the variable passed in.
      *
      * $value will initially be set to an empty array;
      *
-     * @param mixed $value - Will be set to the value of the called argument.
-     *
+     * @param mixed $value
+     *            - Will be set to the value of the called argument.
+     *            
      * @return Phake_Matchers_ArgumentCaptor
      */
     public static function captureAll(&$value)
@@ -480,13 +484,13 @@ class Phake
         return $captor;
     }
 
-
     /**
      * Returns a setter matcher that will set a reference parameter passed in as an argument to the
      * given value.
      *
-     * @param mixed $value - Will be written the reference parameter used by the calling method.
-     *
+     * @param mixed $value
+     *            - Will be written the reference parameter used by the calling method.
+     *            
      * @return Phake_Matchers_ReferenceSetter
      */
     public static function setReference($value)
@@ -503,11 +507,13 @@ class Phake
      */
     public static function times($count)
     {
-        return new Phake_CallRecorder_VerifierMode_Times((int)$count);
+        return new Phake_CallRecorder_VerifierMode_Times((int) $count);
     }
 
     /**
-     * Allows verifying that there were no invocations. Alias of <code>times(0)</code>.
+     * Allows verifying that there were no invocations.
+     * Alias of <code>times(0)</code>.
+     * 
      * @return Phake_CallRecorder_IVerifierMode
      */
     public static function never()
@@ -524,7 +530,7 @@ class Phake
      */
     public static function atLeast($count)
     {
-        return new Phake_CallRecorder_VerifierMode_AtLeast((int)$count);
+        return new Phake_CallRecorder_VerifierMode_AtLeast((int) $count);
     }
 
     /**
@@ -536,7 +542,7 @@ class Phake
      */
     public static function atMost($count)
     {
-        return new Phake_CallRecorder_VerifierMode_AtMost((int)$count);
+        return new Phake_CallRecorder_VerifierMode_AtMost((int) $count);
     }
 
     /**
@@ -566,7 +572,7 @@ class Phake
      */
     public static function getClient()
     {
-        if (!isset(self::$client)) {
+        if (! isset(self::$client)) {
             if (class_exists('PHPUnit_Framework_TestCase')) {
                 return self::$client = new Phake_Client_PHPUnit();
             }
@@ -623,20 +629,17 @@ class Phake
      */
     public static function assertValidMock($mock)
     {
-        if ($mock instanceof Phake_IMock)
-        {
+        if ($mock instanceof Phake_IMock) {
             return;
         }
-
-        if (is_string($mock) && class_exists($mock, false))
-        {
+        
+        if (is_string($mock) && class_exists($mock, false)) {
             $reflClass = new ReflectionClass($mock);
-            if ($reflClass->implementsInterface('Phake_IMock'))
-            {
+            if ($reflClass->implementsInterface('Phake_IMock')) {
                 return;
             }
         }
-
+        
         throw new InvalidArgumentException("Received '" . (is_object($mock) ? get_class($mock) : $mock) . "' Expected an instance of Phake_IMock or the name of a class that implements Phake_IMock");
     }
 
@@ -665,12 +668,9 @@ class Phake
     public static function getInfo($mock)
     {
         static::assertValidMock($mock);
-        if ($mock instanceof Phake_IMock)
-        {
+        if ($mock instanceof Phake_IMock) {
             return isset($mock->__PHAKE_info) ? $mock->__PHAKE_info : null;
-        }
-        else
-        {
+        } else {
             return $mock::$__PHAKE_staticInfo;
         }
     }

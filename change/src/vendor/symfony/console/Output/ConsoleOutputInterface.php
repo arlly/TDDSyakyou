@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Console\Output;
 
 /**
@@ -19,6 +18,7 @@ namespace Symfony\Component\Console\Output;
  */
 interface ConsoleOutputInterface extends OutputInterface
 {
+
     /**
      * Gets the OutputInterface for errors.
      *

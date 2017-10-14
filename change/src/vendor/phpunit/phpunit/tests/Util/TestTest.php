@@ -7,13 +7,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-if (!defined('TEST_FILES_PATH')) {
-    define(
-        'TEST_FILES_PATH',
-        dirname(__DIR__) . DIRECTORY_SEPARATOR .
-        '_files' . DIRECTORY_SEPARATOR
-    );
+if (! defined('TEST_FILES_PATH')) {
+    define('TEST_FILES_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR);
 }
 
 require TEST_FILES_PATH . 'CoverageNamespacedFunctionTest.php';
@@ -22,8 +17,10 @@ require TEST_FILES_PATH . 'MultipleDataProviderTest.php';
 
 class Util_TestTest extends PHPUnit_Framework_TestCase
 {
+
     /**
-     * @todo   Split up in separate tests
+     *
+     * @todo Split up in separate tests
      */
     public function testGetExpectedException()
     {
@@ -117,10 +114,7 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
      */
     public function testGetRequirements($test, $result)
     {
-        $this->assertEquals(
-            $result,
-            PHPUnit_Util_Test::getRequirements('RequirementsTest', $test)
-        );
+        $this->assertEquals($result, PHPUnit_Util_Test::getRequirements('RequirementsTest', $test));
     }
 
     public function requirementsProvider()
@@ -329,11 +323,8 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
               'testExtMethod',
             ]
         ];
-
-        $this->assertEquals(
-            $expectedAnnotations,
-            PHPUnit_Util_Test::getRequirements('RequirementsClassDocBlockTest', 'testMethod')
-        );
+        
+        $this->assertEquals($expectedAnnotations, PHPUnit_Util_Test::getRequirements('RequirementsClassDocBlockTest', 'testMethod'));
     }
 
     /**
@@ -341,10 +332,7 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
      */
     public function testGetMissingRequirements($test, $result)
     {
-        $this->assertEquals(
-            $result,
-            PHPUnit_Util_Test::getMissingRequirements('RequirementsTest', $test)
-        );
+        $this->assertEquals($result, PHPUnit_Util_Test::getMissingRequirements('RequirementsTest', $test));
     }
 
     public function missingRequirementsProvider()
@@ -391,26 +379,27 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @todo   This test does not really test functionality of PHPUnit_Util_Test
+     *
+     * @todo This test does not really test functionality of PHPUnit_Util_Test
      */
     public function testGetProvidedDataRegEx()
     {
         $result = preg_match(PHPUnit_Util_Test::REGEX_DATA_PROVIDER, '@dataProvider method', $matches);
         $this->assertEquals(1, $result);
         $this->assertEquals('method', $matches[1]);
-
+        
         $result = preg_match(PHPUnit_Util_Test::REGEX_DATA_PROVIDER, '@dataProvider class::method', $matches);
         $this->assertEquals(1, $result);
         $this->assertEquals('class::method', $matches[1]);
-
+        
         $result = preg_match(PHPUnit_Util_Test::REGEX_DATA_PROVIDER, '@dataProvider namespace\class::method', $matches);
         $this->assertEquals(1, $result);
         $this->assertEquals('namespace\class::method', $matches[1]);
-
+        
         $result = preg_match(PHPUnit_Util_Test::REGEX_DATA_PROVIDER, '@dataProvider namespace\namespace\class::method', $matches);
         $this->assertEquals(1, $result);
         $this->assertEquals('namespace\namespace\class::method', $matches[1]);
-
+        
         $result = preg_match(PHPUnit_Util_Test::REGEX_DATA_PROVIDER, '@dataProvider メソッド', $matches);
         $this->assertEquals(1, $result);
         $this->assertEquals('メソッド', $matches[1]);
@@ -422,19 +411,19 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
     public function testMultipleDataProviders()
     {
         $dataSets = PHPUnit_Util_Test::getProvidedData('MultipleDataProviderTest', 'testOne');
-
+        
         $this->assertCount(9, $dataSets);
-
+        
         $aCount = 0;
         $bCount = 0;
         $cCount = 0;
-
-        for ($i = 0; $i < 9; $i++) {
+        
+        for ($i = 0; $i < 9; $i ++) {
             $aCount += $dataSets[$i][0] != null ? 1 : 0;
             $bCount += $dataSets[$i][1] != null ? 1 : 0;
             $cCount += $dataSets[$i][2] != null ? 1 : 0;
         }
-
+        
         $this->assertEquals(3, $aCount);
         $this->assertEquals(3, $bCount);
         $this->assertEquals(3, $cCount);
@@ -446,19 +435,19 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
     public function testMultipleYieldIteratorDataProviders()
     {
         $dataSets = PHPUnit_Util_Test::getProvidedData('MultipleDataProviderTest', 'testTwo');
-
+        
         $this->assertEquals(9, count($dataSets));
-
+        
         $aCount = 0;
         $bCount = 0;
         $cCount = 0;
-
-        for ($i = 0; $i < 9; $i++) {
+        
+        for ($i = 0; $i < 9; $i ++) {
             $aCount += $dataSets[$i][0] != null ? 1 : 0;
             $bCount += $dataSets[$i][1] != null ? 1 : 0;
             $cCount += $dataSets[$i][2] != null ? 1 : 0;
         }
-
+        
         $this->assertEquals(3, $aCount);
         $this->assertEquals(3, $bCount);
         $this->assertEquals(3, $cCount);
@@ -529,7 +518,7 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
     {
         $this->expectException(PHPUnit_Framework_Exception::class);
         $this->expectExceptionMessageRegExp('/^The dataset for the @testWith annotation cannot be parsed:/');
-
+        
         PHPUnit_Util_Test::getDataFromTestWithAnnotation('/**
                                                            * @testWith [s]
                                                            */');
@@ -539,7 +528,7 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
     {
         $this->expectException(PHPUnit_Framework_Exception::class);
         $this->expectExceptionMessageRegExp('/^The dataset for the @testWith annotation cannot be parsed:/');
-
+        
         PHPUnit_Util_Test::getDataFromTestWithAnnotation('/**
                                                            * @testWith ["valid"]
                                                            *           [invalid]
@@ -547,7 +536,8 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @todo   Not sure what this test tests (name is misleading at least)
+     *
+     * @todo Not sure what this test tests (name is misleading at least)
      */
     public function testParseAnnotation()
     {
@@ -561,11 +551,10 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
      * @depends Foo
      * @depends ほげ
      *
-     * @todo    Remove fixture from test class
+     * @todo Remove fixture from test class
      */
     public function methodForTestParseAnnotation()
-    {
-    }
+    {}
 
     public function testParseAnnotationThatIsOnlyOneLine()
     {
@@ -575,7 +564,9 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /** @depends Bar */
+    /**
+     * @depends Bar
+     */
     public function methodForTestParseAnnotationThatIsOnlyOneLine()
     {
         // TODO Remove fixture from test class
@@ -601,13 +592,8 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
         } else {
             $expected = [TEST_FILES_PATH . 'CoveredClass.php' => $lines];
         }
-
-        $this->assertEquals(
-            $expected,
-            PHPUnit_Util_Test::getLinesToBeCovered(
-                $test, 'testSomething'
-            )
-        );
+        
+        $this->assertEquals($expected, PHPUnit_Util_Test::getLinesToBeCovered($test, 'testSomething'));
     }
 
     /**
@@ -615,9 +601,7 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLinesToBeCovered2()
     {
-        PHPUnit_Util_Test::getLinesToBeCovered(
-            'NotExistingCoveredElementTest', 'testOne'
-        );
+        PHPUnit_Util_Test::getLinesToBeCovered('NotExistingCoveredElementTest', 'testOne');
     }
 
     /**
@@ -625,9 +609,7 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLinesToBeCovered3()
     {
-        PHPUnit_Util_Test::getLinesToBeCovered(
-            'NotExistingCoveredElementTest', 'testTwo'
-        );
+        PHPUnit_Util_Test::getLinesToBeCovered('NotExistingCoveredElementTest', 'testTwo');
     }
 
     /**
@@ -635,9 +617,7 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLinesToBeCovered4()
     {
-        PHPUnit_Util_Test::getLinesToBeCovered(
-            'NotExistingCoveredElementTest', 'testThree'
-        );
+        PHPUnit_Util_Test::getLinesToBeCovered('NotExistingCoveredElementTest', 'testThree');
     }
 
     public function testGetLinesToBeCoveredSkipsNonExistentMethods()
@@ -656,10 +636,7 @@ class Util_TestTest extends PHPUnit_Framework_TestCase
      */
     public function testTwoCoversDefaultClassAnnoationsAreNotAllowed()
     {
-        PHPUnit_Util_Test::getLinesToBeCovered(
-            'CoverageTwoDefaultClassAnnotations',
-            'testSomething'
-        );
+        PHPUnit_Util_Test::getLinesToBeCovered('CoverageTwoDefaultClassAnnotations', 'testSomething');
     }
 
     public function testFunctionParenthesesAreAllowed()

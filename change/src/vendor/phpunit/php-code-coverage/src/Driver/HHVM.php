@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace SebastianBergmann\CodeCoverage\Driver;
 
 /**
@@ -17,6 +16,7 @@ namespace SebastianBergmann\CodeCoverage\Driver;
  */
 class HHVM extends Xdebug
 {
+
     /**
      * Start collection of code coverage information.
      *

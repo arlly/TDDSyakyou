@@ -4,9 +4,9 @@ trait AbstractTrait
     abstract public function doSomething();
 
     public function mockableMethod()
-    {
-        return true;
-    }
+{
+    return true;
+}
 
     public function anotherMockableMethod()
     {

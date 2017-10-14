@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Debug;
 
 use Symfony\Component\Debug\Exception\FlattenException;
@@ -28,11 +27,17 @@ use Symfony\Component\Debug\Exception\OutOfMemoryException;
  */
 class ExceptionHandler
 {
+
     private $debug;
+
     private $charset;
+
     private $handler;
+
     private $caughtBuffer;
+
     private $caughtLength;
+
     private $fileLinkFormat;
 
     public function __construct($debug = true, $charset = null, $fileLinkFormat = null)
@@ -45,52 +50,63 @@ class ExceptionHandler
     /**
      * Registers the exception handler.
      *
-     * @param bool        $debug          Enable/disable debug mode, where the stack trace is displayed
-     * @param string|null $charset        The charset used by exception messages
-     * @param string|null $fileLinkFormat The IDE link template
-     *
+     * @param bool $debug
+     *            Enable/disable debug mode, where the stack trace is displayed
+     * @param string|null $charset
+     *            The charset used by exception messages
+     * @param string|null $fileLinkFormat
+     *            The IDE link template
+     *            
      * @return ExceptionHandler The registered exception handler
      */
     public static function register($debug = true, $charset = null, $fileLinkFormat = null)
     {
         $handler = new static($debug, $charset, $fileLinkFormat);
-
-        $prev = set_exception_handler(array($handler, 'handle'));
+        
+        $prev = set_exception_handler(array(
+            $handler,
+            'handle'
+        ));
         if (is_array($prev) && $prev[0] instanceof ErrorHandler) {
             restore_exception_handler();
-            $prev[0]->setExceptionHandler(array($handler, 'handle'));
+            $prev[0]->setExceptionHandler(array(
+                $handler,
+                'handle'
+            ));
         }
-
+        
         return $handler;
     }
 
     /**
      * Sets a user exception handler.
      *
-     * @param callable $handler An handler that will be called on Exception
-     *
+     * @param callable $handler
+     *            An handler that will be called on Exception
+     *            
      * @return callable|null The previous exception handler if any
      */
     public function setHandler(callable $handler = null)
     {
         $old = $this->handler;
         $this->handler = $handler;
-
+        
         return $old;
     }
 
     /**
      * Sets the format for links to source files.
      *
-     * @param string $format The format for links to source files
-     *
+     * @param string $format
+     *            The format for links to source files
+     *            
      * @return string The previous file link format
      */
     public function setFileLinkFormat($format)
     {
         $old = $this->fileLinkFormat;
         $this->fileLinkFormat = $format;
-
+        
         return $old;
     }
 
@@ -106,18 +122,18 @@ class ExceptionHandler
     {
         if (null === $this->handler || $exception instanceof OutOfMemoryException) {
             $this->sendPhpResponse($exception);
-
+            
             return;
         }
-
+        
         $caughtLength = $this->caughtLength = 0;
-
+        
         ob_start(function ($buffer) {
             $this->caughtBuffer = $buffer;
-
+            
             return '';
         });
-
+        
         $this->sendPhpResponse($exception);
         while (null === $this->caughtBuffer && ob_end_flush()) {
             // Empty loop, everything is in the condition
@@ -131,20 +147,20 @@ class ExceptionHandler
                         $buffer = $cleanBuffer;
                     }
                 }
-
+                
                 return $buffer;
             });
-
+            
             echo $this->caughtBuffer;
             $caughtLength = ob_get_length();
         }
         $this->caughtBuffer = null;
-
+        
         try {
             call_user_func($this->handler, $exception);
             $this->caughtLength = $caughtLength;
         } catch (\Exception $e) {
-            if (!$caughtLength) {
+            if (! $caughtLength) {
                 // All handlers failed. Let PHP handle that now.
                 throw $exception;
             }
@@ -157,46 +173,49 @@ class ExceptionHandler
      * This method uses plain PHP functions like header() and echo to output
      * the response.
      *
-     * @param \Exception|FlattenException $exception An \Exception or FlattenException instance
+     * @param \Exception|FlattenException $exception
+     *            An \Exception or FlattenException instance
      */
     public function sendPhpResponse($exception)
     {
-        if (!$exception instanceof FlattenException) {
+        if (! $exception instanceof FlattenException) {
             $exception = FlattenException::create($exception);
         }
-
-        if (!headers_sent()) {
+        
+        if (! headers_sent()) {
             header(sprintf('HTTP/1.0 %s', $exception->getStatusCode()));
             foreach ($exception->getHeaders() as $name => $value) {
-                header($name.': '.$value, false);
+                header($name . ': ' . $value, false);
             }
-            header('Content-Type: text/html; charset='.$this->charset);
+            header('Content-Type: text/html; charset=' . $this->charset);
         }
-
+        
         echo $this->decorate($this->getContent($exception), $this->getStylesheet($exception));
     }
 
     /**
      * Gets the full HTML content associated with the given exception.
      *
-     * @param \Exception|FlattenException $exception An \Exception or FlattenException instance
-     *
+     * @param \Exception|FlattenException $exception
+     *            An \Exception or FlattenException instance
+     *            
      * @return string The HTML content as a string
      */
     public function getHtml($exception)
     {
-        if (!$exception instanceof FlattenException) {
+        if (! $exception instanceof FlattenException) {
             $exception = FlattenException::create($exception);
         }
-
+        
         return $this->decorate($this->getContent($exception), $this->getStylesheet($exception));
     }
 
     /**
      * Gets the HTML content associated with the given exception.
      *
-     * @param FlattenException $exception A FlattenException instance
-     *
+     * @param FlattenException $exception
+     *            A FlattenException instance
+     *            
      * @return string The content as a string
      */
     public function getContent(FlattenException $exception)
@@ -208,7 +227,7 @@ class ExceptionHandler
             default:
                 $title = 'Whoops, looks like something went wrong.';
         }
-
+        
         $content = '';
         if ($this->debug) {
             try {
@@ -228,7 +247,7 @@ class ExceptionHandler
                             <ol class="traces list_exception">
 
 EOF
-                        , $ind, $total, $class, $this->formatPath($e['trace'][0]['file'], $e['trace'][0]['line']), $message);
+, $ind, $total, $class, $this->formatPath($e['trace'][0]['file'], $e['trace'][0]['line']), $message);
                     foreach ($e['trace'] as $trace) {
                         $content .= '       <li>';
                         if ($trace['function']) {
@@ -239,7 +258,7 @@ EOF
                         }
                         $content .= "</li>\n";
                     }
-
+                    
                     $content .= "    </ol>\n</div>\n";
                 }
             } catch (\Exception $e) {
@@ -251,7 +270,7 @@ EOF
                 }
             }
         }
-
+        
         return <<<EOF
             <div id="sf-resetcontent" class="sf-reset">
                 <h1>$title</h1>
@@ -263,8 +282,9 @@ EOF;
     /**
      * Gets the stylesheet associated with the given exception.
      *
-     * @param FlattenException $exception A FlattenException instance
-     *
+     * @param FlattenException $exception
+     *            A FlattenException instance
+     *            
      * @return string The stylesheet as a string
      */
     public function getStylesheet(FlattenException $exception)
@@ -353,7 +373,7 @@ EOF;
     private function formatClass($class)
     {
         $parts = explode('\\', $class);
-
+        
         return sprintf('<abbr title="%s">%s</abbr>', $class, array_pop($parts));
     }
 
@@ -361,21 +381,25 @@ EOF;
     {
         $path = $this->escapeHtml($path);
         $file = preg_match('#[^/\\\\]*$#', $path, $file) ? $file[0] : $path;
-
+        
         if ($linkFormat = $this->fileLinkFormat) {
-            $link = strtr($this->escapeHtml($linkFormat), array('%f' => $path, '%l' => (int) $line));
-
+            $link = strtr($this->escapeHtml($linkFormat), array(
+                '%f' => $path,
+                '%l' => (int) $line
+            ));
+            
             return sprintf(' in <a href="%s" title="Go to source">%s line %d</a>', $link, $file, $line);
         }
-
+        
         return sprintf(' in <a title="%s line %3$d" ondblclick="var f=this.innerHTML;this.innerHTML=this.title;this.title=f;">%s line %d</a>', $path, $file, $line);
     }
 
     /**
      * Formats an array as a string.
      *
-     * @param array $args The argument array
-     *
+     * @param array $args
+     *            The argument array
+     *            
      * @return string
      */
     private function formatArgs(array $args)
@@ -391,16 +415,16 @@ EOF;
             } elseif ('null' === $item[0]) {
                 $formattedValue = '<em>null</em>';
             } elseif ('boolean' === $item[0]) {
-                $formattedValue = '<em>'.strtolower(var_export($item[1], true)).'</em>';
+                $formattedValue = '<em>' . strtolower(var_export($item[1], true)) . '</em>';
             } elseif ('resource' === $item[0]) {
                 $formattedValue = '<em>resource</em>';
             } else {
                 $formattedValue = str_replace("\n", '', var_export($this->escapeHtml((string) $item[1]), true));
             }
-
+            
             $result[] = is_int($key) ? $formattedValue : sprintf("'%s' => %s", $key, $formattedValue);
         }
-
+        
         return implode(', ', $result);
     }
 

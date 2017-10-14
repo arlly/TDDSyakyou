@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 use SebastianBergmann\Comparator\ComparisonFailure;
 
 /**
@@ -299,19 +298,19 @@ class PHPUnit_Util_Log_TeamCity extends PHPUnit_TextUI_ResultPrinter
      */
     private function printEvent($eventName, $params = [])
     {
-        $this->write("\n##teamcity[$eventName");
-
-        if ($this->flowId) {
-            $params['flowId'] = $this->flowId;
-        }
-
-        foreach ($params as $key => $value) {
-            $escapedValue = self::escapeValue($value);
-            $this->write(" $key='$escapedValue'");
-        }
-
-        $this->write("]\n");
+    $this->write("\n##teamcity[$eventName");
+    
+    if ($this->flowId) {
+        $params['flowId'] = $this->flowId;
     }
+    
+    foreach ($params as $key => $value) {
+        $escapedValue = self::escapeValue($value);
+        $this->write(" $key='$escapedValue'");
+    }
+    
+    $this->write("]\n");
+}
 
     /**
      * @param Exception $e

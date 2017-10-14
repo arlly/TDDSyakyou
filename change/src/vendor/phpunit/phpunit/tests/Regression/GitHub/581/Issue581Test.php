@@ -1,6 +1,8 @@
 <?php
+
 class Issue581Test extends PHPUnit_Framework_TestCase
 {
+
     public function testExportingObjectsDoesNotBreakWindowsLineFeeds()
     {
         $this->assertEquals(

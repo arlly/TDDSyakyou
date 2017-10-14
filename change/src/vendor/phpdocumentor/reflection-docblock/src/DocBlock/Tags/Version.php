@@ -9,7 +9,6 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-
 namespace phpDocumentor\Reflection\DocBlock\Tags;
 
 use phpDocumentor\Reflection\Types\Context as TypeContext;
@@ -22,6 +21,7 @@ use Webmozart\Assert\Assert;
  */
 final class Version extends BaseTag implements Factory\StaticMethod
 {
+
     protected $name = 'version';
 
     /**
@@ -46,12 +46,13 @@ final class Version extends BaseTag implements Factory\StaticMethod
     public function __construct($version = null, Description $description = null)
     {
         Assert::nullOrStringNotEmpty($version);
-
+        
         $this->version = $version;
         $this->description = $description;
     }
 
     /**
+     *
      * @return static
      */
     public static function create($body, DescriptionFactory $descriptionFactory = null, TypeContext $context = null)
@@ -62,14 +63,11 @@ final class Version extends BaseTag implements Factory\StaticMethod
         }
 
         $matches = [];
-        if (!preg_match('/^(' . self::REGEX_VECTOR . ')\s*(.+)?$/sux', $body, $matches)) {
+        if (! preg_match('/^(' . self::REGEX_VECTOR . ')\s*(.+)?$/sux', $body, $matches)) {
             return null;
         }
-
-        return new static(
-            $matches[1],
-            $descriptionFactory->create(isset($matches[2]) ? $matches[2] : '', $context)
-        );
+        
+        return new static($matches[1], $descriptionFactory->create(isset($matches[2]) ? $matches[2] : '', $context));
     }
 
     /**

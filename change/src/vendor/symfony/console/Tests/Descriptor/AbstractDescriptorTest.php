@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Console\Tests\Descriptor;
 
 use PHPUnit\Framework\TestCase;
@@ -21,31 +20,42 @@ use Symfony\Component\Console\Output\BufferedOutput;
 
 abstract class AbstractDescriptorTest extends TestCase
 {
-    /** @dataProvider getDescribeInputArgumentTestData */
+
+    /**
+     * @dataProvider getDescribeInputArgumentTestData
+     */
     public function testDescribeInputArgument(InputArgument $argument, $expectedDescription)
     {
         $this->assertDescription($expectedDescription, $argument);
     }
 
-    /** @dataProvider getDescribeInputOptionTestData */
+    /**
+     * @dataProvider getDescribeInputOptionTestData
+     */
     public function testDescribeInputOption(InputOption $option, $expectedDescription)
     {
         $this->assertDescription($expectedDescription, $option);
     }
 
-    /** @dataProvider getDescribeInputDefinitionTestData */
+    /**
+     * @dataProvider getDescribeInputDefinitionTestData
+     */
     public function testDescribeInputDefinition(InputDefinition $definition, $expectedDescription)
     {
         $this->assertDescription($expectedDescription, $definition);
     }
 
-    /** @dataProvider getDescribeCommandTestData */
+    /**
+     * @dataProvider getDescribeCommandTestData
+     */
     public function testDescribeCommand(Command $command, $expectedDescription)
     {
         $this->assertDescription($expectedDescription, $command);
     }
 
-    /** @dataProvider getDescribeApplicationTestData */
+    /**
+     * @dataProvider getDescribeApplicationTestData
+     */
     public function testDescribeApplication(Application $application, $expectedDescription)
     {
         // Replaces the dynamic placeholders of the command help text with a static version.
@@ -54,7 +64,7 @@ abstract class AbstractDescriptorTest extends TestCase
         foreach ($application->all() as $command) {
             $command->setHelp(str_replace('%command.full_name%', 'app/console %command.name%', $command->getHelp()));
         }
-
+        
         $this->assertDescription($expectedDescription, $application);
     }
 
@@ -92,16 +102,21 @@ abstract class AbstractDescriptorTest extends TestCase
         $data = array();
         foreach ($objects as $name => $object) {
             $description = file_get_contents(sprintf('%s/../Fixtures/%s.%s', __DIR__, $name, $this->getFormat()));
-            $data[] = array($object, $description);
+            $data[] = array(
+                $object,
+                $description
+            );
         }
-
+        
         return $data;
     }
 
     protected function assertDescription($expectedDescription, $describedObject)
     {
         $output = new BufferedOutput(BufferedOutput::VERBOSITY_NORMAL, true);
-        $this->getDescriptor()->describe($output, $describedObject, array('raw_output' => true));
+        $this->getDescriptor()->describe($output, $describedObject, array(
+            'raw_output' => true
+        ));
         $this->assertEquals(trim($expectedDescription), trim(str_replace(PHP_EOL, "\n", $output->fetch())));
     }
 }

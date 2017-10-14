@@ -23,24 +23,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace Pimple;
 
 /**
  * Pimple service provider interface.
  *
- * @author  Fabien Potencier
- * @author  Dominik Zogg
+ * @author Fabien Potencier
+ * @author Dominik Zogg
  */
 interface ServiceProviderInterface
 {
+
     /**
      * Registers services on the given container.
      *
      * This method should only be used to configure services and parameters.
      * It should not get services.
      *
-     * @param Container $pimple A container instance
+     * @param Container $pimple
+     *            A container instance
      */
     public function register(Container $pimple);
 }

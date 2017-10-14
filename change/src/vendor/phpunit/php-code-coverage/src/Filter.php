@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace SebastianBergmann\CodeCoverage;
 
 /**
@@ -29,15 +28,16 @@ class Filter
      * @param string $suffix
      * @param string $prefix
      */
-    public function addDirectoryToWhitelist($directory, $suffix = '.php', $prefix = '')
-    {
-        $facade = new \File_Iterator_Facade;
-        $files  = $facade->getFilesAsArray($directory, $suffix, $prefix);
-
-        foreach ($files as $file) {
-            $this->addFileToWhitelist($file);
-        }
+    public 
+function addDirectoryToWhitelist($directory, $suffix = '.php', $prefix = '')
+{
+    $facade = new \File_Iterator_Facade();
+    $files = $facade->getFilesAsArray($directory, $suffix, $prefix);
+    
+    foreach ($files as $file) {
+        $this->addFileToWhitelist($file);
     }
+}
 
     /**
      * Adds a file to the whitelist.

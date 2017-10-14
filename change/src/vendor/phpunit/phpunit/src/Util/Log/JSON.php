@@ -219,11 +219,11 @@ class PHPUnit_Util_Log_JSON extends PHPUnit_Util_Printer implements PHPUnit_Fram
      */
     protected function writeCase($status, $time, array $trace = [], $message = '', $test = null)
     {
-        $output = '';
-        // take care of TestSuite producing error (e.g. by running into exception) as TestSuite doesn't have hasOutput
-        if ($test !== null && method_exists($test, 'hasOutput') && $test->hasOutput()) {
-            $output = $test->getActualOutput();
-        }
+    $output = '';
+    // take care of TestSuite producing error (e.g. by running into exception) as TestSuite doesn't have hasOutput
+    if ($test !== null && method_exists($test, 'hasOutput') && $test->hasOutput()) {
+        $output = $test->getActualOutput();
+    }
         $this->write(
             [
             'event'   => 'test',
@@ -248,7 +248,7 @@ class PHPUnit_Util_Log_JSON extends PHPUnit_Util_Printer implements PHPUnit_Fram
                 $input = PHPUnit_Util_String::convertToUtf8($input);
             }
         });
-
+        
         parent::write(json_encode($buffer, JSON_PRETTY_PRINT));
     }
 }

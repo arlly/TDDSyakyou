@@ -24,13 +24,13 @@ class PHP_Token_Stream_CachingFactory
      * @return PHP_Token_Stream
      */
     public static function get($filename)
-    {
-        if (!isset(self::$cache[$filename])) {
-            self::$cache[$filename] = new PHP_Token_Stream($filename);
-        }
-
-        return self::$cache[$filename];
+{
+    if (! isset(self::$cache[$filename])) {
+        self::$cache[$filename] = new PHP_Token_Stream($filename);
     }
+    
+    return self::$cache[$filename];
+}
 
     /**
      * @param string $filename

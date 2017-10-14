@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace SebastianBergmann\CodeUnitReverseLookup;
 
 use PHPUnit\Framework\TestCase;
@@ -17,29 +16,25 @@ use PHPUnit\Framework\TestCase;
  */
 class WizardTest extends TestCase
 {
+
     /**
+     *
      * @var Wizard
      */
     private $wizard;
 
     protected function setUp()
     {
-        $this->wizard = new Wizard;
+        $this->wizard = new Wizard();
     }
 
     public function testMethodCanBeLookedUp()
     {
-        $this->assertEquals(
-            __METHOD__,
-            $this->wizard->lookup(__FILE__, __LINE__)
-        );
+        $this->assertEquals(__METHOD__, $this->wizard->lookup(__FILE__, __LINE__));
     }
 
     public function testReturnsFilenameAndLineNumberAsStringWhenNotInCodeUnit()
     {
-        $this->assertEquals(
-            'file.php:1',
-            $this->wizard->lookup('file.php', 1)
-        );
+        $this->assertEquals('file.php:1', $this->wizard->lookup('file.php', 1));
     }
 }

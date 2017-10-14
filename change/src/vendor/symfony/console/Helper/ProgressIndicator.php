@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Console\Helper;
 
 use Symfony\Component\Console\Exception\InvalidArgumentException;
@@ -16,47 +15,67 @@ use Symfony\Component\Console\Exception\LogicException;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
+ *
  * @author Kevin Bond <kevinbond@gmail.com>
  */
 class ProgressIndicator
 {
+
     private $output;
+
     private $startTime;
+
     private $format;
+
     private $message;
+
     private $indicatorValues;
+
     private $indicatorCurrent;
+
     private $indicatorChangeInterval;
+
     private $indicatorUpdateTime;
+
     private $started = false;
 
     private static $formatters;
+
     private static $formats;
 
     /**
+     *
      * @param OutputInterface $output
-     * @param string|null     $format                  Indicator format
-     * @param int             $indicatorChangeInterval Change interval in milliseconds
-     * @param array|null      $indicatorValues         Animated indicator characters
+     * @param string|null $format
+     *            Indicator format
+     * @param int $indicatorChangeInterval
+     *            Change interval in milliseconds
+     * @param array|null $indicatorValues
+     *            Animated indicator characters
      */
     public function __construct(OutputInterface $output, $format = null, $indicatorChangeInterval = 100, $indicatorValues = null)
     {
         $this->output = $output;
-
+        
         if (null === $format) {
             $format = $this->determineBestFormat();
         }
-
+        
         if (null === $indicatorValues) {
-            $indicatorValues = array('-', '\\', '|', '/');
+            $indicatorValues = array(
+                '-',
+                '\\',
+                '|',
+                '/'
+            );
         }
-
+        
         $indicatorValues = array_values($indicatorValues);
-
+        
         if (2 > count($indicatorValues)) {
             throw new InvalidArgumentException('Must have at least 2 indicator value characters.');
         }
-
+        
         $this->format = self::getFormatDefinition($format);
         $this->indicatorChangeInterval = $indicatorChangeInterval;
         $this->indicatorValues = $indicatorValues;
@@ -71,7 +90,7 @@ class ProgressIndicator
     public function setMessage($message)
     {
         $this->message = $message;
-
+        
         $this->display();
     }
 
@@ -91,7 +110,7 @@ class ProgressIndicator
      * Gets the progress bar start time.
      *
      * @return int The progress bar start time
-     *
+     *        
      * @internal for PHP 5.3 compatibility
      */
     public function getStartTime()
@@ -114,20 +133,21 @@ class ProgressIndicator
     /**
      * Starts the indicator output.
      *
-     * @param $message
+     * @param
+     *            $message
      */
     public function start($message)
     {
         if ($this->started) {
             throw new LogicException('Progress indicator already started.');
         }
-
+        
         $this->message = $message;
         $this->started = true;
         $this->startTime = time();
         $this->indicatorUpdateTime = $this->getCurrentTimeInMilliseconds() + $this->indicatorChangeInterval;
         $this->indicatorCurrent = 0;
-
+        
         $this->display();
     }
 
@@ -136,37 +156,38 @@ class ProgressIndicator
      */
     public function advance()
     {
-        if (!$this->started) {
+        if (! $this->started) {
             throw new LogicException('Progress indicator has not yet been started.');
         }
-
-        if (!$this->output->isDecorated()) {
+        
+        if (! $this->output->isDecorated()) {
             return;
         }
-
+        
         $currentTime = $this->getCurrentTimeInMilliseconds();
-
+        
         if ($currentTime < $this->indicatorUpdateTime) {
             return;
         }
-
+        
         $this->indicatorUpdateTime = $currentTime + $this->indicatorChangeInterval;
-        ++$this->indicatorCurrent;
-
+        ++ $this->indicatorCurrent;
+        
         $this->display();
     }
 
     /**
      * Finish the indicator with message.
      *
-     * @param $message
+     * @param
+     *            $message
      */
     public function finish($message)
     {
-        if (!$this->started) {
+        if (! $this->started) {
             throw new LogicException('Progress indicator has not yet been started.');
         }
-
+        
         $this->message = $message;
         $this->display();
         $this->output->writeln('');
@@ -176,16 +197,17 @@ class ProgressIndicator
     /**
      * Gets the format for a given name.
      *
-     * @param string $name The format name
-     *
+     * @param string $name
+     *            The format name
+     *            
      * @return string|null A format string
      */
     public static function getFormatDefinition($name)
     {
-        if (!self::$formats) {
+        if (! self::$formats) {
             self::$formats = self::initFormats();
         }
-
+        
         return isset(self::$formats[$name]) ? self::$formats[$name] : null;
     }
 
@@ -194,31 +216,34 @@ class ProgressIndicator
      *
      * This method also allow you to override an existing placeholder.
      *
-     * @param string   $name     The placeholder name (including the delimiter char like %)
-     * @param callable $callable A PHP callable
+     * @param string $name
+     *            The placeholder name (including the delimiter char like %)
+     * @param callable $callable
+     *            A PHP callable
      */
     public static function setPlaceholderFormatterDefinition($name, $callable)
     {
-        if (!self::$formatters) {
+        if (! self::$formatters) {
             self::$formatters = self::initPlaceholderFormatters();
         }
-
+        
         self::$formatters[$name] = $callable;
     }
 
     /**
      * Gets the placeholder formatter for a given name.
      *
-     * @param string $name The placeholder name (including the delimiter char like %)
-     *
+     * @param string $name
+     *            The placeholder name (including the delimiter char like %)
+     *            
      * @return callable|null A PHP callable
      */
     public static function getPlaceholderFormatterDefinition($name)
     {
-        if (!self::$formatters) {
+        if (! self::$formatters) {
             self::$formatters = self::initPlaceholderFormatters();
         }
-
+        
         return isset(self::$formatters[$name]) ? self::$formatters[$name] : null;
     }
 
@@ -227,14 +252,14 @@ class ProgressIndicator
         if (OutputInterface::VERBOSITY_QUIET === $this->output->getVerbosity()) {
             return;
         }
-
+        
         $self = $this;
-
+        
         $this->overwrite(preg_replace_callback("{%([a-z\-_]+)(?:\:([^%]+))?%}i", function ($matches) use ($self) {
             if ($formatter = $self::getPlaceholderFormatterDefinition($matches[1])) {
                 return call_user_func($formatter, $self);
             }
-
+            
             return $matches[0];
         }, $this->format));
     }
@@ -256,7 +281,8 @@ class ProgressIndicator
     /**
      * Overwrites a previous message to the output.
      *
-     * @param string $message The message
+     * @param string $message
+     *            The message
      */
     private function overwrite($message)
     {
@@ -287,7 +313,7 @@ class ProgressIndicator
             },
             'memory' => function () {
                 return Helper::formatMemory(memory_get_usage(true));
-            },
+            }
         );
     }
 
@@ -296,12 +322,12 @@ class ProgressIndicator
         return array(
             'normal' => ' %indicator% %message%',
             'normal_no_ansi' => ' %message%',
-
+            
             'verbose' => ' %indicator% %message% (%elapsed:6s%)',
             'verbose_no_ansi' => ' %message% (%elapsed:6s%)',
-
+            
             'very_verbose' => ' %indicator% %message% (%elapsed:6s%, %memory:6s%)',
-            'very_verbose_no_ansi' => ' %message% (%elapsed:6s%, %memory:6s%)',
+            'very_verbose_no_ansi' => ' %message% (%elapsed:6s%, %memory:6s%)'
         );
     }
 }

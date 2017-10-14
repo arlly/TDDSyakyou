@@ -7,12 +7,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 use PHPUnit\Framework\TestCase;
 
 class PHP_Token_IncludeTest extends TestCase
 {
+
     /**
+     *
      * @var PHP_Token_Stream
      */
     private $ts;

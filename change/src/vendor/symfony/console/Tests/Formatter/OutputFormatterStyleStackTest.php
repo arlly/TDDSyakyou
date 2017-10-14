@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Console\Tests\Formatter;
 
 use PHPUnit\Framework\TestCase;
@@ -17,16 +16,17 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
 class OutputFormatterStyleStackTest extends TestCase
 {
+
     public function testPush()
     {
         $stack = new OutputFormatterStyleStack();
         $stack->push($s1 = new OutputFormatterStyle('white', 'black'));
         $stack->push($s2 = new OutputFormatterStyle('yellow', 'blue'));
-
+        
         $this->assertEquals($s2, $stack->getCurrent());
-
+        
         $stack->push($s3 = new OutputFormatterStyle('green', 'red'));
-
+        
         $this->assertEquals($s3, $stack->getCurrent());
     }
 
@@ -35,7 +35,7 @@ class OutputFormatterStyleStackTest extends TestCase
         $stack = new OutputFormatterStyleStack();
         $stack->push($s1 = new OutputFormatterStyle('white', 'black'));
         $stack->push($s2 = new OutputFormatterStyle('yellow', 'blue'));
-
+        
         $this->assertEquals($s2, $stack->pop());
         $this->assertEquals($s1, $stack->pop());
     }
@@ -44,7 +44,7 @@ class OutputFormatterStyleStackTest extends TestCase
     {
         $stack = new OutputFormatterStyleStack();
         $style = new OutputFormatterStyle();
-
+        
         $this->assertEquals($style, $stack->pop());
     }
 
@@ -54,7 +54,7 @@ class OutputFormatterStyleStackTest extends TestCase
         $stack->push($s1 = new OutputFormatterStyle('white', 'black'));
         $stack->push($s2 = new OutputFormatterStyle('yellow', 'blue'));
         $stack->push($s3 = new OutputFormatterStyle('green', 'red'));
-
+        
         $this->assertEquals($s2, $stack->pop($s2));
         $this->assertEquals($s1, $stack->pop());
     }

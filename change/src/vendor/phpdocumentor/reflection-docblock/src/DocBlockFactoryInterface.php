@@ -19,5 +19,6 @@ interface DocBlockFactoryInterface
      *
      * @return DocBlock
      */
-    public function create($docblock, Types\Context $context = null, Location $location = null);
+    public 
+function create($docblock, Types\Context $context = null, Location $location = null);
 }

@@ -1,9 +1,9 @@
 <?php
-
 namespace Symfony\Component\Debug\Tests\Fixtures;
 
 class ToStringThrower
 {
+
     private $exception;
 
     public function __construct(\Exception $e)

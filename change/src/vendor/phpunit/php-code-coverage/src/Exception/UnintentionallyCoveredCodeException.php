@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace SebastianBergmann\CodeCoverage;
 
 /**
@@ -23,12 +22,13 @@ class UnintentionallyCoveredCodeException extends RuntimeException
     /**
      * @param array $unintentionallyCoveredUnits
      */
-    public function __construct(array $unintentionallyCoveredUnits)
-    {
-        $this->unintentionallyCoveredUnits = $unintentionallyCoveredUnits;
-
-        parent::__construct($this->toString());
-    }
+    public 
+function __construct(array $unintentionallyCoveredUnits)
+{
+    $this->unintentionallyCoveredUnits = $unintentionallyCoveredUnits;
+    
+    parent::__construct($this->toString());
+}
 
     /**
      * @return array

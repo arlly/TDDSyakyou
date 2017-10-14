@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace SebastianBergmann\Diff\LCS;
 
 /**
@@ -15,8 +14,9 @@ namespace SebastianBergmann\Diff\LCS;
  */
 class TimeEfficientImplementationTest extends LongestCommonSubsequenceTest
 {
+
     protected function createImplementation()
     {
-        return new TimeEfficientImplementation;
+        return new TimeEfficientImplementation();
     }
 }

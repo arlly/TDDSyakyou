@@ -1,5 +1,4 @@
 <?php
-
 namespace DeepCopy;
 
 use DeepCopy\Exception\CloneException;

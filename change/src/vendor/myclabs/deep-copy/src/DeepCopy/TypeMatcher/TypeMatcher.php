@@ -1,5 +1,4 @@
 <?php
-
 namespace DeepCopy\TypeMatcher;
 
 /**
@@ -7,12 +6,15 @@ namespace DeepCopy\TypeMatcher;
  */
 class TypeMatcher
 {
+
     /**
+     *
      * @var string
      */
     private $type;
 
     /**
+     *
      * @param string $type
      */
     public function __construct($type)
@@ -21,7 +23,9 @@ class TypeMatcher
     }
 
     /**
-     * @param $element
+     *
+     * @param
+     *            $element
      * @return boolean
      */
     public function matches($element)

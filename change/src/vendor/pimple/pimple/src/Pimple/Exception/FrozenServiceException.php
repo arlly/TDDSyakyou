@@ -23,7 +23,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace Pimple\Exception;
 
 use Psr\Container\ContainerExceptionInterface;
@@ -35,8 +34,11 @@ use Psr\Container\ContainerExceptionInterface;
  */
 class FrozenServiceException extends \RuntimeException implements ContainerExceptionInterface
 {
+
     /**
-     * @param string $id Identifier of the frozen service
+     *
+     * @param string $id
+     *            Identifier of the frozen service
      */
     public function __construct($id)
     {

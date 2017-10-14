@@ -1,16 +1,18 @@
 <?php
+
 class BowlingGameTest extends PHPUnit_Framework_TestCase
 {
+
     protected $game;
 
     protected function setUp()
     {
-        $this->game = new BowlingGame;
+        $this->game = new BowlingGame();
     }
 
     protected function rollMany($n, $pins)
     {
-        for ($i = 0; $i < $n; $i++) {
+        for ($i = 0; $i < $n; $i ++) {
             $this->game->roll($pins);
         }
     }

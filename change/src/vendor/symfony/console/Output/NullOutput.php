@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Console\Output;
 
 use Symfony\Component\Console\Formatter\OutputFormatter;
@@ -17,14 +16,16 @@ use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 /**
  * NullOutput suppresses all output.
  *
- *     $output = new NullOutput();
+ * $output = new NullOutput();
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Tobias Schultze <http://tobion.de>
  */
 class NullOutput implements OutputInterface
 {
+
     /**
+     *
      * {@inheritdoc}
      */
     public function setFormatter(OutputFormatterInterface $formatter)
@@ -33,6 +34,7 @@ class NullOutput implements OutputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function getFormatter()
@@ -42,6 +44,7 @@ class NullOutput implements OutputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function setDecorated($decorated)
@@ -50,6 +53,7 @@ class NullOutput implements OutputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function isDecorated()
@@ -58,6 +62,7 @@ class NullOutput implements OutputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function setVerbosity($level)
@@ -66,6 +71,7 @@ class NullOutput implements OutputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function getVerbosity()
@@ -74,6 +80,7 @@ class NullOutput implements OutputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function isQuiet()
@@ -82,6 +89,7 @@ class NullOutput implements OutputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function isVerbose()
@@ -90,6 +98,7 @@ class NullOutput implements OutputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function isVeryVerbose()
@@ -98,6 +107,7 @@ class NullOutput implements OutputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function isDebug()
@@ -106,6 +116,7 @@ class NullOutput implements OutputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function writeln($messages, $options = self::OUTPUT_NORMAL)
@@ -114,6 +125,7 @@ class NullOutput implements OutputInterface
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function write($messages, $newline = false, $options = self::OUTPUT_NORMAL)

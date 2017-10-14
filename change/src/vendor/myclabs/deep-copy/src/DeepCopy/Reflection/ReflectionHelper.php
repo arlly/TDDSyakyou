@@ -1,9 +1,9 @@
 <?php
-
 namespace DeepCopy\Reflection;
 
 class ReflectionHelper
 {
+
     /**
      * Retrieves all properties (including private ones), from object and all its ancestors.
      *
@@ -19,21 +19,21 @@ class ReflectionHelper
     {
         $props = $ref->getProperties();
         $propsArr = array();
-
+        
         foreach ($props as $prop) {
             $propertyName = $prop->getName();
             $propsArr[$propertyName] = $prop;
         }
-
+        
         if ($parentClass = $ref->getParentClass()) {
             $parentPropsArr = self::getProperties($parentClass);
             foreach ($propsArr as $key => $property) {
                 $parentPropsArr[$key] = $property;
             }
-
+            
             return $parentPropsArr;
         }
-
+        
         return $propsArr;
     }
 }

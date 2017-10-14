@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Console\Event;
 
 use Symfony\Component\Console\Command\Command;
@@ -22,6 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ConsoleTerminateEvent extends ConsoleEvent
 {
+
     /**
      * The exit code of the command.
      *
@@ -32,14 +32,15 @@ class ConsoleTerminateEvent extends ConsoleEvent
     public function __construct(Command $command, InputInterface $input, OutputInterface $output, $exitCode)
     {
         parent::__construct($command, $input, $output);
-
+        
         $this->setExitCode($exitCode);
     }
 
     /**
      * Sets the exit code.
      *
-     * @param int $exitCode The command exit code
+     * @param int $exitCode
+     *            The command exit code
      */
     public function setExitCode($exitCode)
     {

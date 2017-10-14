@@ -16,7 +16,6 @@
  * and is licensed under the MIT license. For more information, see
  * <http://www.doctrine-project.org>.
  */
-
 namespace DoctrineTest\InstantiatorTestAsset;
 
 use ArrayObject;
@@ -28,6 +27,7 @@ use ArrayObject;
  */
 class WakeUpNoticesAsset extends ArrayObject
 {
+
     /**
      * Wakeup method called after un-serialization
      */

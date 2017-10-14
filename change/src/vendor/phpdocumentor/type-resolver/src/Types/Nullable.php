@@ -9,17 +9,19 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-
 namespace phpDocumentor\Reflection\Types;
 
 use phpDocumentor\Reflection\Type;
 
 /**
- * Value Object representing a nullable type. The real type is wrapped.
+ * Value Object representing a nullable type.
+ * The real type is wrapped.
  */
 final class Nullable implements Type
 {
+
     /**
+     *
      * @var Type
      */
     private $realType;

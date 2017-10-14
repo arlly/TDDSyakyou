@@ -9,7 +9,6 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-
 namespace phpDocumentor\Reflection;
 
 use phpDocumentor\Reflection\Types\Array_;
@@ -63,9 +62,9 @@ final class TypeResolver
      * @param FqsenResolver $fqsenResolver
      */
     public function __construct(FqsenResolver $fqsenResolver = null)
-    {
-        $this->fqsenResolver = $fqsenResolver ?: new FqsenResolver();
-    }
+{
+    $this->fqsenResolver = $fqsenResolver ?: new FqsenResolver();
+}
 
     /**
      * Analyzes the given type and returns the FQCN variant.

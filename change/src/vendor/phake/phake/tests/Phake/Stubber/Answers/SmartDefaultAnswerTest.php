@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Phake - Mocking Framework
  *
@@ -9,17 +10,17 @@
  * modification, are permitted provided that the following conditions
  * are met:
  *
- *  *  Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ * * Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
  *
- *  *  Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in
- *     the documentation and/or other materials provided with the
- *     distribution.
+ * * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in
+ * the documentation and/or other materials provided with the
+ * distribution.
  *
- *  *  Neither the name of Mike Lively nor the names of his
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ * * Neither the name of Mike Lively nor the names of his
+ * contributors may be used to endorse or promote products derived
+ * from this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -34,12 +35,12 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @category   Testing
- * @package    Phake
- * @author     Mike Lively <m@digitalsandwich.com>
- * @copyright  2010 Mike Lively <m@digitalsandwich.com>
- * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @link       http://www.digitalsandwich.com/
+ * @category Testing
+ * @package Phake
+ * @author Mike Lively <m@digitalsandwich.com>
+ * @copyright 2010 Mike Lively <m@digitalsandwich.com>
+ * @license http://www.opensource.org/licenses/bsd-license.php BSD License
+ * @link http://www.digitalsandwich.com/
  */
 
 /**
@@ -47,7 +48,9 @@
  */
 class Phake_Stubber_Answers_SmartDefaultAnswerTest extends PHPUnit_Framework_TestCase
 {
+
     /**
+     *
      * @var Phake_Stubber_Answers_SmartDefaultAnswer
      */
     private $answer;
@@ -57,8 +60,7 @@ class Phake_Stubber_Answers_SmartDefaultAnswerTest extends PHPUnit_Framework_Tes
      */
     public function setUp()
     {
-        if (version_compare(phpversion(), '7.0.0RC1') < 0)
-        {
+        if (version_compare(phpversion(), '7.0.0RC1') < 0) {
             $this->markTestSkipped('Scalar type hints are not supported in PHP versions prior to 7.0');
         }
         $this->answer = new Phake_Stubber_Answers_SmartDefaultAnswer();
@@ -67,11 +69,26 @@ class Phake_Stubber_Answers_SmartDefaultAnswerTest extends PHPUnit_Framework_Tes
     public static function typeReturnMap()
     {
         return array(
-            'int' => array('intReturn', 0),
-            'float' => array('floatReturn', 0.0),
-            'string' => array('stringReturn', ''),
-            'boolean' => array('boolReturn', false),
-            'array' => array('arrayReturn', array()),
+            'int' => array(
+                'intReturn',
+                0
+            ),
+            'float' => array(
+                'floatReturn',
+                0.0
+            ),
+            'string' => array(
+                'stringReturn',
+                ''
+            ),
+            'boolean' => array(
+                'boolReturn',
+                false
+            ),
+            'array' => array(
+                'arrayReturn',
+                array()
+            )
         );
     }
 
@@ -82,7 +99,7 @@ class Phake_Stubber_Answers_SmartDefaultAnswerTest extends PHPUnit_Framework_Tes
     {
         $context = new PhakeTest_ScalarTypes();
         $cb = $this->answer->getAnswerCallback($context, $method);
-
+        
         $this->assertSame($expectedValue, $cb());
     }
 
@@ -90,7 +107,7 @@ class Phake_Stubber_Answers_SmartDefaultAnswerTest extends PHPUnit_Framework_Tes
     {
         $context = new PhakeTest_ScalarTypes();
         $cb = $this->answer->getAnswerCallback($context, 'callableReturn');
-
+        
         $this->assertEquals(function () {}, $cb());
     }
 
@@ -98,7 +115,7 @@ class Phake_Stubber_Answers_SmartDefaultAnswerTest extends PHPUnit_Framework_Tes
     {
         $context = new PhakeTest_ScalarTypes();
         $cb = $this->answer->getAnswerCallback($context, 'objectReturn');
-
+        
         $this->assertInstanceOf('PhakeTest_A', $cb());
         $this->assertInstanceOf('Phake_IMock', $cb());
     }

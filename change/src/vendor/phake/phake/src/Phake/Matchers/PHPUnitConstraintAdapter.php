@@ -1,26 +1,27 @@
 <?php
-/* 
+
+/*
  * Phake - Mocking Framework
- * 
+ *
  * Copyright (c) 2010-2012, Mike Lively <m@digitalsandwich.com>
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
- * 
- *  *  Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
- * 
- *  *  Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in
- *     the documentation and/or other materials provided with the
- *     distribution.
- * 
- *  *  Neither the name of Mike Lively nor the names of his
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
- * 
+ *
+ * * Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
+ *
+ * * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in
+ * the documentation and/or other materials provided with the
+ * distribution.
+ *
+ * * Neither the name of Mike Lively nor the names of his
+ * contributors may be used to endorse or promote products derived
+ * from this software without specific prior written permission.
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -33,13 +34,13 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- * 
- * @category   Testing
- * @package    Phake
- * @author     Mike Lively <m@digitalsandwich.com>
- * @copyright  2010 Mike Lively <m@digitalsandwich.com>
- * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @link       http://www.digitalsandwich.com/
+ *
+ * @category Testing
+ * @package Phake
+ * @author Mike Lively <m@digitalsandwich.com>
+ * @copyright 2010 Mike Lively <m@digitalsandwich.com>
+ * @license http://www.opensource.org/licenses/bsd-license.php BSD License
+ * @link http://www.digitalsandwich.com/
  */
 
 /**
@@ -48,12 +49,15 @@
  */
 class Phake_Matchers_PHPUnitConstraintAdapter extends Phake_Matchers_SingleArgumentMatcher
 {
+
     /**
+     *
      * @var PHPUnit_Framework_Constraint
      */
     private $constraint;
 
     /**
+     *
      * @param PHPUnit_Framework_Constraint $constraint
      */
     public function __construct(PHPUnit_Framework_Constraint $constraint)
@@ -69,21 +73,15 @@ class Phake_Matchers_PHPUnitConstraintAdapter extends Phake_Matchers_SingleArgum
      * @param mixed $argument
      * @throws Phake_Exception_MethodMatcherException
      */
-    protected  function matches(&$argument)
+    protected function matches(&$argument)
     {
-        try
-        {
+        try {
             $this->constraint->evaluate($argument, '');
-        }
-        catch (PHPUnit_Framework_ExpectationFailedException $e)
-        {
+        } catch (PHPUnit_Framework_ExpectationFailedException $e) {
             $failure = $e->getComparisonFailure();
-            if ($failure instanceof PHPUnit_Framework_ComparisonFailure)
-            {
+            if ($failure instanceof PHPUnit_Framework_ComparisonFailure) {
                 $failure = $failure->getDiff();
-            }
-            else
-            {
+            } else {
                 $failure = '';
             }
             throw new Phake_Exception_MethodMatcherException($e->getMessage() . "\n" . $failure, $e);

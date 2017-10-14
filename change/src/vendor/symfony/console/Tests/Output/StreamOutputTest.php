@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Console\Tests\Output;
 
 use PHPUnit\Framework\TestCase;
@@ -17,6 +16,7 @@ use Symfony\Component\Console\Output\StreamOutput;
 
 class StreamOutputTest extends TestCase
 {
+
     protected $stream;
 
     protected function setUp()
@@ -37,7 +37,7 @@ class StreamOutputTest extends TestCase
     }
 
     /**
-     * @expectedException        \InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The StreamOutput class needs a stream as its first argument.
      */
     public function testStreamIsRequired()
@@ -56,6 +56,6 @@ class StreamOutputTest extends TestCase
         $output = new StreamOutput($this->stream);
         $output->writeln('foo');
         rewind($output->getStream());
-        $this->assertEquals('foo'.PHP_EOL, stream_get_contents($output->getStream()), '->doWrite() writes to the stream');
+        $this->assertEquals('foo' . PHP_EOL, stream_get_contents($output->getStream()), '->doWrite() writes to the stream');
     }
 }

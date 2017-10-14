@@ -6,8 +6,8 @@ class ArrayAccessible implements ArrayAccess, IteratorAggregate
 
     public function __construct(array $array = [])
     {
-        $this->array = $array;
-    }
+    $this->array = $array;
+}
 
     public function offsetExists($offset)
     {

@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace SebastianBergmann\CodeCoverage\Report\Xml;
 
 class Tests
@@ -24,10 +23,11 @@ class Tests
         6 => 'WARNING'     // PHPUnit_Runner_BaseTestRunner::STATUS_WARNING
     ];
 
-    public function __construct(\DOMElement $context)
-    {
-        $this->contextNode = $context;
-    }
+    public 
+function __construct(\DOMElement $context)
+{
+    $this->contextNode = $context;
+}
 
     public function addTest($test, array $result)
     {

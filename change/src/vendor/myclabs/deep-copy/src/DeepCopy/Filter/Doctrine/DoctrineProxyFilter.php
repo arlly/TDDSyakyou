@@ -1,5 +1,4 @@
 <?php
-
 namespace DeepCopy\Filter\Doctrine;
 
 use DeepCopy\Filter\Filter;
@@ -10,7 +9,9 @@ use DeepCopy\Filter\Filter;
  */
 class DoctrineProxyFilter implements Filter
 {
+
     /**
+     *
      * {@inheritdoc}
      */
     public function apply($object, $property, $objectCopier)

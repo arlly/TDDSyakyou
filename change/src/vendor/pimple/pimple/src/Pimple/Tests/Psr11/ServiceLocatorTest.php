@@ -23,7 +23,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace Pimple\Tests\Psr11;
 
 use PHPUnit\Framework\TestCase;
@@ -38,14 +37,17 @@ use Pimple\Tests\Fixtures;
  */
 class ServiceLocatorTest extends TestCase
 {
+
     public function testCanAccessServices()
     {
         $pimple = new Container();
         $pimple['service'] = function () {
             return new Fixtures\Service();
         };
-        $locator = new ServiceLocator($pimple, array('service'));
-
+        $locator = new ServiceLocator($pimple, array(
+            'service'
+        ));
+        
         $this->assertSame($pimple['service'], $locator->get('service'));
     }
 
@@ -55,8 +57,10 @@ class ServiceLocatorTest extends TestCase
         $pimple['service'] = function () {
             return new Fixtures\Service();
         };
-        $locator = new ServiceLocator($pimple, array('alias' => 'service'));
-
+        $locator = new ServiceLocator($pimple, array(
+            'alias' => 'service'
+        ));
+        
         $this->assertSame($pimple['service'], $locator->get('alias'));
     }
 
@@ -70,8 +74,10 @@ class ServiceLocatorTest extends TestCase
         $pimple['service'] = function () {
             return new Fixtures\Service();
         };
-        $locator = new ServiceLocator($pimple, array('alias' => 'service'));
-
+        $locator = new ServiceLocator($pimple, array(
+            'alias' => 'service'
+        ));
+        
         $service = $locator->get('service');
     }
 
@@ -85,8 +91,10 @@ class ServiceLocatorTest extends TestCase
         $pimple['service'] = function () {
             return new Fixtures\Service();
         };
-        $locator = new ServiceLocator($pimple, array('alias' => 'service'));
-
+        $locator = new ServiceLocator($pimple, array(
+            'alias' => 'service'
+        ));
+        
         $service = $locator->get('foo');
     }
 
@@ -100,8 +108,10 @@ class ServiceLocatorTest extends TestCase
         $pimple['service'] = function () {
             return new Fixtures\Service();
         };
-        $locator = new ServiceLocator($pimple, array('alias' => 'invalid'));
-
+        $locator = new ServiceLocator($pimple, array(
+            'alias' => 'invalid'
+        ));
+        
         $service = $locator->get('alias');
     }
 
@@ -114,8 +124,10 @@ class ServiceLocatorTest extends TestCase
         $pimple['service2'] = function () {
             return new Fixtures\Service();
         };
-        $locator = new ServiceLocator($pimple, array('service1'));
-
+        $locator = new ServiceLocator($pimple, array(
+            'service1'
+        ));
+        
         $this->assertTrue($locator->has('service1'));
         $this->assertFalse($locator->has('service2'));
     }
@@ -126,8 +138,11 @@ class ServiceLocatorTest extends TestCase
         $pimple['service'] = function () {
             return new Fixtures\Service();
         };
-        $locator = new ServiceLocator($pimple, array('foo' => 'service', 'bar' => 'invalid'));
-
+        $locator = new ServiceLocator($pimple, array(
+            'foo' => 'service',
+            'bar' => 'invalid'
+        ));
+        
         $this->assertTrue($locator->has('foo'));
         $this->assertFalse($locator->has('bar'));
     }

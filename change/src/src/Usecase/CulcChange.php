@@ -12,8 +12,6 @@ class CulcChange
         $change = $paymentPrice->getPaymentPrice() - $totalPrice->getTotalPrice();
 
         return new Change($change);
-
-
     }
 
 

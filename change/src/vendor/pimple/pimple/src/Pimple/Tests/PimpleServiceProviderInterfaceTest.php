@@ -23,54 +23,55 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace Pimple\Tests;
 
 use Pimple\Container;
 
 /**
- * @author  Dominik Zogg <dominik.zogg@gmail.com>
+ *
+ * @author Dominik Zogg <dominik.zogg@gmail.com>
  */
 class PimpleServiceProviderInterfaceTest extends \PHPUnit_Framework_TestCase
 {
+
     public function testProvider()
     {
         $pimple = new Container();
-
+        
         $pimpleServiceProvider = new Fixtures\PimpleServiceProvider();
         $pimpleServiceProvider->register($pimple);
-
+        
         $this->assertEquals('value', $pimple['param']);
         $this->assertInstanceOf('Pimple\Tests\Fixtures\Service', $pimple['service']);
-
+        
         $serviceOne = $pimple['factory'];
         $this->assertInstanceOf('Pimple\Tests\Fixtures\Service', $serviceOne);
-
+        
         $serviceTwo = $pimple['factory'];
         $this->assertInstanceOf('Pimple\Tests\Fixtures\Service', $serviceTwo);
-
+        
         $this->assertNotSame($serviceOne, $serviceTwo);
     }
 
     public function testProviderWithRegisterMethod()
     {
         $pimple = new Container();
-
+        
         $pimple->register(new Fixtures\PimpleServiceProvider(), array(
-            'anotherParameter' => 'anotherValue',
+            'anotherParameter' => 'anotherValue'
         ));
-
+        
         $this->assertEquals('value', $pimple['param']);
         $this->assertEquals('anotherValue', $pimple['anotherParameter']);
-
+        
         $this->assertInstanceOf('Pimple\Tests\Fixtures\Service', $pimple['service']);
-
+        
         $serviceOne = $pimple['factory'];
         $this->assertInstanceOf('Pimple\Tests\Fixtures\Service', $serviceOne);
-
+        
         $serviceTwo = $pimple['factory'];
         $this->assertInstanceOf('Pimple\Tests\Fixtures\Service', $serviceTwo);
-
+        
         $this->assertNotSame($serviceOne, $serviceTwo);
     }
 }

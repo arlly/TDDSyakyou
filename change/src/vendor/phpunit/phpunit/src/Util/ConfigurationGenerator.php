@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of PHPUnit.
  *
@@ -7,10 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 class PHPUnit_Util_ConfigurationGenerator
 {
+
     /**
+     *
      * @var string
      */
     private $defaultTemplate = <<<EOT
@@ -38,6 +40,7 @@ class PHPUnit_Util_ConfigurationGenerator
 EOT;
 
     /**
+     *
      * @param string $phpunitVersion
      * @param string $bootstrapScript
      * @param string $testsDirectory

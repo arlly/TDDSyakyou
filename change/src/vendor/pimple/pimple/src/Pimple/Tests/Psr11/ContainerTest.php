@@ -23,7 +23,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace Pimple\Tests\Psr11;
 
 use PHPUnit\Framework\TestCase;
@@ -33,6 +32,7 @@ use Pimple\Tests\Fixtures\Service;
 
 class ContainerTest extends TestCase
 {
+
     public function testGetReturnsExistingService()
     {
         $pimple = new Container();
@@ -40,7 +40,7 @@ class ContainerTest extends TestCase
             return new Service();
         };
         $psr = new PsrContainer($pimple);
-
+        
         $this->assertSame($pimple['service'], $psr->get('service'));
     }
 
@@ -52,7 +52,7 @@ class ContainerTest extends TestCase
     {
         $pimple = new Container();
         $psr = new PsrContainer($pimple);
-
+        
         $psr->get('service');
     }
 
@@ -63,7 +63,7 @@ class ContainerTest extends TestCase
             return new Service();
         };
         $psr = new PsrContainer($pimple);
-
+        
         $this->assertTrue($psr->has('service'));
     }
 
@@ -71,7 +71,7 @@ class ContainerTest extends TestCase
     {
         $pimple = new Container();
         $psr = new PsrContainer($pimple);
-
+        
         $this->assertFalse($psr->has('service'));
     }
 }

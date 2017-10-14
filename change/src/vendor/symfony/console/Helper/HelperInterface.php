@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Console\Helper;
 
 /**
@@ -18,10 +17,12 @@ namespace Symfony\Component\Console\Helper;
  */
 interface HelperInterface
 {
+
     /**
      * Sets the helper set associated with this helper.
      *
-     * @param HelperSet $helperSet A HelperSet instance
+     * @param HelperSet $helperSet
+     *            A HelperSet instance
      */
     public function setHelperSet(HelperSet $helperSet = null);
 

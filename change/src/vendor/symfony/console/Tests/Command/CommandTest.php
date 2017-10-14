@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Console\Tests\Command;
 
 use PHPUnit\Framework\TestCase;
@@ -26,12 +25,13 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class CommandTest extends TestCase
 {
+
     protected static $fixturesPath;
 
     public static function setUpBeforeClass()
     {
-        self::$fixturesPath = __DIR__.'/../Fixtures/';
-        require_once self::$fixturesPath.'/TestCommand.php';
+        self::$fixturesPath = __DIR__ . '/../Fixtures/';
+        require_once self::$fixturesPath . '/TestCommand.php';
     }
 
     public function testConstructor()
@@ -41,7 +41,7 @@ class CommandTest extends TestCase
     }
 
     /**
-     * @expectedException        \LogicException
+     * @expectedException \LogicException
      * @expectedExceptionMessage The command defined in "Symfony\Component\Console\Command\Command" cannot have an empty name.
      */
     public function testCommandNameCannotBeEmpty()
@@ -71,9 +71,14 @@ class CommandTest extends TestCase
         $ret = $command->setDefinition($definition = new InputDefinition());
         $this->assertEquals($command, $ret, '->setDefinition() implements a fluent interface');
         $this->assertEquals($definition, $command->getDefinition(), '->setDefinition() sets the current InputDefinition instance');
-        $command->setDefinition(array(new InputArgument('foo'), new InputOption('bar')));
-        $this->assertTrue($command->getDefinition()->hasArgument('foo'), '->setDefinition() also takes an array of InputArguments and InputOptions as an argument');
-        $this->assertTrue($command->getDefinition()->hasOption('bar'), '->setDefinition() also takes an array of InputArguments and InputOptions as an argument');
+        $command->setDefinition(array(
+            new InputArgument('foo'),
+            new InputOption('bar')
+        ));
+        $this->assertTrue($command->getDefinition()
+            ->hasArgument('foo'), '->setDefinition() also takes an array of InputArguments and InputOptions as an argument');
+        $this->assertTrue($command->getDefinition()
+            ->hasOption('bar'), '->setDefinition() also takes an array of InputArguments and InputOptions as an argument');
         $command->setDefinition(new InputDefinition());
     }
 
@@ -82,7 +87,8 @@ class CommandTest extends TestCase
         $command = new \TestCommand();
         $ret = $command->addArgument('foo');
         $this->assertEquals($command, $ret, '->addArgument() implements a fluent interface');
-        $this->assertTrue($command->getDefinition()->hasArgument('foo'), '->addArgument() adds an argument to the command');
+        $this->assertTrue($command->getDefinition()
+            ->hasArgument('foo'), '->addArgument() adds an argument to the command');
     }
 
     public function testAddOption()
@@ -90,7 +96,8 @@ class CommandTest extends TestCase
         $command = new \TestCommand();
         $ret = $command->addOption('foo');
         $this->assertEquals($command, $ret, '->addOption() implements a fluent interface');
-        $this->assertTrue($command->getDefinition()->hasOption('foo'), '->addOption() adds an option to the command');
+        $this->assertTrue($command->getDefinition()
+            ->hasOption('foo'), '->addOption() adds an option to the command');
     }
 
     public function testGetNamespaceGetNameSetName()
@@ -99,7 +106,7 @@ class CommandTest extends TestCase
         $this->assertEquals('namespace:name', $command->getName(), '->getName() returns the command name');
         $command->setName('foo');
         $this->assertEquals('foo', $command->getName(), '->setName() sets the command name');
-
+        
         $ret = $command->setName('foobar:bar');
         $this->assertEquals($command, $ret, '->setName() implements a fluent interface');
         $this->assertEquals('foobar:bar', $command->getName(), '->setName() sets the command name');
@@ -116,7 +123,7 @@ class CommandTest extends TestCase
         } else {
             $this->setExpectedException('InvalidArgumentException', sprintf('Command name "%s" is invalid.', $name));
         }
-
+        
         $command = new \TestCommand();
         $command->setName($name);
     }
@@ -124,8 +131,12 @@ class CommandTest extends TestCase
     public function provideInvalidCommandNames()
     {
         return array(
-            array(''),
-            array('foo:'),
+            array(
+                ''
+            ),
+            array(
+                'foo:'
+            )
         );
     }
 
@@ -155,7 +166,7 @@ class CommandTest extends TestCase
         $command->setHelp('The %command.name% command does... Example: php %command.full_name%.');
         $this->assertContains('The namespace:name command does...', $command->getProcessedHelp(), '->getProcessedHelp() replaces %command.name% correctly');
         $this->assertNotContains('%command.full_name%', $command->getProcessedHelp(), '->getProcessedHelp() replaces %command.full_name%');
-
+        
         $command = new \TestCommand();
         $command->setHelp('');
         $this->assertContains('description', $command->getProcessedHelp(), '->getProcessedHelp() falls back to the description');
@@ -164,10 +175,16 @@ class CommandTest extends TestCase
     public function testGetSetAliases()
     {
         $command = new \TestCommand();
-        $this->assertEquals(array('name'), $command->getAliases(), '->getAliases() returns the aliases');
-        $ret = $command->setAliases(array('name1'));
+        $this->assertEquals(array(
+            'name'
+        ), $command->getAliases(), '->getAliases() returns the aliases');
+        $ret = $command->setAliases(array(
+            'name1'
+        ));
         $this->assertEquals($command, $ret, '->setAliases() implements a fluent interface');
-        $this->assertEquals(array('name1'), $command->getAliases(), '->setAliases() sets the aliases');
+        $this->assertEquals(array(
+            'name1'
+        ), $command->getAliases(), '->setAliases() sets the aliases');
     }
 
     public function testSetAliasesNull()
@@ -200,11 +217,12 @@ class CommandTest extends TestCase
         $command = new \TestCommand();
         $command->setApplication($application);
         $formatterHelper = new FormatterHelper();
-        $this->assertEquals($formatterHelper->getName(), $command->getHelper('formatter')->getName(), '->getHelper() returns the correct helper');
+        $this->assertEquals($formatterHelper->getName(), $command->getHelper('formatter')
+            ->getName(), '->getHelper() returns the correct helper');
     }
 
     /**
-     * @expectedException        \LogicException
+     * @expectedException \LogicException
      * @expectedExceptionMessage Cannot retrieve helper "formatter" because there is no HelperSet defined.
      */
     public function testGetHelperWithoutHelperSet()
@@ -216,68 +234,92 @@ class CommandTest extends TestCase
     public function testMergeApplicationDefinition()
     {
         $application1 = new Application();
-        $application1->getDefinition()->addArguments(array(new InputArgument('foo')));
-        $application1->getDefinition()->addOptions(array(new InputOption('bar')));
+        $application1->getDefinition()->addArguments(array(
+            new InputArgument('foo')
+        ));
+        $application1->getDefinition()->addOptions(array(
+            new InputOption('bar')
+        ));
         $command = new \TestCommand();
         $command->setApplication($application1);
-        $command->setDefinition($definition = new InputDefinition(array(new InputArgument('bar'), new InputOption('foo'))));
-
+        $command->setDefinition($definition = new InputDefinition(array(
+            new InputArgument('bar'),
+            new InputOption('foo')
+        )));
+        
         $r = new \ReflectionObject($command);
         $m = $r->getMethod('mergeApplicationDefinition');
         $m->setAccessible(true);
         $m->invoke($command);
-        $this->assertTrue($command->getDefinition()->hasArgument('foo'), '->mergeApplicationDefinition() merges the application arguments and the command arguments');
-        $this->assertTrue($command->getDefinition()->hasArgument('bar'), '->mergeApplicationDefinition() merges the application arguments and the command arguments');
-        $this->assertTrue($command->getDefinition()->hasOption('foo'), '->mergeApplicationDefinition() merges the application options and the command options');
-        $this->assertTrue($command->getDefinition()->hasOption('bar'), '->mergeApplicationDefinition() merges the application options and the command options');
-
+        $this->assertTrue($command->getDefinition()
+            ->hasArgument('foo'), '->mergeApplicationDefinition() merges the application arguments and the command arguments');
+        $this->assertTrue($command->getDefinition()
+            ->hasArgument('bar'), '->mergeApplicationDefinition() merges the application arguments and the command arguments');
+        $this->assertTrue($command->getDefinition()
+            ->hasOption('foo'), '->mergeApplicationDefinition() merges the application options and the command options');
+        $this->assertTrue($command->getDefinition()
+            ->hasOption('bar'), '->mergeApplicationDefinition() merges the application options and the command options');
+        
         $m->invoke($command);
-        $this->assertEquals(3, $command->getDefinition()->getArgumentCount(), '->mergeApplicationDefinition() does not try to merge twice the application arguments and options');
+        $this->assertEquals(3, $command->getDefinition()
+            ->getArgumentCount(), '->mergeApplicationDefinition() does not try to merge twice the application arguments and options');
     }
 
     public function testMergeApplicationDefinitionWithoutArgsThenWithArgsAddsArgs()
     {
         $application1 = new Application();
-        $application1->getDefinition()->addArguments(array(new InputArgument('foo')));
-        $application1->getDefinition()->addOptions(array(new InputOption('bar')));
+        $application1->getDefinition()->addArguments(array(
+            new InputArgument('foo')
+        ));
+        $application1->getDefinition()->addOptions(array(
+            new InputOption('bar')
+        ));
         $command = new \TestCommand();
         $command->setApplication($application1);
         $command->setDefinition($definition = new InputDefinition(array()));
-
+        
         $r = new \ReflectionObject($command);
         $m = $r->getMethod('mergeApplicationDefinition');
         $m->setAccessible(true);
         $m->invoke($command, false);
-        $this->assertTrue($command->getDefinition()->hasOption('bar'), '->mergeApplicationDefinition(false) merges the application and the command options');
-        $this->assertFalse($command->getDefinition()->hasArgument('foo'), '->mergeApplicationDefinition(false) does not merge the application arguments');
-
+        $this->assertTrue($command->getDefinition()
+            ->hasOption('bar'), '->mergeApplicationDefinition(false) merges the application and the command options');
+        $this->assertFalse($command->getDefinition()
+            ->hasArgument('foo'), '->mergeApplicationDefinition(false) does not merge the application arguments');
+        
         $m->invoke($command, true);
-        $this->assertTrue($command->getDefinition()->hasArgument('foo'), '->mergeApplicationDefinition(true) merges the application arguments and the command arguments');
-
+        $this->assertTrue($command->getDefinition()
+            ->hasArgument('foo'), '->mergeApplicationDefinition(true) merges the application arguments and the command arguments');
+        
         $m->invoke($command);
-        $this->assertEquals(2, $command->getDefinition()->getArgumentCount(), '->mergeApplicationDefinition() does not try to merge twice the application arguments');
+        $this->assertEquals(2, $command->getDefinition()
+            ->getArgumentCount(), '->mergeApplicationDefinition() does not try to merge twice the application arguments');
     }
 
     public function testRunInteractive()
     {
         $tester = new CommandTester(new \TestCommand());
-
-        $tester->execute(array(), array('interactive' => true));
-
-        $this->assertEquals('interact called'.PHP_EOL.'execute called'.PHP_EOL, $tester->getDisplay(), '->run() calls the interact() method if the input is interactive');
+        
+        $tester->execute(array(), array(
+            'interactive' => true
+        ));
+        
+        $this->assertEquals('interact called' . PHP_EOL . 'execute called' . PHP_EOL, $tester->getDisplay(), '->run() calls the interact() method if the input is interactive');
     }
 
     public function testRunNonInteractive()
     {
         $tester = new CommandTester(new \TestCommand());
-
-        $tester->execute(array(), array('interactive' => false));
-
-        $this->assertEquals('execute called'.PHP_EOL, $tester->getDisplay(), '->run() does not call the interact() method if the input is not interactive');
+        
+        $tester->execute(array(), array(
+            'interactive' => false
+        ));
+        
+        $this->assertEquals('execute called' . PHP_EOL, $tester->getDisplay(), '->run() does not call the interact() method if the input is not interactive');
     }
 
     /**
-     * @expectedException        \LogicException
+     * @expectedException \LogicException
      * @expectedExceptionMessage You must override the execute() method in the concrete command class.
      */
     public function testExecuteMethodNeedsToBeOverridden()
@@ -287,14 +329,16 @@ class CommandTest extends TestCase
     }
 
     /**
-     * @expectedException        \Symfony\Component\Console\Exception\InvalidOptionException
+     * @expectedException \Symfony\Component\Console\Exception\InvalidOptionException
      * @expectedExceptionMessage The "--bar" option does not exist.
      */
     public function testRunWithInvalidOption()
     {
         $command = new \TestCommand();
         $tester = new CommandTester($command);
-        $tester->execute(array('--bar' => true));
+        $tester->execute(array(
+            '--bar' => true
+        ));
     }
 
     public function testRunReturnsIntegerExitCode()
@@ -302,8 +346,12 @@ class CommandTest extends TestCase
         $command = new \TestCommand();
         $exitCode = $command->run(new StringInput(''), new NullOutput());
         $this->assertSame(0, $exitCode, '->run() returns integer exit code (treats null as 0)');
-
-        $command = $this->getMockBuilder('TestCommand')->setMethods(array('execute'))->getMock();
+        
+        $command = $this->getMockBuilder('TestCommand')
+            ->setMethods(array(
+            'execute'
+        ))
+            ->getMock();
         $command->expects($this->once())
             ->method('execute')
             ->will($this->returnValue('2.3'));
@@ -316,14 +364,14 @@ class CommandTest extends TestCase
         $command = new \TestCommand();
         $command->setApplication(new Application());
         $exitCode = $command->run(new StringInput(''), new NullOutput());
-
+        
         $this->assertSame(0, $exitCode, '->run() returns an integer exit code');
     }
 
     public function testRunReturnsAlwaysInteger()
     {
         $command = new \TestCommand();
-
+        
         $this->assertSame(0, $command->run(new StringInput(''), new NullOutput()));
     }
 
@@ -350,14 +398,20 @@ class CommandTest extends TestCase
         $this->assertEquals($command, $ret, '->setCode() implements a fluent interface');
         $tester = new CommandTester($command);
         $tester->execute(array());
-        $this->assertEquals('interact called'.PHP_EOL.'from the code...'.PHP_EOL, $tester->getDisplay());
+        $this->assertEquals('interact called' . PHP_EOL . 'from the code...' . PHP_EOL, $tester->getDisplay());
     }
 
     public function getSetCodeBindToClosureTests()
     {
         return array(
-            array(true, 'not bound to the command'),
-            array(false, 'bound to the command'),
+            array(
+                true,
+                'not bound to the command'
+            ),
+            array(
+                false,
+                'bound to the command'
+            )
         );
     }
 
@@ -371,12 +425,12 @@ class CommandTest extends TestCase
         if ($previouslyBound) {
             $code = $code->bindTo($this);
         }
-
+        
         $command = new \TestCommand();
         $command->setCode($code);
         $tester = new CommandTester($command);
         $tester->execute(array());
-        $this->assertEquals('interact called'.PHP_EOL.$expected.PHP_EOL, $tester->getDisplay());
+        $this->assertEquals('interact called' . PHP_EOL . $expected . PHP_EOL, $tester->getDisplay());
     }
 
     public function testSetCodeWithStaticClosure()
@@ -385,13 +439,13 @@ class CommandTest extends TestCase
         $command->setCode(self::createClosure());
         $tester = new CommandTester($command);
         $tester->execute(array());
-
+        
         if (\PHP_VERSION_ID < 70000) {
             // Cannot bind static closures in PHP 5
-            $this->assertEquals('interact called'.PHP_EOL.'not bound'.PHP_EOL, $tester->getDisplay());
+            $this->assertEquals('interact called' . PHP_EOL . 'not bound' . PHP_EOL, $tester->getDisplay());
         } else {
             // Can bind static closures in PHP 7
-            $this->assertEquals('interact called'.PHP_EOL.'bound'.PHP_EOL, $tester->getDisplay());
+            $this->assertEquals('interact called' . PHP_EOL . 'bound' . PHP_EOL, $tester->getDisplay());
         }
     }
 
@@ -405,21 +459,27 @@ class CommandTest extends TestCase
     public function testSetCodeWithNonClosureCallable()
     {
         $command = new \TestCommand();
-        $ret = $command->setCode(array($this, 'callableMethodCommand'));
+        $ret = $command->setCode(array(
+            $this,
+            'callableMethodCommand'
+        ));
         $this->assertEquals($command, $ret, '->setCode() implements a fluent interface');
         $tester = new CommandTester($command);
         $tester->execute(array());
-        $this->assertEquals('interact called'.PHP_EOL.'from the code...'.PHP_EOL, $tester->getDisplay());
+        $this->assertEquals('interact called' . PHP_EOL . 'from the code...' . PHP_EOL, $tester->getDisplay());
     }
 
     /**
-     * @expectedException        \InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Invalid callable provided to Command::setCode.
      */
     public function testSetCodeWithNonCallable()
     {
         $command = new \TestCommand();
-        $command->setCode(array($this, 'nonExistentMethod'));
+        $command->setCode(array(
+            $this,
+            'nonExistentMethod'
+        ));
     }
 
     public function callableMethodCommand(InputInterface $input, OutputInterface $output)
@@ -435,8 +495,10 @@ class CommandTest extends TestCase
         $command = new \TestCommand();
         $command->setApplication(new Application());
         $tester = new CommandTester($command);
-        $tester->execute(array('command' => $command->getName()));
-        $this->assertStringEqualsFile(self::$fixturesPath.'/command_astext.txt', $command->asText(), '->asText() returns a text representation of the command');
+        $tester->execute(array(
+            'command' => $command->getName()
+        ));
+        $this->assertStringEqualsFile(self::$fixturesPath . '/command_astext.txt', $command->asText(), '->asText() returns a text representation of the command');
     }
 
     /**
@@ -447,8 +509,10 @@ class CommandTest extends TestCase
         $command = new \TestCommand();
         $command->setApplication(new Application());
         $tester = new CommandTester($command);
-        $tester->execute(array('command' => $command->getName()));
-        $this->assertXmlStringEqualsXmlFile(self::$fixturesPath.'/command_asxml.txt', $command->asXml(), '->asXml() returns an XML representation of the command');
+        $tester->execute(array(
+            'command' => $command->getName()
+        ));
+        $this->assertXmlStringEqualsXmlFile(self::$fixturesPath . '/command_asxml.txt', $command->asXml(), '->asXml() returns an XML representation of the command');
     }
 }
 

@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace SebastianBergmann\CodeCoverage\Report;
 
 use SebastianBergmann\CodeCoverage\CodeCoverage;
@@ -42,12 +41,12 @@ class Text
      * @param bool $showOnlySummary
      */
     public function __construct($lowUpperBound = 50, $highLowerBound = 90, $showUncoveredFiles = false, $showOnlySummary = false)
-    {
-        $this->lowUpperBound      = $lowUpperBound;
-        $this->highLowerBound     = $highLowerBound;
-        $this->showUncoveredFiles = $showUncoveredFiles;
-        $this->showOnlySummary    = $showOnlySummary;
-    }
+{
+    $this->lowUpperBound = $lowUpperBound;
+    $this->highLowerBound = $highLowerBound;
+    $this->showUncoveredFiles = $showUncoveredFiles;
+    $this->showOnlySummary = $showOnlySummary;
+}
 
     /**
      * @param CodeCoverage $coverage

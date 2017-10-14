@@ -23,7 +23,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace Pimple\Psr11;
 
 use Pimple\Container as PimpleContainer;
@@ -37,35 +36,42 @@ use Psr\Container\ContainerInterface;
  */
 class ServiceLocator implements ContainerInterface
 {
+
     private $container;
+
     private $aliases = array();
 
     /**
-     * @param PimpleContainer $container The Container instance used to locate services
-     * @param array           $ids       Array of service ids that can be located. String keys can be used to define aliases
+     *
+     * @param PimpleContainer $container
+     *            The Container instance used to locate services
+     * @param array $ids
+     *            Array of service ids that can be located. String keys can be used to define aliases
      */
     public function __construct(PimpleContainer $container, array $ids)
     {
         $this->container = $container;
-
+        
         foreach ($ids as $key => $id) {
             $this->aliases[is_int($key) ? $id : $key] = $id;
         }
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function get($id)
     {
-        if (!isset($this->aliases[$id])) {
+        if (! isset($this->aliases[$id])) {
             throw new UnknownIdentifierException($id);
         }
-
+        
         return $this->container[$this->aliases[$id]];
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     public function has($id)

@@ -16,7 +16,6 @@
  * and is licensed under the MIT license. For more information, see
  * <http://www.doctrine-project.org>.
  */
-
 namespace DoctrineTest\InstantiatorTestAsset;
 
 use BadMethodCallException;
@@ -32,6 +31,7 @@ use PharException;
  */
 class PharExceptionAsset extends PharException
 {
+
     /**
      * Constructor - should not be called
      *

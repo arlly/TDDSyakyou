@@ -16,7 +16,6 @@
  * and is licensed under the MIT license. For more information, see
  * <http://www.doctrine-project.org>.
  */
-
 namespace DoctrineTest\InstantiatorPerformance;
 
 use Athletic\AthleticEvent;
@@ -29,18 +28,21 @@ use Doctrine\Instantiator\Instantiator;
  */
 class InstantiatorPerformanceEvent extends AthleticEvent
 {
+
     /**
+     *
      * @var \Doctrine\Instantiator\Instantiator
      */
     private $instantiator;
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      */
     protected function setUp()
     {
         $this->instantiator = new Instantiator();
-
+        
         $this->instantiator->instantiate(__CLASS__);
         $this->instantiator->instantiate('ArrayObject');
         $this->instantiator->instantiate('DoctrineTest\\InstantiatorTestAsset\\SimpleSerializableAsset');

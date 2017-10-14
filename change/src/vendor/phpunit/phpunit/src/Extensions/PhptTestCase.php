@@ -58,23 +58,18 @@ class PHPUnit_Extensions_PhptTestCase implements PHPUnit_Framework_Test, PHPUnit
      * @throws PHPUnit_Framework_Exception
      */
     public function __construct($filename, $phpUtil = null)
-    {
-        if (!is_string($filename)) {
-            throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
-        }
-
-        if (!is_file($filename)) {
-            throw new PHPUnit_Framework_Exception(
-                sprintf(
-                    'File "%s" does not exist.',
-                    $filename
-                )
-            );
-        }
-
-        $this->filename = $filename;
-        $this->phpUtil  = $phpUtil ?: PHPUnit_Util_PHP::factory();
+{
+    if (! is_string($filename)) {
+        throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
     }
+    
+    if (! is_file($filename)) {
+        throw new PHPUnit_Framework_Exception(sprintf('File "%s" does not exist.', $filename));
+    }
+    
+    $this->filename = $filename;
+    $this->phpUtil = $phpUtil ?: PHPUnit_Util_PHP::factory();
+}
 
     /**
      * Counts the number of test cases executed by run(TestResult result).

@@ -16,7 +16,6 @@
  * and is licensed under the MIT license. For more information, see
  * <http://www.doctrine-project.org>.
  */
-
 namespace DoctrineTest\InstantiatorTestAsset;
 
 use ArrayObject;
@@ -29,8 +28,10 @@ use BadMethodCallException;
  */
 class UnserializeExceptionArrayObjectAsset extends ArrayObject
 {
+
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      */
     public function __wakeup()
     {

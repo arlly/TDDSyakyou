@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Console\Question;
 
 use Symfony\Component\Console\Exception\InvalidArgumentException;
@@ -20,24 +19,32 @@ use Symfony\Component\Console\Exception\InvalidArgumentException;
  */
 class ChoiceQuestion extends Question
 {
+
     private $choices;
+
     private $multiselect = false;
+
     private $prompt = ' > ';
+
     private $errorMessage = 'Value "%s" is invalid';
 
     /**
-     * @param string $question The question to ask to the user
-     * @param array  $choices  The list of available choices
-     * @param mixed  $default  The default answer to return
+     *
+     * @param string $question
+     *            The question to ask to the user
+     * @param array $choices
+     *            The list of available choices
+     * @param mixed $default
+     *            The default answer to return
      */
     public function __construct($question, array $choices, $default = null)
     {
-        if (!$choices) {
+        if (! $choices) {
             throw new \LogicException('Choice question must have at least 1 choice available.');
         }
-
+        
         parent::__construct($question, $default);
-
+        
         $this->choices = $choices;
         $this->setValidator($this->getDefaultValidator());
         $this->setAutocompleterValues($choices);
@@ -66,7 +73,7 @@ class ChoiceQuestion extends Question
     {
         $this->multiselect = $multiselect;
         $this->setValidator($this->getDefaultValidator());
-
+        
         return $this;
     }
 
@@ -100,7 +107,7 @@ class ChoiceQuestion extends Question
     public function setPrompt($prompt)
     {
         $this->prompt = $prompt;
-
+        
         return $this;
     }
 
@@ -117,7 +124,7 @@ class ChoiceQuestion extends Question
     {
         $this->errorMessage = $errorMessage;
         $this->setValidator($this->getDefaultValidator());
-
+        
         return $this;
     }
 
@@ -132,21 +139,23 @@ class ChoiceQuestion extends Question
         $errorMessage = $this->errorMessage;
         $multiselect = $this->multiselect;
         $isAssoc = $this->isAssoc($choices);
-
+        
         return function ($selected) use ($choices, $errorMessage, $multiselect, $isAssoc) {
             // Collapse all spaces.
             $selectedChoices = str_replace(' ', '', $selected);
-
+            
             if ($multiselect) {
                 // Check for a separated comma values
-                if (!preg_match('/^[^,]+(?:,[^,]+)*$/', $selectedChoices, $matches)) {
+                if (! preg_match('/^[^,]+(?:,[^,]+)*$/', $selectedChoices, $matches)) {
                     throw new InvalidArgumentException(sprintf($errorMessage, $selected));
                 }
                 $selectedChoices = explode(',', $selectedChoices);
             } else {
-                $selectedChoices = array($selected);
+                $selectedChoices = array(
+                    $selected
+                );
             }
-
+            
             $multiselectChoices = array();
             foreach ($selectedChoices as $value) {
                 $results = array();
@@ -155,14 +164,14 @@ class ChoiceQuestion extends Question
                         $results[] = $key;
                     }
                 }
-
+                
                 if (count($results) > 1) {
                     throw new InvalidArgumentException(sprintf('The provided answer is ambiguous. Value should be one of %s.', implode(' or ', $results)));
                 }
-
+                
                 $result = array_search($value, $choices);
-
-                if (!$isAssoc) {
+                
+                if (! $isAssoc) {
                     if (false !== $result) {
                         $result = $choices[$result];
                     } elseif (isset($choices[$value])) {
@@ -171,18 +180,18 @@ class ChoiceQuestion extends Question
                 } elseif (false === $result && isset($choices[$value])) {
                     $result = $value;
                 }
-
+                
                 if (false === $result) {
                     throw new InvalidArgumentException(sprintf($errorMessage, $value));
                 }
-
+                
                 $multiselectChoices[] = (string) $result;
             }
-
+            
             if ($multiselect) {
                 return $multiselectChoices;
             }
-
+            
             return current($multiselectChoices);
         };
     }

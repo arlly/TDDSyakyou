@@ -23,12 +23,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace Pimple\Tests\Fixtures;
 
 class NonInvokable
 {
+
     public function __call($a, $b)
-    {
-    }
+    {}
 }

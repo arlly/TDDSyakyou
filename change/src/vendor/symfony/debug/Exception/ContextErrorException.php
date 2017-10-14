@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Debug\Exception;
 
 /**
@@ -18,6 +17,7 @@ namespace Symfony\Component\Debug\Exception;
  */
 class ContextErrorException extends \ErrorException
 {
+
     private $context = array();
 
     public function __construct($message, $code, $severity, $filename, $lineno, $context = array())
@@ -27,6 +27,7 @@ class ContextErrorException extends \ErrorException
     }
 
     /**
+     *
      * @return array Array of variables that existed when the exception occurred
      */
     public function getContext()

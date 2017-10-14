@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace SebastianBergmann\CodeCoverage\Driver;
 
 use SebastianBergmann\CodeCoverage\RuntimeException;
@@ -30,18 +29,15 @@ class Xdebug implements Driver
      * Constructor.
      */
     public function __construct()
-    {
-        if (!extension_loaded('xdebug')) {
-            throw new RuntimeException('This driver requires Xdebug');
-        }
-
-        if (version_compare(phpversion('xdebug'), '2.2.1', '>=') &&
-            !ini_get('xdebug.coverage_enable')) {
-            throw new RuntimeException(
-                'xdebug.coverage_enable=On has to be set in php.ini'
-            );
-        }
+{
+    if (! extension_loaded('xdebug')) {
+        throw new RuntimeException('This driver requires Xdebug');
     }
+    
+    if (version_compare(phpversion('xdebug'), '2.2.1', '>=') && ! ini_get('xdebug.coverage_enable')) {
+        throw new RuntimeException('xdebug.coverage_enable=On has to be set in php.ini');
+    }
+}
 
     /**
      * Start collection of code coverage information.

@@ -10,9 +10,10 @@ class class_with_multiple_anonymous_classes_and_functions
         };
 
         $d = new class {
-            public function o() {
-                return false;
-            }
+            public function o()
+{
+    return false;
+}
         };
 
         $f = function ($a, $b) {

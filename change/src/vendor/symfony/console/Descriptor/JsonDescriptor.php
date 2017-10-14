@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Console\Descriptor;
 
 use Symfony\Component\Console\Application;
@@ -21,12 +20,14 @@ use Symfony\Component\Console\Input\InputOption;
  * JSON descriptor.
  *
  * @author Jean-François Simon <contact@jfsimon.fr>
- *
+ *        
  * @internal
  */
 class JsonDescriptor extends Descriptor
 {
+
     /**
+     *
      * {@inheritdoc}
      */
     protected function describeInputArgument(InputArgument $argument, array $options = array())
@@ -35,6 +36,7 @@ class JsonDescriptor extends Descriptor
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     protected function describeInputOption(InputOption $option, array $options = array())
@@ -43,6 +45,7 @@ class JsonDescriptor extends Descriptor
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     protected function describeInputDefinition(InputDefinition $definition, array $options = array())
@@ -51,6 +54,7 @@ class JsonDescriptor extends Descriptor
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     protected function describeCommand(Command $command, array $options = array())
@@ -59,6 +63,7 @@ class JsonDescriptor extends Descriptor
     }
 
     /**
+     *
      * {@inheritdoc}
      */
     protected function describeApplication(Application $application, array $options = array())
@@ -66,15 +71,19 @@ class JsonDescriptor extends Descriptor
         $describedNamespace = isset($options['namespace']) ? $options['namespace'] : null;
         $description = new ApplicationDescription($application, $describedNamespace);
         $commands = array();
-
+        
         foreach ($description->getCommands() as $command) {
             $commands[] = $this->getCommandData($command);
         }
-
-        $data = $describedNamespace
-            ? array('commands' => $commands, 'namespace' => $describedNamespace)
-            : array('commands' => $commands, 'namespaces' => array_values($description->getNamespaces()));
-
+        
+        $data = $describedNamespace ? array(
+            'commands' => $commands,
+            'namespace' => $describedNamespace
+        ) : array(
+            'commands' => $commands,
+            'namespaces' => array_values($description->getNamespaces())
+        );
+        
         $this->writeData($data, $options);
     }
 
@@ -92,6 +101,7 @@ class JsonDescriptor extends Descriptor
     }
 
     /**
+     *
      * @param InputArgument $argument
      *
      * @return array
@@ -103,11 +113,12 @@ class JsonDescriptor extends Descriptor
             'is_required' => $argument->isRequired(),
             'is_array' => $argument->isArray(),
             'description' => preg_replace('/\s*[\r\n]\s*/', ' ', $argument->getDescription()),
-            'default' => INF === $argument->getDefault() ? 'INF' : $argument->getDefault(),
+            'default' => INF === $argument->getDefault() ? 'INF' : $argument->getDefault()
         );
     }
 
     /**
+     *
      * @param InputOption $option
      *
      * @return array
@@ -115,17 +126,18 @@ class JsonDescriptor extends Descriptor
     private function getInputOptionData(InputOption $option)
     {
         return array(
-            'name' => '--'.$option->getName(),
-            'shortcut' => $option->getShortcut() ? '-'.implode('|-', explode('|', $option->getShortcut())) : '',
+            'name' => '--' . $option->getName(),
+            'shortcut' => $option->getShortcut() ? '-' . implode('|-', explode('|', $option->getShortcut())) : '',
             'accept_value' => $option->acceptValue(),
             'is_value_required' => $option->isValueRequired(),
             'is_multiple' => $option->isArray(),
             'description' => preg_replace('/\s*[\r\n]\s*/', ' ', $option->getDescription()),
-            'default' => INF === $option->getDefault() ? 'INF' : $option->getDefault(),
+            'default' => INF === $option->getDefault() ? 'INF' : $option->getDefault()
         );
     }
 
     /**
+     *
      * @param InputDefinition $definition
      *
      * @return array
@@ -136,16 +148,20 @@ class JsonDescriptor extends Descriptor
         foreach ($definition->getArguments() as $name => $argument) {
             $inputArguments[$name] = $this->getInputArgumentData($argument);
         }
-
+        
         $inputOptions = array();
         foreach ($definition->getOptions() as $name => $option) {
             $inputOptions[$name] = $this->getInputOptionData($option);
         }
-
-        return array('arguments' => $inputArguments, 'options' => $inputOptions);
+        
+        return array(
+            'arguments' => $inputArguments,
+            'options' => $inputOptions
+        );
     }
 
     /**
+     *
      * @param Command $command
      *
      * @return array
@@ -154,13 +170,15 @@ class JsonDescriptor extends Descriptor
     {
         $command->getSynopsis();
         $command->mergeApplicationDefinition(false);
-
+        
         return array(
             'name' => $command->getName(),
-            'usage' => array_merge(array($command->getSynopsis()), $command->getUsages(), $command->getAliases()),
+            'usage' => array_merge(array(
+                $command->getSynopsis()
+            ), $command->getUsages(), $command->getAliases()),
             'description' => $command->getDescription(),
             'help' => $command->getProcessedHelp(),
-            'definition' => $this->getInputDefinitionData($command->getNativeDefinition()),
+            'definition' => $this->getInputDefinitionData($command->getNativeDefinition())
         );
     }
 }

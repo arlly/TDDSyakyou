@@ -7,17 +7,19 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 use PHPUnit\Framework\TestCase;
 
 class PHP_Token_ClassTest extends TestCase
 {
+
     /**
+     *
      * @var PHP_Token_CLASS
      */
     private $class;
 
     /**
+     *
      * @var PHP_Token_FUNCTION
      */
     private $function;
@@ -25,12 +27,12 @@ class PHP_Token_ClassTest extends TestCase
     protected function setUp()
     {
         $ts = new PHP_Token_Stream(TEST_FILES_PATH . 'source2.php');
-
+        
         foreach ($ts as $token) {
             if ($token instanceof PHP_Token_CLASS) {
                 $this->class = $token;
             }
-
+            
             if ($token instanceof PHP_Token_FUNCTION) {
                 $this->function = $token;
                 break;
@@ -65,7 +67,7 @@ class PHP_Token_ClassTest extends TestCase
     public function testIssue19()
     {
         $ts = new PHP_Token_Stream(TEST_FILES_PATH . 'issue19.php');
-
+        
         foreach ($ts as $token) {
             if ($token instanceof PHP_Token_CLASS) {
                 $this->assertFalse($token->hasInterfaces());
@@ -82,7 +84,7 @@ class PHP_Token_ClassTest extends TestCase
     public function testAnonymousClassesAreHandledCorrectly()
     {
         $ts = new PHP_Token_Stream(TEST_FILES_PATH . 'class_with_method_that_declares_anonymous_class.php');
-
+        
         $classes = $ts->getClasses();
 
         $this->assertEquals(
@@ -104,19 +106,19 @@ class PHP_Token_ClassTest extends TestCase
     public function testAnonymousClassesAreHandledCorrectly2()
     {
         $ts = new PHP_Token_Stream(TEST_FILES_PATH . 'class_with_method_that_declares_anonymous_class2.php');
-
+        
         $classes = $ts->getClasses();
 
         $this->assertEquals(['Test', 'AnonymousClass:4#23'], array_keys($classes));
         $this->assertEquals(['methodOne', 'methodTwo'], array_keys($classes['Test']['methods']));
-
+        
         $this->assertEmpty($ts->getFunctions());
     }
 
     public function testImportedFunctionsAreHandledCorrectly()
     {
         $ts = new PHP_Token_Stream(TEST_FILES_PATH . 'classUsesNamespacedFunction.php');
-
+        
         $this->assertEmpty($ts->getFunctions());
         $this->assertCount(1, $ts->getClasses());
     }
@@ -127,9 +129,9 @@ class PHP_Token_ClassTest extends TestCase
     public function testClassWithMultipleAnonymousClassesAndFunctionsIsHandledCorrectly()
     {
         $ts = new PHP_Token_Stream(TEST_FILES_PATH . 'class_with_multiple_anonymous_classes_and_functions.php');
-
+        
         $classes = $ts->getClasses();
-
+        
         $this->assertArrayHasKey('class_with_multiple_anonymous_classes_and_functions', $classes);
         $this->assertArrayHasKey('AnonymousClass:6#23', $classes);
         $this->assertArrayHasKey('AnonymousClass:12#53', $classes);
@@ -144,9 +146,9 @@ class PHP_Token_ClassTest extends TestCase
     public function testClassWithMethodNamedEmptyIsHandledCorrectly()
     {
         $ts = new PHP_Token_Stream(TEST_FILES_PATH . 'class_with_method_named_empty.php');
-
+        
         $classes = $ts->getClasses();
-
+        
         $this->assertArrayHasKey('class_with_method_named_empty', $classes);
         $this->assertArrayHasKey('empty', $classes['class_with_method_named_empty']['methods']);
     }

@@ -1,4 +1,5 @@
 <?php
+
 function functionCallback()
 {
     $args = func_get_args();

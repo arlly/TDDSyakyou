@@ -1,6 +1,8 @@
 <?php
+
 class MethodCallback
 {
+
     public static function staticCallback()
     {
         $args = func_get_args();

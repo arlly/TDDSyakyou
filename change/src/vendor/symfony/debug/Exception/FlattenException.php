@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Symfony\Component\Debug\Exception;
 
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
@@ -22,14 +21,23 @@ use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
  */
 class FlattenException
 {
+
     private $message;
+
     private $code;
+
     private $previous;
+
     private $trace;
+
     private $class;
+
     private $statusCode;
+
     private $headers;
+
     private $file;
+
     private $line;
 
     public static function create(\Exception $exception, $statusCode = null, array $headers = array())
@@ -37,45 +45,47 @@ class FlattenException
         $e = new static();
         $e->setMessage($exception->getMessage());
         $e->setCode($exception->getCode());
-
+        
         if ($exception instanceof HttpExceptionInterface) {
             $statusCode = $exception->getStatusCode();
             $headers = array_merge($headers, $exception->getHeaders());
         }
-
+        
         if (null === $statusCode) {
             $statusCode = 500;
         }
-
+        
         $e->setStatusCode($statusCode);
         $e->setHeaders($headers);
         $e->setTraceFromException($exception);
         $e->setClass(get_class($exception));
         $e->setFile($exception->getFile());
         $e->setLine($exception->getLine());
-
+        
         $previous = $exception->getPrevious();
-
+        
         if ($previous instanceof \Exception) {
             $e->setPrevious(static::create($previous));
         } elseif ($previous instanceof \Throwable) {
             $e->setPrevious(static::create(new FatalThrowableError($previous)));
         }
-
+        
         return $e;
     }
 
     public function toArray()
     {
         $exceptions = array();
-        foreach (array_merge(array($this), $this->getAllPrevious()) as $exception) {
+        foreach (array_merge(array(
+            $this
+        ), $this->getAllPrevious()) as $exception) {
             $exceptions[] = array(
                 'message' => $exception->getMessage(),
                 'class' => $exception->getClass(),
-                'trace' => $exception->getTrace(),
+                'trace' => $exception->getTrace()
             );
         }
-
+        
         return $exceptions;
     }
 
@@ -166,7 +176,7 @@ class FlattenException
         while ($e = $e->getPrevious()) {
             $exceptions[] = $e;
         }
-
+        
         return $exceptions;
     }
 
@@ -191,7 +201,7 @@ class FlattenException
             'function' => '',
             'file' => $file,
             'line' => $line,
-            'args' => array(),
+            'args' => array()
         );
         foreach ($trace as $entry) {
             $class = '';
@@ -201,7 +211,7 @@ class FlattenException
                 $class = array_pop($parts);
                 $namespace = implode('\\', $parts);
             }
-
+            
             $this->trace[] = array(
                 'namespace' => $namespace,
                 'short_class' => $class,
@@ -210,7 +220,7 @@ class FlattenException
                 'function' => isset($entry['function']) ? $entry['function'] : null,
                 'file' => isset($entry['file']) ? $entry['file'] : null,
                 'line' => isset($entry['line']) ? $entry['line'] : null,
-                'args' => isset($entry['args']) ? $this->flattenArgs($entry['args']) : array(),
+                'args' => isset($entry['args']) ? $this->flattenArgs($entry['args']) : array()
             );
         }
     }
@@ -219,38 +229,65 @@ class FlattenException
     {
         $result = array();
         foreach ($args as $key => $value) {
-            if (++$count > 1e4) {
-                return array('array', '*SKIPPED over 10000 entries*');
+            if (++ $count > 1e4) {
+                return array(
+                    'array',
+                    '*SKIPPED over 10000 entries*'
+                );
             }
             if (is_object($value)) {
-                $result[$key] = array('object', get_class($value));
+                $result[$key] = array(
+                    'object',
+                    get_class($value)
+                );
             } elseif (is_array($value)) {
                 if ($level > 10) {
-                    $result[$key] = array('array', '*DEEP NESTED ARRAY*');
+                    $result[$key] = array(
+                        'array',
+                        '*DEEP NESTED ARRAY*'
+                    );
                 } else {
-                    $result[$key] = array('array', $this->flattenArgs($value, $level + 1, $count));
+                    $result[$key] = array(
+                        'array',
+                        $this->flattenArgs($value, $level + 1, $count)
+                    );
                 }
             } elseif (null === $value) {
-                $result[$key] = array('null', null);
+                $result[$key] = array(
+                    'null',
+                    null
+                );
             } elseif (is_bool($value)) {
-                $result[$key] = array('boolean', $value);
+                $result[$key] = array(
+                    'boolean',
+                    $value
+                );
             } elseif (is_resource($value)) {
-                $result[$key] = array('resource', get_resource_type($value));
+                $result[$key] = array(
+                    'resource',
+                    get_resource_type($value)
+                );
             } elseif ($value instanceof \__PHP_Incomplete_Class) {
                 // Special case of object, is_object will return false
-                $result[$key] = array('incomplete-object', $this->getClassNameFromIncomplete($value));
+                $result[$key] = array(
+                    'incomplete-object',
+                    $this->getClassNameFromIncomplete($value)
+                );
             } else {
-                $result[$key] = array('string', (string) $value);
+                $result[$key] = array(
+                    'string',
+                    (string) $value
+                );
             }
         }
-
+        
         return $result;
     }
 
     private function getClassNameFromIncomplete(\__PHP_Incomplete_Class $value)
     {
         $array = new \ArrayObject($value);
-
+        
         return $array['__PHP_Incomplete_Class_Name'];
     }
 }

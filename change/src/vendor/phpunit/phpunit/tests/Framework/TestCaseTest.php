@@ -7,20 +7,19 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'NoArgTestCaseTest.php';
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'Singleton.php';
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'Mockable.php';
 
-$GLOBALS['a']  = 'a';
-$_ENV['b']     = 'b';
-$_POST['c']    = 'c';
-$_GET['d']     = 'd';
-$_COOKIE['e']  = 'e';
-$_SERVER['f']  = 'f';
-$_FILES['g']   = 'g';
+$GLOBALS['a'] = 'a';
+$_ENV['b'] = 'b';
+$_POST['c'] = 'c';
+$_GET['d'] = 'd';
+$_COOKIE['e'] = 'e';
+$_SERVER['f'] = 'f';
+$_FILES['g'] = 'g';
 $_REQUEST['h'] = 'h';
-$GLOBALS['i']  = 'i';
+$GLOBALS['i'] = 'i';
 
 class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
 {

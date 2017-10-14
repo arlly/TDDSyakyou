@@ -2,6 +2,7 @@
 
 class PhakeClientTest extends PHPUnit_Framework_TestCase
 {
+
     protected function setup()
     {
         // unset the $client in Phake

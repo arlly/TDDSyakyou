@@ -23,16 +23,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace Pimple\Tests\Fixtures;
 
 class Invokable
 {
+
     public function __invoke($value = null)
     {
         $service = new Service();
         $service->value = $value;
-
+        
         return $service;
     }
 }

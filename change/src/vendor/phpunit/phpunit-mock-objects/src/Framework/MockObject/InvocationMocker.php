@@ -38,9 +38,9 @@ class PHPUnit_Framework_MockObject_InvocationMocker implements PHPUnit_Framework
      * @param array $configurableMethods
      */
     public function __construct(array $configurableMethods)
-    {
-        $this->configurableMethods = $configurableMethods;
-    }
+{
+    $this->configurableMethods = $configurableMethods;
+}
 
     /**
      * @param PHPUnit_Framework_MockObject_Matcher_Invocation $matcher

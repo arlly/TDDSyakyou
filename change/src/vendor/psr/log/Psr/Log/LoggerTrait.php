@@ -1,5 +1,4 @@
 <?php
-
 namespace Psr\Log;
 
 /**
@@ -20,10 +19,11 @@ trait LoggerTrait
      *
      * @return void
      */
-    public function emergency($message, array $context = array())
-    {
-        $this->log(LogLevel::EMERGENCY, $message, $context);
-    }
+    public 
+function emergency($message, array $context = array())
+{
+    $this->log(LogLevel::EMERGENCY, $message, $context);
+}
 
     /**
      * Action must be taken immediately.

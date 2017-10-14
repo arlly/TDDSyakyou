@@ -9,7 +9,6 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      http://phpdoc.org
  */
-
 namespace phpDocumentor\Reflection;
 
 /**
@@ -17,6 +16,7 @@ namespace phpDocumentor\Reflection;
  */
 interface File
 {
+
     /**
      * Returns the content of the file as a string.
      *
