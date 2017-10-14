@@ -210,4 +210,63 @@ class PimpleTest extends PHPUnit_Framework_TestCase
         var_dump($changeCollection);
 
     }
+
+    /**
+     * @expectedException NoStockException
+     */
+    public function お釣りが足りない例外()
+    {
+        $listMoney = [
+            ['name' => '500円',
+                'value' => 500,
+                'stock' => 0
+            ],
+            ['name' => '100円',
+                'value' => 100,
+                'stock' => 0
+            ],
+            ['name' => '50円',
+                'value' => 50,
+                'stock' => 0
+            ],
+            ['name' => '10円',
+                'value' => 10,
+                'stock' => 50
+            ],
+            ['name' => '5円',
+                'value' => 5,
+                'stock' => 0
+            ],
+            ['name' => '1円',
+                'value' => 1,
+                'stock' => 50
+            ]
+        ];
+
+        $currency = new CurrencyCollection();
+
+        foreach ($listMoney as $money) {
+            $moneyEntity = (new MoneyEntity())->setName($money['name'])->setValue($money['value'])->setStock($money['stock']);
+
+            $currency->add($moneyEntity);
+        }
+
+        $change = new Change(798);
+
+        $container = new Container();
+        $container['yen.distributer'] = function ($container) {
+            $distributer = new ChangeYenDistributer();
+            return $distributer;
+        };
+
+        $container['usecase.distribution'] = function ($container) {
+            $usecase = new GetChangeCollection($container['yen.distributer']);
+            return $usecase;
+        };
+
+        $changeCollection = ($container['usecase.distribution'])->run($change, $currency);
+
+        $this->assertEquals($changeCollection["100円"], 7);
+
+    }
 }

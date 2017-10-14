@@ -3,6 +3,7 @@ namespace MyApp\Distribution;
 
 use MyApp\Entity\Change;
 use MyApp\Entity\CurrencyCollection;
+use MyApp\Exception\NoStockException;
 
 abstract class ChangeDistributer
 {
@@ -13,7 +14,7 @@ abstract class ChangeDistributer
 
         for ($i = 0; $i < $currencies->count(); $i ++) {
             $money = $currencies->get($i);
-            $moneyCount = (int) floor($remaining / $money->getValue());
+            $moneyCount = (int) floor(bcdiv($remaining , $money->getValue(), 3));
 
             if ($moneyCount <= 0) {
                 continue;
@@ -34,6 +35,13 @@ abstract class ChangeDistributer
             if ($remaining == 0) {
                 break;
             }
+        }
+
+        /**
+         * もし最後に0にならなければ在庫が足りていない
+         */
+        if ($remaining > 0) {
+            throw new NoStockException("お釣りが{$remaining}足りません。店員を呼んでください");
         }
 
         return $changeCollection;
