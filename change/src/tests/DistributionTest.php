@@ -15,18 +15,6 @@ class DistributionTest extends PHPUnit_Framework_TestCase
         $change = new Change(698);
 
         $listMoney = [
-            ['name' => '10000円',
-                'value' => 10000,
-                'stock' => 50
-            ],
-            ['name' => '5000円',
-                'value' => 5000,
-                'stock' => 50
-            ],
-            ['name' => '1000円',
-                'value' => 1000,
-                'stock' => 50
-            ],
             ['name' => '500円',
                 'value' => 500,
                 'stock' => 50

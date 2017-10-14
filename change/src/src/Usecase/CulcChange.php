@@ -7,9 +7,10 @@ use MyApp\Entity\Change;
 
 class CulcChange
 {
+
     public function culc(PaymentPrice $paymentPrice, TotalPrice $totalPrice): Change
     {
-        $change = $paymentPrice->getPaymentPrice() - $totalPrice->getTotalPrice();
+    $change = $paymentPrice->getPaymentPrice() - $totalPrice->getTotalPrice();
 
         return new Change($change);
     }
