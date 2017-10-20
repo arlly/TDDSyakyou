@@ -4,7 +4,7 @@ namespace MyApp\Distribution;
 use MyApp\Entity\Change;
 use MyApp\Entity\CurrencyCollection;
 
-class ChangeYenDistributer extends ChangeDistributer
+class ChangeYenDistributer extends AbstractChangeDistributer
 {
 
     protected function setErrorMessage($name)

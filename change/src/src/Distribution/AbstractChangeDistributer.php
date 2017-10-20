@@ -5,7 +5,7 @@ use MyApp\Entity\Change;
 use MyApp\Entity\CurrencyCollection;
 use MyApp\Exception\NoStockException;
 
-abstract class ChangeDistributer
+abstract class AbstractChangeDistributer
 {
 
     public function disribution(Change $change, CurrencyCollection $currencies)
@@ -13,7 +13,7 @@ abstract class ChangeDistributer
         $remaining = $change->getChange();
 
         for ($i = 0; $i < $currencies->count(); $i ++) {
-            $money = $currencies->get($i);
+            $money = $currencies->sortDesc()->get($i);
             $moneyCount = (int) floor(bcdiv($remaining , $money->getValue(), 3));
 
             if ($moneyCount <= 0) {

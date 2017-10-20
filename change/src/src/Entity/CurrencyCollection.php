@@ -31,7 +31,12 @@ class CurrencyCollection implements EntityCollectionInterface
 
     public function toArray()
     {
-        json_decode(json_encode($this->moneyEntitiy), true);
+        foreach ($this->moneyEntitiy as $money) {
+            $toArray[] = ['name' => $money->getName(),
+                          'value' => $money->getValue(),
+                          'stock' => $money->getStock()];
+        }
+        return $toArray;
     }
 
     public function count()
@@ -43,5 +48,16 @@ class CurrencyCollection implements EntityCollectionInterface
     public function getIterator()
     {
         return new \ArrayIterator($this);
+    }
+
+    public function sortDesc()
+    {
+        foreach ($this->moneyEntitiy as $key => $money) {
+            $sort[$key] = $money->getValue();
+        }
+
+        array_multisort($sort, SORT_DESC, $this->moneyEntitiy);
+
+        return $this;
     }
 }
