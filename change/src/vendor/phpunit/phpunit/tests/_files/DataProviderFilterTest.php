@@ -1,8 +1,6 @@
 <?php
-
 class DataProviderFilterTest extends PHPUnit_Framework_TestCase
 {
-
     /**
      * @dataProvider truthProvider
      */

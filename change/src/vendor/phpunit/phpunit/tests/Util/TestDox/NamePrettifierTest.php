@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of PHPUnit.
  *
@@ -8,14 +7,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 class Util_TestDox_NamePrettifierTest extends PHPUnit_Framework_TestCase
 {
-
     protected $namePrettifier;
 
     protected function setUp()
     {
-        $this->namePrettifier = new PHPUnit_Util_TestDox_NamePrettifier();
+        $this->namePrettifier = new PHPUnit_Util_TestDox_NamePrettifier;
     }
 
     public function testTitleHasSensibleDefaults()
@@ -30,7 +29,7 @@ class Util_TestDox_NamePrettifierTest extends PHPUnit_Framework_TestCase
     {
         $this->namePrettifier->setSuffix('TestCase');
         $this->namePrettifier->setPrefix(null);
-        
+
         $this->assertEquals('Foo', $this->namePrettifier->prettifyTestClass('FooTestCase'));
         $this->assertEquals('TestFoo', $this->namePrettifier->prettifyTestClass('TestFoo'));
         $this->assertEquals('FooTest', $this->namePrettifier->prettifyTestClass('FooTest'));
@@ -40,7 +39,7 @@ class Util_TestDox_NamePrettifierTest extends PHPUnit_Framework_TestCase
     {
         $this->namePrettifier->setSuffix(null);
         $this->namePrettifier->setPrefix('XXX');
-        
+
         $this->assertEquals('Foo', $this->namePrettifier->prettifyTestClass('XXXFoo'));
         $this->assertEquals('TestXXX', $this->namePrettifier->prettifyTestClass('TestXXX'));
         $this->assertEquals('XXX', $this->namePrettifier->prettifyTestClass('XXXXXX'));

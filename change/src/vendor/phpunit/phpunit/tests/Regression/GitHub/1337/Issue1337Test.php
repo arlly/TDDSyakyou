@@ -1,8 +1,6 @@
 <?php
-
 class Issue1337Test extends PHPUnit_Framework_TestCase
 {
-
     /**
      * @dataProvider dataProvider
      */

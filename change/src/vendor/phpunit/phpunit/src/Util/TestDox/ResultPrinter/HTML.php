@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of PHPUnit.
  *
@@ -14,9 +13,7 @@
  */
 class PHPUnit_Util_TestDox_ResultPrinter_HTML extends PHPUnit_Util_TestDox_ResultPrinter
 {
-
     /**
-     *
      * @var string
      */
     private $pageHeader = <<<EOT
@@ -53,7 +50,6 @@ class PHPUnit_Util_TestDox_ResultPrinter_HTML extends PHPUnit_Util_TestDox_Resul
 EOT;
 
     /**
-     *
      * @var string
      */
     private $classHeader = <<<EOT
@@ -64,7 +60,6 @@ EOT;
 EOT;
 
     /**
-     *
      * @var string
      */
     private $classFooter = <<<EOT
@@ -72,7 +67,6 @@ EOT;
 EOT;
 
     /**
-     *
      * @var string
      */
     private $pageFooter = <<<EOT
@@ -96,18 +90,31 @@ EOT;
      */
     protected function startClass($name)
     {
-        $this->write(sprintf($this->classHeader, $name, $this->currentTestClassPrettified));
+        $this->write(
+            sprintf(
+                $this->classHeader,
+                $name,
+                $this->currentTestClassPrettified
+            )
+        );
     }
 
     /**
      * Handler for 'on test' event.
      *
      * @param string $name
-     * @param bool $success
+     * @param bool   $success
      */
     protected function onTest($name, $success = true)
     {
-        $this->write(sprintf("            <li style=\"color: %s;\">%s %s</li>\n", $success ? '#555753' : '#ef2929', $success ? '✓' : '❌', $name));
+        $this->write(
+            sprintf(
+                "            <li style=\"color: %s;\">%s %s</li>\n",
+                $success ? '#555753' : '#ef2929',
+                $success ? '✓' : '❌',
+                $name
+            )
+        );
     }
 
     /**

@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of PHPUnit.
  *
@@ -17,24 +16,19 @@
  */
 class PHPUnit_Framework_Constraint_ArraySubset extends PHPUnit_Framework_Constraint
 {
-
     /**
-     *
      * @var array|Traversable
      */
     protected $subset;
 
     /**
-     *
      * @var bool
      */
     protected $strict;
 
     /**
-     *
      * @param array|Traversable $subset
-     * @param bool $strict
-     *            Check for object identity
+     * @param bool              $strict Check for object identity
      */
     public function __construct($subset, $strict = false)
     {
@@ -44,24 +38,22 @@ class PHPUnit_Framework_Constraint_ArraySubset extends PHPUnit_Framework_Constra
     }
 
     /**
-     * Evaluates the constraint for parameter $other.
-     * Returns true if the
+     * Evaluates the constraint for parameter $other. Returns true if the
      * constraint is met, false otherwise.
      *
-     * @param array|Traversable $other
-     *            Array or Traversable object to evaluate.
-     *            
+     * @param array|Traversable $other Array or Traversable object to evaluate.
+     *
      * @return bool
      */
     protected function matches($other)
     {
-        // type cast $other & $this->subset as an array to allow
-        // support in standard array functions.
-        $other = $this->toArray($other);
+        //type cast $other & $this->subset as an array to allow
+        //support in standard array functions.
+        $other        = $this->toArray($other);
         $this->subset = $this->toArray($this->subset);
-        
+
         $patched = array_replace_recursive($other, $this->subset);
-        
+
         if ($this->strict) {
             return $other === $patched;
         } else {
@@ -85,9 +77,8 @@ class PHPUnit_Framework_Constraint_ArraySubset extends PHPUnit_Framework_Constra
      * The beginning of failure messages is "Failed asserting that" in most
      * cases. This method should return the second part of that sentence.
      *
-     * @param mixed $other
-     *            Evaluated value or object.
-     *            
+     * @param mixed $other Evaluated value or object.
+     *
      * @return string
      */
     protected function failureDescription($other)
@@ -96,7 +87,6 @@ class PHPUnit_Framework_Constraint_ArraySubset extends PHPUnit_Framework_Constra
     }
 
     /**
-     *
      * @param array|Traversable $other
      *
      * @return array
@@ -110,7 +100,7 @@ class PHPUnit_Framework_Constraint_ArraySubset extends PHPUnit_Framework_Constra
         } elseif ($other instanceof Traversable) {
             return iterator_to_array($other);
         }
-        
+
         // Keep BC even if we know that array would not be the expected one
         return (array) $other;
     }

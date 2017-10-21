@@ -1,22 +1,19 @@
 <?php
+
 namespace DeepCopy\Matcher;
 
 /**
- * Match a property by its name
+ * @final
  */
 class PropertyNameMatcher implements Matcher
 {
-
     /**
-     *
      * @var string
      */
     private $property;
 
     /**
-     *
-     * @param string $property
-     *            Property name
+     * @param string $property Property name
      */
     public function __construct($property)
     {
@@ -24,6 +21,7 @@ class PropertyNameMatcher implements Matcher
     }
 
     /**
+     * Matches a property by its name.
      *
      * {@inheritdoc}
      */

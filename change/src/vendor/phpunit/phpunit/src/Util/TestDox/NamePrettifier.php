@@ -36,23 +36,25 @@ class PHPUnit_Util_TestDox_NamePrettifier
      * @return string
      */
     public function prettifyTestClass($name)
-{
-    $title = $name;
-    
-    if ($this->suffix !== null && $this->suffix == substr($name, - 1 * strlen($this->suffix))) {
-        $title = substr($title, 0, strripos($title, $this->suffix));
+    {
+        $title = $name;
+
+        if ($this->suffix !== null &&
+            $this->suffix == substr($name, -1 * strlen($this->suffix))) {
+            $title = substr($title, 0, strripos($title, $this->suffix));
+        }
+
+        if ($this->prefix !== null &&
+            $this->prefix == substr($name, 0, strlen($this->prefix))) {
+            $title = substr($title, strlen($this->prefix));
+        }
+
+        if (substr($title, 0, 1) == '\\') {
+            $title = substr($title, 1);
+        }
+
+        return $title;
     }
-    
-    if ($this->prefix !== null && $this->prefix == substr($name, 0, strlen($this->prefix))) {
-        $title = substr($title, strlen($this->prefix));
-    }
-    
-    if (substr($title, 0, 1) == '\\') {
-        $title = substr($title, 1);
-    }
-    
-    return $title;
-}
 
     /**
      * Prettifies the name of a test method.

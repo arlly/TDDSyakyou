@@ -1,8 +1,6 @@
 <?php
-
 class OutputTestCase extends PHPUnit_Framework_TestCase
 {
-
     public function testExpectOutputStringFooActualFoo()
     {
         $this->expectOutputString('foo');

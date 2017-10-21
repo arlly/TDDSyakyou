@@ -1,8 +1,6 @@
 <?php
-
 class ExceptionTest extends PHPUnit_Framework_TestCase
 {
-
     /**
      * Exception message
      *
@@ -28,31 +26,36 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
      * @expectedException FooBarBaz
      */
     public function testOne()
-    {}
+    {
+    }
 
     /**
      * @expectedException Foo_Bar_Baz
      */
     public function testTwo()
-    {}
+    {
+    }
 
     /**
      * @expectedException Foo\Bar\Baz
      */
     public function testThree()
-    {}
+    {
+    }
 
     /**
      * @expectedException ほげ
      */
     public function testFour()
-    {}
+    {
+    }
 
     /**
      * @expectedException Class Message 1234
      */
     public function testFive()
-    {}
+    {
+    }
 
     /**
      * @expectedException Class
@@ -60,7 +63,8 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
      * @expectedExceptionCode 1234
      */
     public function testSix()
-    {}
+    {
+    }
 
     /**
      * @expectedException Class
@@ -68,7 +72,8 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
      * @expectedExceptionCode ExceptionCode
      */
     public function testSeven()
-    {}
+    {
+    }
 
     /**
      * @expectedException Class
@@ -76,7 +81,8 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
      * @expectedExceptionCode 0
      */
     public function testEight()
-    {}
+    {
+    }
 
     /**
      * @expectedException Class
@@ -84,13 +90,13 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
      * @expectedExceptionCode ExceptionTest::ERROR_CODE
      */
     public function testNine()
-    {}
+    {
+    }
 
-    /**
-     * @expectedException Class
-     */
+    /** @expectedException Class */
     public function testSingleLine()
-    {}
+    {
+    }
 
     /**
      * @expectedException Class
@@ -98,7 +104,8 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
      * @expectedExceptionMessage ExceptionTest::UNKNOWN_MESSAGE_CONSTANT
      */
     public function testUnknownConstants()
-    {}
+    {
+    }
 
     /**
      * @expectedException Class
@@ -107,7 +114,8 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
      * @expectedExceptionMessageRegExp #regex#
      */
     public function testWithRegexMessage()
-    {}
+    {
+    }
 
     /**
      * @expectedException Class
@@ -116,7 +124,8 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
      * @expectedExceptionMessageRegExp ExceptionTest::ERROR_MESSAGE_REGEX
      */
     public function testWithRegexMessageFromClassConstant()
-    {}
+    {
+    }
 
     /**
      * @expectedException Class
@@ -125,5 +134,6 @@ class ExceptionTest extends PHPUnit_Framework_TestCase
      * @expectedExceptionMessageRegExp ExceptionTest::UNKNOWN_MESSAGE_REGEX_CONSTANT
      */
     public function testWithUnknowRegexMessageFromClassConstant()
-    {}
+    {
+    }
 }

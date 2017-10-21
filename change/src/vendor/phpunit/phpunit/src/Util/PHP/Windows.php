@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of PHPUnit.
  *
@@ -19,13 +18,14 @@
  */
 class PHPUnit_Util_PHP_Windows extends PHPUnit_Util_PHP_Default
 {
-
     protected $useTempFile = true;
 
     protected function getHandles()
     {
         if (false === $stdout_handle = tmpfile()) {
-            throw new PHPUnit_Framework_Exception('A temporary file could not be created; verify that your TEMP environment variable is writable');
+            throw new PHPUnit_Framework_Exception(
+                'A temporary file could not be created; verify that your TEMP environment variable is writable'
+            );
         }
 
         return [

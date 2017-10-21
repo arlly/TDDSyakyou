@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of PHPUnit.
  *
@@ -8,15 +7,18 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 class Framework_Constraint_JsonMatches_ErrorMessageProviderTest extends PHPUnit_Framework_TestCase
 {
-
     /**
      * @dataProvider translateTypeToPrefixDataprovider
      */
     public function testTranslateTypeToPrefix($expected, $type)
     {
-        $this->assertEquals($expected, PHPUnit_Framework_Constraint_JsonMatches_ErrorMessageProvider::translateTypeToPrefix($type));
+        $this->assertEquals(
+            $expected,
+            PHPUnit_Framework_Constraint_JsonMatches_ErrorMessageProvider::translateTypeToPrefix($type)
+        );
     }
 
     /**
@@ -24,7 +26,13 @@ class Framework_Constraint_JsonMatches_ErrorMessageProviderTest extends PHPUnit_
      */
     public function testDetermineJsonError($expected, $error, $prefix)
     {
-        $this->assertEquals($expected, PHPUnit_Framework_Constraint_JsonMatches_ErrorMessageProvider::determineJsonError($error, $prefix));
+        $this->assertEquals(
+            $expected,
+            PHPUnit_Framework_Constraint_JsonMatches_ErrorMessageProvider::determineJsonError(
+                $error,
+                $prefix
+            )
+        );
     }
 
     public static function determineJsonErrorDataprovider()

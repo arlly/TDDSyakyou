@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of PHPUnit.
  *
@@ -14,45 +13,37 @@
  */
 class PHPUnit_Framework_SkippedTestCase extends PHPUnit_Framework_TestCase
 {
-
     /**
-     *
      * @var string
      */
     protected $message = '';
 
     /**
-     *
      * @var bool
      */
     protected $backupGlobals = false;
 
     /**
-     *
      * @var bool
      */
     protected $backupStaticAttributes = false;
 
     /**
-     *
      * @var bool
      */
     protected $runTestInSeparateProcess = false;
 
     /**
-     *
      * @var bool
      */
     protected $useErrorHandler = false;
 
     /**
-     *
      * @var bool
      */
     protected $useOutputBuffering = false;
 
     /**
-     *
      * @param string $message
      */
     public function __construct($className, $methodName, $message = '')
@@ -62,7 +53,6 @@ class PHPUnit_Framework_SkippedTestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @throws PHPUnit_Framework_Exception
      */
     protected function runTest()
@@ -71,7 +61,6 @@ class PHPUnit_Framework_SkippedTestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
      * @return string
      */
     public function getMessage()

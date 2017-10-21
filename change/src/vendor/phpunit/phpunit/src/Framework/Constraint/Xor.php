@@ -22,17 +22,19 @@ class PHPUnit_Framework_Constraint_Xor extends PHPUnit_Framework_Constraint
      * @param PHPUnit_Framework_Constraint[] $constraints
      */
     public function setConstraints(array $constraints)
-{
+    {
         $this->constraints = [];
-    
-    foreach ($constraints as $constraint) {
-        if (! ($constraint instanceof PHPUnit_Framework_Constraint)) {
-            $constraint = new PHPUnit_Framework_Constraint_IsEqual($constraint);
+
+        foreach ($constraints as $constraint) {
+            if (!($constraint instanceof PHPUnit_Framework_Constraint)) {
+                $constraint = new PHPUnit_Framework_Constraint_IsEqual(
+                    $constraint
+                );
+            }
+
+            $this->constraints[] = $constraint;
         }
-        
-        $this->constraints[] = $constraint;
     }
-}
 
     /**
      * Evaluates the constraint for parameter $other

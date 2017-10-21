@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of PHPUnit.
  *
@@ -10,11 +9,10 @@
  */
 
 /**
- * Thrown when an there is a warning.
+ * Thrown when there is a warning.
  */
 class PHPUnit_Framework_Warning extends PHPUnit_Framework_Exception implements PHPUnit_Framework_SelfDescribing
 {
-
     /**
      * Wrapper for getMessage() which is declared as final.
      *

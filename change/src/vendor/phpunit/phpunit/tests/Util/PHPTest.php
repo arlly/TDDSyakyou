@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of PHPUnit.
  *
@@ -10,20 +9,18 @@
  */
 
 /**
+ * @author     Henrique Moody <henriquemoody@gmail.com>
+ * @copyright  Sebastian Bergmann <sebastian@phpunit.de>
+ * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  *
- * @author Henrique Moody <henriquemoody@gmail.com>
- * @copyright Sebastian Bergmann <sebastian@phpunit.de>
- * @license http://www.opensource.org/licenses/BSD-3-Clause The BSD 3-Clause License
- *         
- * @link http://www.phpunit.de/
+ * @link       http://www.phpunit.de/
  */
 class PHPUnit_Util_PHPTest extends PHPUnit_Framework_TestCase
 {
-
     public function testShouldNotUseStderrRedirectionByDefault()
     {
         $phpMock = $this->getMockForAbstractClass('PHPUnit_Util_PHP');
-        
+
         $this->assertFalse($phpMock->useStderrRedirection());
     }
 
@@ -31,7 +28,7 @@ class PHPUnit_Util_PHPTest extends PHPUnit_Framework_TestCase
     {
         $phpMock = $this->getMockForAbstractClass('PHPUnit_Util_PHP');
         $phpMock->setUseStderrRedirection(true);
-        
+
         $this->assertTrue($phpMock->useStderrRedirection());
     }
 
@@ -39,7 +36,7 @@ class PHPUnit_Util_PHPTest extends PHPUnit_Framework_TestCase
     {
         $phpMock = $this->getMockForAbstractClass('PHPUnit_Util_PHP');
         $phpMock->setUseStderrRedirection(false);
-        
+
         $this->assertFalse($phpMock->useStderrRedirection());
     }
 
@@ -62,10 +59,10 @@ class PHPUnit_Util_PHPTest extends PHPUnit_Framework_TestCase
             'auto_append_file=',
             'display_errors=1',
         ];
-        
-        $expectedCommandFormat = '%s -d allow_url_fopen=1 -d auto_append_file= -d display_errors=1';
-        $actualCommand = $phpMock->getCommand($settings);
-        
+
+        $expectedCommandFormat  = '%s -d allow_url_fopen=1 -d auto_append_file= -d display_errors=1';
+        $actualCommand          = $phpMock->getCommand($settings);
+
         $this->assertStringMatchesFormat($expectedCommandFormat, $actualCommand);
     }
 
@@ -73,10 +70,10 @@ class PHPUnit_Util_PHPTest extends PHPUnit_Framework_TestCase
     {
         $phpMock = $this->getMockForAbstractClass('PHPUnit_Util_PHP');
         $phpMock->setUseStderrRedirection(true);
-        
-        $expectedCommandFormat = '%s 2>&1';
+
+        $expectedCommandFormat  = '%s 2>&1';
         $actualCommand          = $phpMock->getCommand([]);
-        
+
         $this->assertStringMatchesFormat($expectedCommandFormat, $actualCommand);
     }
 
@@ -84,20 +81,20 @@ class PHPUnit_Util_PHPTest extends PHPUnit_Framework_TestCase
     {
         $phpMock = $this->getMockForAbstractClass('PHPUnit_Util_PHP');
         $phpMock->setArgs('foo=bar');
-        
-        $expectedCommandFormat = '%s -- foo=bar';
+
+        $expectedCommandFormat  = '%s -- foo=bar';
         $actualCommand          = $phpMock->getCommand([]);
-        
+
         $this->assertStringMatchesFormat($expectedCommandFormat, $actualCommand);
     }
 
     public function testShouldHaveFileToCreateCommand()
     {
         $phpMock = $this->getMockForAbstractClass('PHPUnit_Util_PHP');
-        
-        $expectedCommandFormat = '%s -%c \'file.php\'';
+
+        $expectedCommandFormat  = '%s -%c \'file.php\'';
         $actualCommand          = $phpMock->getCommand([], 'file.php');
-        
+
         $this->assertStringMatchesFormat($expectedCommandFormat, $actualCommand);
     }
 
@@ -105,7 +102,7 @@ class PHPUnit_Util_PHPTest extends PHPUnit_Framework_TestCase
     {
         $phpMock = $this->getMockForAbstractClass('PHPUnit_Util_PHP');
         $phpMock->setStdin('foo');
-        
+
         $this->assertEquals('foo', $phpMock->getStdin());
     }
 
@@ -113,7 +110,7 @@ class PHPUnit_Util_PHPTest extends PHPUnit_Framework_TestCase
     {
         $phpMock = $this->getMockForAbstractClass('PHPUnit_Util_PHP');
         $phpMock->setArgs('foo=bar');
-        
+
         $this->assertEquals('foo=bar', $phpMock->getArgs());
     }
 
@@ -129,7 +126,7 @@ class PHPUnit_Util_PHPTest extends PHPUnit_Framework_TestCase
     {
         $phpMock = $this->getMockForAbstractClass('PHPUnit_Util_PHP');
         $phpMock->setTimeout(30);
-        
+
         $this->assertEquals(30, $phpMock->getTimeout());
     }
 }

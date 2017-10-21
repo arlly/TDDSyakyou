@@ -6,8 +6,8 @@ class TestIterator implements Iterator
 
     public function __construct($array = [])
     {
-    $this->array = $array;
-}
+        $this->array = $array;
+    }
 
     public function rewind()
     {

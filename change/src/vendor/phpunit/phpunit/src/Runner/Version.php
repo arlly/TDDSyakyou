@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 use SebastianBergmann\Version;
 
 /**
@@ -14,9 +15,7 @@ use SebastianBergmann\Version;
  */
 class PHPUnit_Runner_Version
 {
-
     private static $pharVersion;
-
     private static $version;
 
     /**
@@ -29,17 +28,16 @@ class PHPUnit_Runner_Version
         if (self::$pharVersion !== null) {
             return self::$pharVersion;
         }
-        
+
         if (self::$version === null) {
-            $version = new Version('5.7.22', dirname(dirname(__DIR__)));
+            $version       = new Version('5.7.23', dirname(dirname(__DIR__)));
             self::$version = $version->getVersion();
         }
-        
+
         return self::$version;
     }
 
     /**
-     *
      * @return string
      */
     public static function series()
@@ -49,12 +47,11 @@ class PHPUnit_Runner_Version
         } else {
             $version = self::id();
         }
-        
+
         return implode('.', array_slice(explode('.', $version), 0, 2));
     }
 
     /**
-     *
      * @return string
      */
     public static function getVersionString()
@@ -63,7 +60,6 @@ class PHPUnit_Runner_Version
     }
 
     /**
-     *
      * @return string
      */
     public static function getReleaseChannel()
@@ -71,7 +67,7 @@ class PHPUnit_Runner_Version
         if (strpos(self::$pharVersion, '-') !== false) {
             return '-nightly';
         }
-        
+
         return '';
     }
 }

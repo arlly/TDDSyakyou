@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of PHPUnit.
  *
@@ -20,40 +19,34 @@
  */
 class PHPUnit_Framework_Constraint_StringContains extends PHPUnit_Framework_Constraint
 {
-
     /**
-     *
      * @var string
      */
     protected $string;
 
     /**
-     *
      * @var bool
      */
     protected $ignoreCase;
 
     /**
-     *
      * @param string $string
-     * @param bool $ignoreCase
+     * @param bool   $ignoreCase
      */
     public function __construct($string, $ignoreCase = false)
     {
         parent::__construct();
-        
-        $this->string = $string;
+
+        $this->string     = $string;
         $this->ignoreCase = $ignoreCase;
     }
 
     /**
-     * Evaluates the constraint for parameter $other.
-     * Returns true if the
+     * Evaluates the constraint for parameter $other. Returns true if the
      * constraint is met, false otherwise.
      *
-     * @param mixed $other
-     *            Value or object to evaluate.
-     *            
+     * @param mixed $other Value or object to evaluate.
+     *
      * @return bool
      */
     protected function matches($other)
@@ -77,7 +70,10 @@ class PHPUnit_Framework_Constraint_StringContains extends PHPUnit_Framework_Cons
         } else {
             $string = $this->string;
         }
-        
-        return sprintf('contains "%s"', $string);
+
+        return sprintf(
+            'contains "%s"',
+            $string
+        );
     }
 }

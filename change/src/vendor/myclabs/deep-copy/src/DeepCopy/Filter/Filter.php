@@ -1,4 +1,5 @@
 <?php
+
 namespace DeepCopy\Filter;
 
 /**
@@ -6,12 +7,11 @@ namespace DeepCopy\Filter;
  */
 interface Filter
 {
-
     /**
-     * Apply the filter to the object.
-     * 
-     * @param object $object
-     * @param string $property
+     * Applies the filter to the object.
+     *
+     * @param object   $object
+     * @param string   $property
      * @param callable $objectCopier
      */
     public function apply($object, $property, $objectCopier);
