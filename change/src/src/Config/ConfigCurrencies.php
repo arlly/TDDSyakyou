@@ -1,7 +1,7 @@
 <?php
 namespace MyApp\Config;
 
-final class ConfigCurrencies
+final class ConfigCurrencies implements ConfigInterface
 {
     const ENUM =
     [

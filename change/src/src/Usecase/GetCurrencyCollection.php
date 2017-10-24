@@ -2,7 +2,7 @@
 namespace MyApp\Usecase;
 
 use PHPMentors\DomainKata\Repository\RepositoryInterface;
-use MyApp\Config\ConfigCurrencies;
+use MyApp\Config\ConfigInterface;
 
 class GetCurrencyCollection
 {
@@ -12,7 +12,7 @@ class GetCurrencyCollection
     {
         $this->repository = $repository;
     }
-    public function run(ConfigCurrencies $config)
+    public function run(ConfigInterface $config)
     {
         return $this->repository->getEntityCollection($config);
     }
