@@ -1,15 +1,14 @@
 <?php
-
 class MultipleDataProviderTest extends PHPUnit_Framework_TestCase
 {
-
     /**
      * @dataProvider providerA
      * @dataProvider providerB
      * @dataProvider providerC
      */
     public function testOne()
-    {}
+    {
+    }
 
     /**
      * @dataProvider providerD
@@ -17,7 +16,8 @@ class MultipleDataProviderTest extends PHPUnit_Framework_TestCase
      * @dataProvider providerF
      */
     public function testTwo()
-    {}
+    {
+    }
 
     public static function providerA()
     {
@@ -69,7 +69,7 @@ class MultipleDataProviderTest extends PHPUnit_Framework_TestCase
                 [null, null, 'ok']
             ]
         );
-        
+
         return $object->getIterator();
     }
 }

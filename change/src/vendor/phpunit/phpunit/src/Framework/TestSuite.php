@@ -70,7 +70,7 @@ class PHPUnit_Framework_TestSuite implements PHPUnit_Framework_Test, PHPUnit_Fra
      *
      * @var int
      */
-    protected $numTests = - 1;
+    protected $numTests = -1;
 
     /**
      * @var bool

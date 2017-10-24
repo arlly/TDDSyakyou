@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of PHPUnit.
  *
@@ -14,7 +13,6 @@
  */
 class PHPUnit_Framework_Constraint_JsonMatches_ErrorMessageProvider
 {
-
     /**
      * Translates JSON error to a human readable string.
      *
@@ -63,7 +61,7 @@ class PHPUnit_Framework_Constraint_JsonMatches_ErrorMessageProvider
                 $prefix = '';
                 break;
         }
-        
+
         return $prefix;
     }
 }

@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of PHPUnit.
  *
@@ -14,7 +13,6 @@
  */
 class PHPUnit_Util_Printer
 {
-
     /**
      * If true, flush output after every write.
      *
@@ -23,13 +21,11 @@ class PHPUnit_Util_Printer
     protected $autoFlush = false;
 
     /**
-     *
      * @var resource
      */
     protected $out;
 
     /**
-     *
      * @var string
      */
     protected $outTarget;
@@ -47,20 +43,21 @@ class PHPUnit_Util_Printer
             if (is_string($out)) {
                 if (strpos($out, 'socket://') === 0) {
                     $out = explode(':', str_replace('socket://', '', $out));
-                    
+
                     if (count($out) != 2) {
-                        throw new PHPUnit_Framework_Exception();
+                        throw new PHPUnit_Framework_Exception;
                     }
-                    
+
                     $this->out = fsockopen($out[0], $out[1]);
                 } else {
-                    if (strpos($out, 'php://') === false && ! is_dir(dirname($out))) {
+                    if (strpos($out, 'php://') === false &&
+                        !is_dir(dirname($out))) {
                         mkdir(dirname($out), 0777, true);
                     }
-                    
+
                     $this->out = fopen($out, 'wt');
                 }
-                
+
                 $this->outTarget = $out;
             } else {
                 $this->out = $out;
@@ -95,14 +92,13 @@ class PHPUnit_Util_Printer
     }
 
     /**
-     *
      * @param string $buffer
      */
     public function write($buffer)
     {
         if ($this->out) {
             fwrite($this->out, $buffer);
-            
+
             if ($this->autoFlush) {
                 $this->incrementalFlush();
             }
@@ -110,9 +106,9 @@ class PHPUnit_Util_Printer
             if (PHP_SAPI != 'cli' && PHP_SAPI != 'phpdbg') {
                 $buffer = htmlspecialchars($buffer, ENT_SUBSTITUTE);
             }
-            
+
             print $buffer;
-            
+
             if ($this->autoFlush) {
                 $this->incrementalFlush();
             }

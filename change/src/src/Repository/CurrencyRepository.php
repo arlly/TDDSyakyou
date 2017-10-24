@@ -7,10 +7,11 @@ use PHPMentors\DomainKata\Entity\EntityCollectionInterface;
 use MyApp\Config\ConfigCurrencies;
 use MyApp\Entity\CurrencyCollection;
 use MyApp\Entity\MoneyEntity;
+use MyApp\Config\ConfigInterface;
 
 class CurrencyRepository implements RepositoryInterface
 {
-    public function getEntityCollection(ConfigCurrencies $config) :EntityCollectionInterface
+    public function getEntityCollection(ConfigInterface $config) :EntityCollectionInterface
     {
         if ($config == ConfigCurrencies::YEN()) {
             $listMoney = [

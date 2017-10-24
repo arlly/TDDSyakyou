@@ -36,25 +36,25 @@ class PHPUnit_Util_Test
      * @return mixed
      */
     public static function describe(PHPUnit_Framework_Test $test, $asString = true)
-{
-    if ($asString) {
-        if ($test instanceof PHPUnit_Framework_SelfDescribing) {
-            return $test->toString();
+    {
+        if ($asString) {
+            if ($test instanceof PHPUnit_Framework_SelfDescribing) {
+                return $test->toString();
+            } else {
+                return get_class($test);
+            }
         } else {
-            return get_class($test);
-        }
-    } else {
-        if ($test instanceof PHPUnit_Framework_TestCase) {
+            if ($test instanceof PHPUnit_Framework_TestCase) {
                 return [
                   get_class($test), $test->getName()
                 ];
-        } elseif ($test instanceof PHPUnit_Framework_SelfDescribing) {
+            } elseif ($test instanceof PHPUnit_Framework_SelfDescribing) {
                 return ['', $test->toString()];
-        } else {
+            } else {
                 return ['', get_class($test)];
+            }
         }
     }
-}
 
     /**
      * @param string $className

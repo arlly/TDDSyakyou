@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of PHPUnit.
  *
@@ -14,7 +13,6 @@
  */
 interface PHPUnit_Framework_Test extends Countable
 {
-
     /**
      * Runs a test and collects its result in a TestResult instance.
      *

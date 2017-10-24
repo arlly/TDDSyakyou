@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of PHPUnit.
  *
@@ -8,9 +7,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 class Util_RegexTest extends PHPUnit_Framework_TestCase
 {
-
     public function validRegexpProvider()
     {
         return [

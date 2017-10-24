@@ -2,7 +2,6 @@
 
 class DataProviderDependencyTest extends PHPUnit_Framework_TestCase
 {
-
     public function testReference()
     {
         $this->markTestSkipped('This test should be skipped.');
@@ -10,12 +9,13 @@ class DataProviderDependencyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
-     * @see https://github.com/sebastianbergmann/phpunit/issues/1896 @depends testReference
-     *      @dataProvider provider
+     * @see https://github.com/sebastianbergmann/phpunit/issues/1896
+     * @depends testReference
+     * @dataProvider provider
      */
     public function testDependency($param)
-    {}
+    {
+    }
 
     public function provider()
     {

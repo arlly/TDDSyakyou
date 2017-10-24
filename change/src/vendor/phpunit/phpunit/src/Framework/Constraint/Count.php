@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of PHPUnit.
  *
@@ -8,17 +7,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 class PHPUnit_Framework_Constraint_Count extends PHPUnit_Framework_Constraint
 {
-
     /**
-     *
      * @var int
      */
     protected $expectedCount = 0;
 
     /**
-     *
      * @param int $expected
      */
     public function __construct($expected)
@@ -28,8 +25,7 @@ class PHPUnit_Framework_Constraint_Count extends PHPUnit_Framework_Constraint
     }
 
     /**
-     * Evaluates the constraint for parameter $other.
-     * Returns true if the
+     * Evaluates the constraint for parameter $other. Returns true if the
      * constraint is met, false otherwise.
      *
      * @param mixed $other
@@ -42,7 +38,6 @@ class PHPUnit_Framework_Constraint_Count extends PHPUnit_Framework_Constraint
     }
 
     /**
-     *
      * @param mixed $other
      *
      * @return bool
@@ -57,14 +52,14 @@ class PHPUnit_Framework_Constraint_Count extends PHPUnit_Framework_Constraint
             } else {
                 $iterator = $other;
             }
-            
+
             if ($iterator instanceof Generator) {
                 return $this->getCountOfGenerator($iterator);
             }
-            
-            $key = $iterator->key();
+
+            $key   = $iterator->key();
             $count = iterator_count($iterator);
-            
+
             // Manually rewind $iterator to previous key, since iterator_count
             // moves pointer.
             if ($key !== null) {
@@ -73,7 +68,7 @@ class PHPUnit_Framework_Constraint_Count extends PHPUnit_Framework_Constraint
                     $iterator->next();
                 }
             }
-            
+
             return $count;
         }
     }
@@ -91,7 +86,7 @@ class PHPUnit_Framework_Constraint_Count extends PHPUnit_Framework_Constraint
         for ($count = 0; $generator->valid(); $generator->next()) {
             $count += 1;
         }
-        
+
         return $count;
     }
 
@@ -101,22 +96,27 @@ class PHPUnit_Framework_Constraint_Count extends PHPUnit_Framework_Constraint
      * The beginning of failure messages is "Failed asserting that" in most
      * cases. This method should return the second part of that sentence.
      *
-     * @param mixed $other
-     *            Evaluated value or object.
-     *            
+     * @param mixed $other Evaluated value or object.
+     *
      * @return string
      */
     protected function failureDescription($other)
     {
-        return sprintf('actual size %d matches expected size %d', $this->getCountOf($other), $this->expectedCount);
+        return sprintf(
+            'actual size %d matches expected size %d',
+            $this->getCountOf($other),
+            $this->expectedCount
+        );
     }
 
     /**
-     *
      * @return string
      */
     public function toString()
     {
-        return sprintf('count matches %d', $this->expectedCount);
+        return sprintf(
+            'count matches %d',
+            $this->expectedCount
+        );
     }
 }

@@ -2,7 +2,6 @@
 
 class Issue498Test extends PHPUnit_Framework_TestCase
 {
-
     /**
      * @test
      * @dataProvider shouldBeTrueDataProvider

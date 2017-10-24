@@ -1,12 +1,10 @@
 <?php
-
 /**
  * @runTestsInSeparateProcesses
  * @preserveGlobalState enabled
  */
 class Issue1335Test extends PHPUnit_Framework_TestCase
 {
-
     public function testGlobalString()
     {
         $this->assertEquals('Hello', $GLOBALS['globalString']);

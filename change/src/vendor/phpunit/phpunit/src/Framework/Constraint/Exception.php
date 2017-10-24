@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of PHPUnit.
  *
@@ -8,17 +7,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 class PHPUnit_Framework_Constraint_Exception extends PHPUnit_Framework_Constraint
 {
-
     /**
-     *
      * @var string
      */
     protected $className;
 
     /**
-     *
      * @param string $className
      */
     public function __construct($className)
@@ -28,13 +25,11 @@ class PHPUnit_Framework_Constraint_Exception extends PHPUnit_Framework_Constrain
     }
 
     /**
-     * Evaluates the constraint for parameter $other.
-     * Returns true if the
+     * Evaluates the constraint for parameter $other. Returns true if the
      * constraint is met, false otherwise.
      *
-     * @param mixed $other
-     *            Value or object to evaluate.
-     *            
+     * @param mixed $other Value or object to evaluate.
+     *
      * @return bool
      */
     protected function matches($other)
@@ -48,9 +43,8 @@ class PHPUnit_Framework_Constraint_Exception extends PHPUnit_Framework_Constrain
      * The beginning of failure messages is "Failed asserting that" in most
      * cases. This method should return the second part of that sentence.
      *
-     * @param mixed $other
-     *            Evaluated value or object.
-     *            
+     * @param mixed $other Evaluated value or object.
+     *
      * @return string
      */
     protected function failureDescription($other)
@@ -58,13 +52,22 @@ class PHPUnit_Framework_Constraint_Exception extends PHPUnit_Framework_Constrain
         if ($other !== null) {
             $message = '';
             if ($other instanceof Exception || $other instanceof Throwable) {
-                $message = '. Message was: "' . $other->getMessage() . '" at' . "\n" . PHPUnit_Util_Filter::getFilteredStacktrace($other);
+                $message = '. Message was: "' . $other->getMessage() . '" at'
+                        . "\n" . PHPUnit_Util_Filter::getFilteredStacktrace($other);
             }
-            
-            return sprintf('exception of type "%s" matches expected exception "%s"%s', get_class($other), $this->className, $message);
+
+            return sprintf(
+                'exception of type "%s" matches expected exception "%s"%s',
+                get_class($other),
+                $this->className,
+                $message
+            );
         }
-        
-        return sprintf('exception of type "%s" is thrown', $this->className);
+
+        return sprintf(
+            'exception of type "%s" is thrown',
+            $this->className
+        );
     }
 
     /**
@@ -74,6 +77,9 @@ class PHPUnit_Framework_Constraint_Exception extends PHPUnit_Framework_Constrain
      */
     public function toString()
     {
-        return sprintf('exception of type "%s"', $this->className);
+        return sprintf(
+            'exception of type "%s"',
+            $this->className
+        );
     }
 }

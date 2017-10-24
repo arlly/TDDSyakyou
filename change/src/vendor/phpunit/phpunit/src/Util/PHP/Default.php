@@ -35,16 +35,19 @@ class PHPUnit_Util_PHP_Default extends PHPUnit_Util_PHP
      */
     public function runJob($job, array $settings = [])
     {
-    if ($this->useTempFile || $this->stdin) {
-        if (! ($this->tempFile = tempnam(sys_get_temp_dir(), 'PHPUnit')) || file_put_contents($this->tempFile, $job) === false) {
-            throw new PHPUnit_Framework_Exception('Unable to write temporary file');
+        if ($this->useTempFile || $this->stdin) {
+            if (!($this->tempFile = tempnam(sys_get_temp_dir(), 'PHPUnit')) ||
+                file_put_contents($this->tempFile, $job) === false) {
+                throw new PHPUnit_Framework_Exception(
+                    'Unable to write temporary file'
+                );
+            }
+
+            $job = $this->stdin;
         }
-        
-        $job = $this->stdin;
+
+        return $this->runProcess($job, $settings);
     }
-    
-    return $this->runProcess($job, $settings);
-}
 
     /**
      * Returns an array of file handles to be used in place of pipes
