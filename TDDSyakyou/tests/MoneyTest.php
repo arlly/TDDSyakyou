@@ -1,5 +1,6 @@
 <?php
 use MyApp\Money\Doller;
+use MyApp\Money\Franc;
 
 class MoneyTest extends PHPUnit_Framework_TestCase
 {
@@ -18,5 +19,15 @@ class MoneyTest extends PHPUnit_Framework_TestCase
     {
         $this->assertTrue((new Doller(5))->equals(new Doller(5)));
         $this->assertFalse((new Doller(5))->equals(new Doller(6)));
+    }
+
+    /**
+     * @test
+     */
+    public function フランの掛け算のテスト()
+    {
+        $five = new Franc(5);
+        $this->assertEquals((new Franc(10)), $five->times(2));
+        $this->assertEquals((new Franc(15)), $five->times(3));
     }
 }
