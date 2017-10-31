@@ -9,7 +9,7 @@ class Doller extends Money
         $this->amount = $amount;
     }
 
-    public function times(int $multipier): Doller
+    public function times(int $multipier): Money
     {
         return new Doller($this->amount * $multipier);
     }
