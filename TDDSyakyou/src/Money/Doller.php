@@ -16,4 +16,9 @@ class Doller
     {
         return new Doller($this->amount * $multipier);
     }
+
+    public function equals(Doller $object)
+    {
+        return $this->amount == $object->amount;
+    }
 }

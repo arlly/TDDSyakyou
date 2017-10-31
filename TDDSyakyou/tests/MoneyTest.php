@@ -3,6 +3,7 @@ use MyApp\Money\Doller;
 
 class MoneyTest extends PHPUnit_Framework_TestCase
 {
+
     /**
      * @test
      */
@@ -14,10 +15,11 @@ class MoneyTest extends PHPUnit_Framework_TestCase
 
         $product = $five->times(3);
         $this->assertEquals(15, $product->amount);
-
-
     }
 
-
-
+    public function testEquality()
+    {
+        $this->assertTrue((new Doller(5))->equals(new Doller(5)));
+        $this->assertFalse((new Doller(5))->equals(new Doller(6)));
+    }
 }
