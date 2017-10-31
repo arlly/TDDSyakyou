@@ -12,8 +12,8 @@ class Doller
         $this->amount = $amount;
     }
 
-    public function times(int $multipier)
+    public function times(int $multipier): Doller
     {
-        $this->amount *= $multipier;
+        return new Doller($this->amount * $multipier);
     }
 }
