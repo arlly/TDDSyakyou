@@ -1,11 +1,8 @@
 <?php
 namespace MyApp\Money;
 
-class Doller
+class Doller extends Money
 {
-
-    private $amount;
-
     public function __construct(int $amount)
     {
         //
@@ -17,8 +14,5 @@ class Doller
         return new Doller($this->amount * $multipier);
     }
 
-    public function equals(Doller $object)
-    {
-        return $this->amount == $object->amount;
-    }
+
 }
