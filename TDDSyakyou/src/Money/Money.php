@@ -7,7 +7,11 @@ class Money
 
     public function equals(Money $money)
     {
-        return $this->amount == $money->amount;
+        /**
+         * どっちがいいかな？？
+         */
+        return $this->amount == $money->amount && get_class($this) == get_class($money);
+        //return $this->amount == $money->amount && ($this instanceof $money);
     }
 
 
