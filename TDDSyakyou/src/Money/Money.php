@@ -4,6 +4,7 @@ namespace MyApp\Money;
 abstract class Money
 {
     protected $amount;
+    protected $currency;
 
     public abstract function times(int $multipier): Money;
 
@@ -24,6 +25,11 @@ abstract class Money
     public static function franc(int $amount): Money
     {
         return new Franc($amount);
+    }
+
+    public function currency()
+    {
+        return $this->currency;
     }
 
 
