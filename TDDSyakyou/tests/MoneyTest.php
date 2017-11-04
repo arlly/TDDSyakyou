@@ -32,7 +32,7 @@ class MoneyTest extends PHPUnit_Framework_TestCase
      */
     public function フランの掛け算のテスト()
     {
-        $five = new Franc(5);
+        $five = Money::franc(5);
         $this->assertEquals((Money::franc(10)), $five->times(2));
         $this->assertEquals((Money::franc(15)), $five->times(3));
     }
