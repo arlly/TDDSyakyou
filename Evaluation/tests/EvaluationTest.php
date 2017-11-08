@@ -44,8 +44,7 @@ class EvaluationTest extends PHPUnit_Framework_TestCase
             $collection->add($eval);
         }
 
-        $this->assertEquals($collection->get(0)
-            ->getProductId(), 1);
+        $this->assertEquals($collection->get(0)->getProductId(), 1);
     }
 
     /**
@@ -180,6 +179,41 @@ class EvaluationTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($collection->isEvaluated(2, 1));
         $this->assertFalse($collection->isEvaluated(2, 2));
         $this->assertFalse($collection->isEvaluated(1, 4));
+    }
+
+    /**
+     * @test
+     */
+    public function 同じ人が同じ商品を評価できないテスト()
+    {
+        $listEvaluation = [
+            [
+                'productId' =>1,
+                'userId' => 1,
+                'stars' => 3
+            ],
+            [
+                'productId' =>1,
+                'userId' => 2,
+                'stars' => 4
+            ],
+            [
+                'productId' =>1,
+                'userId' => 3,
+                'stars' => 3
+            ]
+        ];
+
+        $collection = new EvaluationCollection();
+
+        foreach ($listEvaluation as $evaluation) {
+            $eval = new Evaluation($evaluation['productId'], $evaluation['userId'], $evaluation['stars']);
+            $collection->add($eval);
+        }
+
+        $evalDuplication = new Evaluation(1, 1, 5);
+        $this->assertFalse($collection->add($evalDuplication));
+
     }
 
 }

@@ -72,9 +72,11 @@ class EvaluationCollection implements EntityCollectionInterface
 
     public function isEvaluated($userId, $produtId)
     {
-        foreach ($this->evaluation as $evaluation) {
-            if ($evaluation->getProductId() == $produtId && $evaluation->getUserId() == $userId) {
-                return true;
+        if (count($this->evaluation)) {
+            foreach ($this->evaluation as $evaluation) {
+                if ($evaluation->getProductId() == $produtId && $evaluation->getUserId() == $userId) {
+                    return true;
+                }
             }
         }
 
