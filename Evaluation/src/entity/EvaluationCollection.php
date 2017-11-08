@@ -52,4 +52,18 @@ class EvaluationCollection implements EntityCollectionInterface
         }
         return round(($startAmount / $userNum), 2);
     }
+
+    public function getUserCount(int $productId)
+    {
+        $userNum = 0;
+
+        foreach ($this->evaluation as $evaluation) {
+            if ($evaluation->getProductId() == $productId) {
+                $userNum ++;
+            }
+        }
+
+        return $userNum;
+
+    }
 }

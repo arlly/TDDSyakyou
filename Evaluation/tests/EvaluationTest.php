@@ -113,4 +113,39 @@ class EvaluationTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($collection->getAvarage(1), 3.33);
     }
+
+    /**
+     * @test
+     */
+    public function 評価したユーザーの数のテスト()
+    {
+        $listEvaluation = [
+            [
+                'productId' =>1,
+                'userId' => 1,
+                'stars' => 3
+            ],
+            [
+                'productId' =>1,
+                'userId' => 2,
+                'stars' => 4
+            ],
+            [
+                'productId' =>1,
+                'userId' => 3,
+                'stars' => 3
+            ]
+        ];
+
+        $collection = new EvaluationCollection();
+
+        foreach ($listEvaluation as $evaluation) {
+            $eval = new Evaluation($evaluation['productId'], $evaluation['userId'], $evaluation['stars']);
+            $collection->add($eval);
+        }
+
+        $this->assertEquals($collection->getUserCount(1), 3);
+    }
+
+
 }
