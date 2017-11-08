@@ -39,4 +39,17 @@ class EvaluationCollection implements EntityCollectionInterface
     {
         //
     }
+
+    public function getAvarage(int $productId)
+    {
+        $userNum = 0;
+        $startAmount = 0;
+        foreach ($this->evaluation as $evaluation) {
+            if ($evaluation->getProductId() == $productId) {
+                $startAmount += $evaluation->getStars();
+                $userNum ++;
+            }
+        }
+        return round(($startAmount / $userNum), 2);
+    }
 }
