@@ -1,7 +1,7 @@
 <?php
 namespace MyApp\Money;
 
-abstract class Money
+class Money
 {
     protected $amount;
     protected $currency;
@@ -12,7 +12,10 @@ abstract class Money
         $this->currency = $currency;
     }
 
-    public abstract function times(int $multipier): Money;
+    public function times(int $multipier): Money
+    {
+        return null;
+    }
 
     public function equals(Money $money)
     {
@@ -36,6 +39,11 @@ abstract class Money
     public function currency()
     {
         return $this->currency;
+    }
+
+    public function toString()
+    {
+        return $this->amount. " ". $this->currency;
     }
 
 
