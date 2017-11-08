@@ -11,6 +11,10 @@ class EvaluationCollection implements EntityCollectionInterface
 
     public function add(EntityInterface $entity)
     {
+        if ($this->isEvaluated($entity->getUserId(), $entity->getProductId())) {
+            return false;
+        }
+
         $this->evaluation[] = $entity;
         return $this;
     }
@@ -64,6 +68,16 @@ class EvaluationCollection implements EntityCollectionInterface
         }
 
         return $userNum;
+    }
 
+    public function isEvaluated($userId, $produtId)
+    {
+        foreach ($this->evaluation as $evaluation) {
+            if ($evaluation->getProductId() == $produtId && $evaluation->getUserId() == $userId) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
