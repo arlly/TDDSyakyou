@@ -54,7 +54,10 @@ class EvaluationCollection implements EntityCollectionInterface
                 $userNum ++;
             }
         }
-        return round(($startAmount / $userNum), 2);
+
+        if ($userNum) return round(($startAmount / $userNum), 2);
+
+        return 0;
     }
 
     public function getUserCount(int $productId)

@@ -1,6 +1,7 @@
 <?php
 use MyApp\entity\Evaluation;
 use MyApp\entity\EvaluationCollection;
+use MyApp\usecase\SortSpecification;
 
 class EvaluationTest extends PHPUnit_Framework_TestCase
 {
@@ -44,7 +45,8 @@ class EvaluationTest extends PHPUnit_Framework_TestCase
             $collection->add($eval);
         }
 
-        $this->assertEquals($collection->get(0)->getProductId(), 1);
+        $this->assertEquals($collection->get(0)
+            ->getProductId(), 1);
     }
 
     /**
@@ -213,7 +215,29 @@ class EvaluationTest extends PHPUnit_Framework_TestCase
 
         $evalDuplication = new Evaluation(1, 1, 5);
         $this->assertFalse($collection->add($evalDuplication));
-
     }
 
+    /**
+     * @test
+     */
+    public function たくさんんの評価を受けた星の平均値が3個のほうが一人だけの星5個より上位になる()
+    {
+        $usecase = new SortSpecification();
+        $collection = new EvaluationCollection();
+
+        for ($i = 1; $i <= 40; $i ++) {
+            $evalProduct1 = new Evaluation(1, $i, 3);
+            $collection->add($evalProduct1);
+        }
+
+        $evalProduct2 = new Evaluation(2, 1, 5);
+        $collection->add($evalProduct2);
+
+        $starAvarage1 = $usecase->run($collection, 1);
+        $starAvarage2 = $usecase->run($collection, 2);
+
+        $this->assertEquals($starAvarage1, 3);
+        $this->assertEquals($starAvarage2, 2);
+        $this->assertTrue(($starAvarage1 > $starAvarage2));
+    }
 }
