@@ -27,8 +27,6 @@ class MoneyTest extends PHPUnit_Framework_TestCase
         $this->assertFalse((Money::franc(5))->equals(Money::dollar(5)));
     }
 
-
-
     /**
      * @test
      */
@@ -37,6 +35,17 @@ class MoneyTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('USD', Money::dollar(1)->currency());
         $this->assertEquals('CHF', Money::franc(1)->currency());
     }
+
+    /**
+     * @test
+     */
+    public function 簡単な足し算のテスト()
+    {
+        $sum = Money::dollar(5)->plus(Money::dollar(5));
+        $this->assertEquals(Money::dollar(10), $sum);
+    }
+
+
 
 
 
