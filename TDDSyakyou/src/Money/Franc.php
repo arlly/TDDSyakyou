@@ -5,15 +5,13 @@ use phpDocumentor\Reflection\Types\String_;
 
 class Franc extends Money
 {
-
-
-
-
-    public function times(int $multipier): Money
+    public function __construct(int $amount, $currency)
     {
-        //return Money::franc($this->amount * $multipier);
-        return new Franc($this->amount * $multipier, $this->currency);
+        parent::__construct($amount, $currency);
+
     }
+
+
 
 
 

@@ -14,16 +14,12 @@ class Money
 
     public function times(int $multipier): Money
     {
-        return null;
+        return new Money($this->amount * $multipier, $this->currency);
     }
 
     public function equals(Money $money)
     {
-        /**
-         * どっちがいいかな？？
-         */
-        return $this->amount == $money->amount && get_class($this) == get_class($money);
-        //return $this->amount == $money->amount && ($this instanceof $money);
+        return $this->amount == $money->amount && $this->currency() == $money->currency();
     }
 
     public static function dollar(int $amount): Money
