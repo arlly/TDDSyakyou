@@ -2,6 +2,7 @@
 use MyApp\entity\Evaluation;
 use MyApp\entity\EvaluationCollection;
 use MyApp\usecase\SortSpecification;
+use MyApp\entity\Product;
 
 class EvaluationTest extends PHPUnit_Framework_TestCase
 {
@@ -239,5 +240,53 @@ class EvaluationTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($starAvarage1, 3);
         $this->assertEquals($starAvarage2, 2);
         $this->assertTrue(($starAvarage1 > $starAvarage2));
+    }
+
+    /**
+     * @test
+     */
+    public function 商品クラスのテスト()
+    {
+        $mockProduct = $this->createMock(Product::class);
+        $mockProduct->method('getId')->willReturn(1);
+
+        $this->assertEquals(1, $mockProduct->getId());
+    }
+
+    /**
+     * @test
+     */
+    public function 商品クラスと評価クラスの関係性をテスト()
+    {
+        $usecase = new SortSpecification();
+        $mockProduct = $this->createMock(Product::class);
+        $mockProduct->method('getId')->willReturn(1);
+
+        $listEvaluation = [
+            [
+                'productId' =>1,
+                'userId' => 1,
+                'stars' => 5
+            ],
+            [
+                'productId' =>1,
+                'userId' => 2,
+                'stars' => 5
+            ],
+            [
+                'productId' =>1,
+                'userId' => 3,
+                'stars' => 5
+            ]
+        ];
+        $collection = new EvaluationCollection();
+
+        foreach ($listEvaluation as $evaluation) {
+            $eval = new Evaluation($evaluation['productId'], $evaluation['userId'], $evaluation['stars']);
+            $collection->add($eval);
+        }
+
+        $this->assertEquals(2, $usecase->run($collection, $mockProduct->getId()));
+
     }
 }
