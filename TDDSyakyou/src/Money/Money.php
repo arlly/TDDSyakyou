@@ -3,7 +3,7 @@ namespace MyApp\Money;
 
 class Money implements Expression
 {
-    protected $amount;
+    public $amount;
     protected $currency;
 
     public function __construct(int $amount, $currency)
@@ -39,8 +39,13 @@ class Money implements Expression
 
     public function plus(Money $addend): Expression
     {
-        return new Money($this->amount + $addend->amount, $this->currency);
+        return new Sum($this, $addend);
 
+    }
+
+    public function reduce(String $to)
+    {
+        return $this;
     }
 
     public function toString()
