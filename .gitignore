@@ -149,4 +149,5 @@ Neko/vendor/psr/log/Psr/Log/Test/LoggerInterfaceTest.php
 Neko/vendor/psr/log/README.md
 Neko/vendor/psr/log/composer.json
 *.class
-Evaluation/vendor/
+Evaluation/vendor
+Evaluation/.project
