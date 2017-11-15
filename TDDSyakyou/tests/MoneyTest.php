@@ -3,6 +3,7 @@ use MyApp\Money\Money;
 use MyApp\Money\Doller;
 use MyApp\Money\Franc;
 use MyApp\Money\Bank;
+use MyApp\Money\Sum;
 
 class MoneyTest extends PHPUnit_Framework_TestCase
 {
@@ -42,11 +43,39 @@ class MoneyTest extends PHPUnit_Framework_TestCase
      */
     public function 簡単な足し算のテスト()
     {
-        $five = Money::dollar(5)->plus(Money::dollar(5));
+
+        $five = Money::dollar(5);
         $sum = $five->plus($five);
         $bank = new Bank();
         $reduced = $bank->reduce($sum, 'USD');
         $this->assertEquals(Money::dollar(10), $reduced);
+
+    }
+
+    /**
+     * @test
+     */
+    public function 足し算クラスのテスト()
+    {
+        $five = Money::dollar(5);
+        $result = $five->plus($five);
+        $sum = $result;
+
+        $this->assertEquals($five, $sum->augend);
+        $this->assertEquals($five, $sum->addend);
+    }
+
+    /**
+     * @test
+     */
+    public function testReduceSum()
+    {
+        $sum = new Sum(Money::dollar(3), Money::dollar(4));
+        $bank = new Bank();
+        $result = $bank->reduce($sum, 'USD');
+
+        $this->assertEquals(Money::dollar(7), $result);
+
     }
 
 
