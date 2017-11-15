@@ -1,7 +1,7 @@
 <?php
 namespace MyApp\Money;
 
-class Money
+class Money implements Expression
 {
     protected $amount;
     protected $currency;
@@ -37,7 +37,7 @@ class Money
         return $this->currency;
     }
 
-    public function plus(Money $addend): Money
+    public function plus(Money $addend): Expression
     {
         return new Money($this->amount + $addend->amount, $this->currency);
 
