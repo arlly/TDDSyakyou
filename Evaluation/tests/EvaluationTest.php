@@ -226,6 +226,11 @@ class EvaluationTest extends PHPUnit_Framework_TestCase
         $usecase = new SortSpecification();
         $collection = new EvaluationCollection();
 
+        $mockProduct = Phake::mock(Product::class);
+        Phake::when($mockProduct)->getId()
+             ->thenReturn(1)
+             ->thenReturn(2);
+
         for ($i = 1; $i <= 40; $i ++) {
             $evalProduct1 = new Evaluation(1, $i, 3);
             $collection->add($evalProduct1);
@@ -234,9 +239,10 @@ class EvaluationTest extends PHPUnit_Framework_TestCase
         $evalProduct2 = new Evaluation(2, 1, 5);
         $collection->add($evalProduct2);
 
-        $starAvarage1 = $usecase->run($collection, 1);
-        $starAvarage2 = $usecase->run($collection, 2);
+        $starAvarage1 = $usecase->run($collection, $mockProduct);
+        $starAvarage2 = $usecase->run($collection, $mockProduct);
 
+        Phake::verify($mockProduct, Phake::times(2))->getId();
         $this->assertEquals($starAvarage1, 3);
         $this->assertEquals($starAvarage2, 2);
         $this->assertTrue(($starAvarage1 > $starAvarage2));
@@ -286,7 +292,7 @@ class EvaluationTest extends PHPUnit_Framework_TestCase
             $collection->add($eval);
         }
 
-        $this->assertEquals(2, $usecase->run($collection, $mockProduct->getId()));
+        $this->assertEquals(2, $usecase->run($collection, $mockProduct));
 
     }
 }

@@ -2,13 +2,15 @@
 namespace MyApp\usecase;
 
 use MyApp\entity\EvaluationCollection;
+use MyApp\entity\Product;
 
 class SortSpecification
 {
 
-    public function run(EvaluationCollection $collection, int $productId)
+    public function run(EvaluationCollection $collection, Product $product)
     {
         $minus = 0;
+        $productId = $product->getId();
 
         if ($collection->getUserCount($productId) < 10) {
             $minus = 3;
