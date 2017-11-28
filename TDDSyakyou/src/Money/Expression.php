@@ -3,6 +3,6 @@ namespace MyApp\Money;
 
 interface Expression
 {
-    public function reduce(String $to);
+    public function reduce(Bank $bank, String $to): Money;
 
 }

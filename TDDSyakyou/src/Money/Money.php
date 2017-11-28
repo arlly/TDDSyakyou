@@ -6,7 +6,7 @@ class Money implements Expression
     public $amount;
     protected $currency;
 
-    public function __construct(int $amount, $currency)
+    public function __construct(int $amount, String $currency)
     {
         $this->amount = $amount;
         $this->currency = $currency;
@@ -43,15 +43,15 @@ class Money implements Expression
 
     }
 
-    public function reduce(String $to)
+    public function reduce(Bank $bank, String $to): Money
     {
-        return $this;
+        $rate = $bank->rate($this->currency, $to);
+        return new Money($this->amount / $rate,  $to);
     }
 
     public function toString()
     {
         return $this->amount. " ". $this->currency;
     }
-
 
 }
