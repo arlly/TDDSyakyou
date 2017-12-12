@@ -23,4 +23,9 @@ class Sum implements Expression
         return new Sum($this, $addend);
     }
 
+    public function times(int $multipiler): Expression
+    {
+        return new Sum($this->augend->times($multipiler), $this->augend->times($multipiler));
+    }
+
 }
