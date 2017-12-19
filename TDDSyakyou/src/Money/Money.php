@@ -1,30 +1,57 @@
 <?php
 namespace MyApp\Money;
 
-abstract class Money
+class Money implements Expression
 {
-    protected $amount;
+    public $amount;
+    protected $currency;
 
-    public abstract function times(int $multipier): Money;
+    public function __construct(int $amount, String $currency)
+    {
+        $this->amount = $amount;
+        $this->currency = $currency;
+    }
+
+    public function times(int $multipier): Expression
+    {
+        return new Money($this->amount * $multipier, $this->currency);
+    }
 
     public function equals(Money $money)
     {
-        /**
-         * どっちがいいかな？？
-         */
-        return $this->amount == $money->amount && get_class($this) == get_class($money);
-        //return $this->amount == $money->amount && ($this instanceof $money);
+        return $this->amount == $money->amount && $this->currency() == $money->currency();
     }
 
     public static function dollar(int $amount): Money
     {
-        return new Doller($amount);
+        return new Money($amount, 'USD');
     }
 
     public static function franc(int $amount): Money
     {
-        return new Franc($amount);
+        return new Money($amount, 'CHF');
     }
 
+    public function currency()
+    {
+        return $this->currency;
+    }
+
+    public function plus(Expression $addend): Expression
+    {
+        return new Sum($this, $addend);
+
+    }
+
+    public function reduce(Bank $bank, String $to): Money
+    {
+        $rate = $bank->rate($this->currency, $to);
+        return new Money($this->amount / $rate,  $to);
+    }
+
+    public function toString()
+    {
+        return $this->amount. " ". $this->currency;
+    }
 
 }
