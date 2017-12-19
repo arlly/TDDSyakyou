@@ -13,3 +13,19 @@ mv composer.phar /usr/local/bin/composer
 
 apt-get install git
 ```
+
+```
+$ git checkout master
+$ git pull
+
+$ git checkout branch_name
+$ git rebase master
+
+$ git diff
+
+$ git add file_name
+
+$ git rebase --continue
+
+$ git push origin -f branch_name
+```
